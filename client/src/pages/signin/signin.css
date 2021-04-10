@@ -83,7 +83,8 @@
 }
 
 .signin .login input[type="email"],
-.signin .login input[type="password"] {
+.signin .login input[type="password"],
+.signin .login input[type="text"] {
   background: #fff;
   border-color: #bbb;
   color: #555;
