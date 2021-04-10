@@ -1,0 +1,156 @@
+.content__container {
+  padding-top: 4rem;
+}
+
+.content__container .notification {
+  border: 1px solid #c0cdd1;
+  border-bottom: 0px;
+  -webkit-display: flex;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 0 auto 1rem auto;
+  width: 70rem;
+  min-height: 7rem;
+}
+
+.content__container .notification .info {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 10px 10px 0 10px;
+  background: #ecf0f1;
+  border-radius: 3px 0 0 3px;
+  border-bottom: 3px solid #c0cdd1;
+}
+
+.content__container .notification .info h1 {
+  margin: 0;
+  padding: 0;
+  font-family: arial, sans-serif;
+  font-size: 16px;
+  color: #111;
+}
+
+.content__container .notification .info h1 a {
+  text-decoration: none;
+  color: #444;
+}
+
+.content__container .notification .info p {
+  margin: 0;
+  padding: 5px 0;
+  font-family: arial, sans-serif;
+  font-size: 12px;
+  color: #666;
+}
+
+.content__container .notification .info .button {
+  display: inline-block;
+  margin: 3px 3px 5px 0;
+  padding: 3px 7px;
+  border-radius: 2px;
+  border-bottom: 1px solid;
+  font-family: arial, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #ecf0f1;
+}
+
+.content__container .notification .info .button.blue {
+  background: #2980b9 !important;
+  border-bottom-color: #20638f !important;
+}
+
+.content__container .notification .info .button.red {
+  background: #e74c3c !important;
+  border-bottom-color: #d62c1a !important;
+}
+
+.content__container .notification .info .button.orange {
+  background: #f39c12 !important;
+  border-bottom-color: #c87f0a !important;
+}
+
+.content__container .notification .info .button.purple {
+  background: #9b59b6 !important;
+  border-bottom-color: #804399 !important;
+}
+
+.content__container .notification .info .button.green {
+  background: #27ae60 !important;
+  border-bottom-color: #1e8449 !important;
+}
+
+.content__container .notification .info .button.gray {
+  background: #95a5a6 !important;
+  border-bottom-color: #798d8f !important;
+}
+
+.content__container .notification .icon {
+  width: 8rem;
+  border-radius: 0;
+  border-bottom: 3px solid #c0cdd1;
+}
+
+.content__container .notification .icon img {
+  width: 100%;
+  border-radius: 0;
+  height: 100%;
+}
+
+.content__container .notification .icon {
+  background: #7f8c8d;
+}
+
+.content__container html,
+.content__container body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.content__container body {
+  padding: 100px;
+  background: #34495e;
+}
+
+.content__container #content {
+  display: block;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.content__container #preview {
+  display: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.content__container #preview #text {
+  text-align: center;
+  color: #fff;
+  font-family: arial, sans-serif;
+  font-size: 12px;
+}
+
+@media (max-height: 400px) {
+  .content__container #content {
+    display: none;
+  }
+  .content__container #preview {
+    display: block;
+  }
+}
+/*# sourceMappingURL=notications.css.map */

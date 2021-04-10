@@ -1,0 +1,44 @@
+.makePost .card__container {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.makePost .input--file {
+  display: none;
+}
+
+.makePost .card__body--text textarea {
+  width: 100%;
+  padding: 1.5rem;
+  height: 8rem;
+}
+
+.makePost .card__body--image img {
+  width: 100%;
+  display: none;
+  height: 30rem !important;
+  border: rgba(0, 0, 0, 0.79) 1px solid;
+}
+
+.makePost .add__post {
+  width: 100%;
+  margin: 0.5rem 0;
+}
+
+.makePost .add__post button {
+  display: none;
+  width: 100%;
+  outline: none;
+  border: #575757 1px solid;
+  background-color: #575757;
+  color: white;
+  font-size: 1.5rem;
+  padding: 0.5rem 0;
+}
+
+.makePost .add__post button:hover {
+  border: #575757 1px solid;
+  background-color: white;
+  color: #575757;
+}
+/*# sourceMappingURL=makePost.css.map */

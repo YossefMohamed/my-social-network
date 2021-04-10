@@ -1,0 +1,136 @@
+$main: rgb(87, 87, 87);
+$second: rgba(0, 0, 0, 0.79);
+.card {
+  margin-left: 6rem;
+
+  margin-bottom: 3rem;
+  border: 0;
+}
+
+.card__container {
+  padding: 2rem;
+  width: 65%;
+  margin: auto;
+  //   border: rgb(87, 87, 87) 1px solid;
+  border: rgba(0, 0, 0, 0.144) 1px solid;
+  // box-shadow: 29px 32px 16px -19px rgba(0, 0, 0, 0.273);
+
+  .card__title {
+    display: flex;
+    justify-content: flex-start;
+    &--image {
+      img {
+        width: 60px;
+        height: 60px;
+      }
+      border-radius: 50%;
+      overflow: hidden;
+    }
+    &--text {
+      width: 100%;
+      font-size: 2rem;
+      position: relative;
+      .card--creator {
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        transform: translateY(-50%);
+        margin-left: 3rem;
+      }
+      .card--date {
+        display: block;
+        margin: 5px 1px 0;
+        font-size: 1rem;
+        color: rgb(87, 87, 87);
+      }
+    }
+  }
+
+  .card__body {
+    margin: 2rem 0;
+    &--text {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    &--image {
+      img {
+        width: 100%;
+        height: 30rem;
+      }
+    }
+  }
+
+  .card__footer {
+    display: flex;
+    justify-content: space-between;
+    svg {
+      color: rgba(0, 0, 0, 0.443);
+    }
+    svg:hover {
+      color: $second;
+    }
+    &--like {
+      display: flex;
+      align-items: center;
+      .like--counter {
+        margin-left: 1rem;
+        display: flex;
+        height: 100%;
+        align-items: center;
+      }
+    }
+    &--comment {
+      display: flex;
+      align-items: center;
+      svg {
+        color: rgba(0, 0, 0, 0.443);
+      }
+      svg:hover {
+        color: $second;
+      }
+      .comment--counter {
+        margin-left: 1rem;
+        display: flex;
+        height: 100%;
+        align-items: center;
+      }
+    }
+  }
+
+  .card__comment {
+    margin-top: 2rem;
+    border-top: rgba(85, 89, 92, 0.633) 1px solid;
+    padding-top: 2rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    &--image {
+      width: 5rem;
+      height: 5rem;
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+      }
+    }
+    &--input {
+      width: 92%;
+      position: relative;
+      input {
+        height: 100%;
+        padding: 5px 5rem 5px 1rem;
+        font-size: 1.5rem;
+        width: 100%;
+        border: rgba(85, 89, 92, 0.633) 1px solid;
+        outline: 0;
+      }
+      .input--send {
+        position: absolute;
+        top: 50%;
+        right: 1rem;
+
+        transform: translateY(-50%);
+      }
+    }
+  }
+}

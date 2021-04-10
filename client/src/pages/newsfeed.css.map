@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,oBAAoB,CAAC;EACnB,YAAY,EAAE,IAAI;EAClB,WAAW,EAAE,IAAI;CAClB",
+    "sources": [
+        "newsfeed.scss"
+    ],
+    "names": [],
+    "file": "newsfeed.css"
+}
