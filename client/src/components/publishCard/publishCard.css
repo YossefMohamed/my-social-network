@@ -4,6 +4,10 @@
   border: 0;
 }
 
+.liked svg {
+  color: black !important;
+}
+
 .card__container {
   padding: 2rem;
   width: 65%;
@@ -131,17 +135,37 @@
           align-items: center;
 }
 
-.card__container .card__comment {
+.card__container .card__container--border {
   margin-top: 2rem;
   border-top: rgba(85, 89, 92, 0.633) 1px solid;
-  padding-top: 2rem;
+  padding-top: 1rem;
   width: 100%;
+}
+
+.card__container .card__comment {
+  margin: 2.5rem 0;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+}
+
+.card__container .card__comment .comment--content {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: initial;
+  padding: 5px 5rem 5px 2rem;
 }
 
 .card__container .card__comment--image {
@@ -169,7 +193,7 @@
   outline: 0;
 }
 
-.card__container .card__comment--input .input--send {
+.card__container .card__comment .input--send {
   position: absolute;
   top: 50%;
   right: 1rem;

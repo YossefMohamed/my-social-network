@@ -1,9 +1,12 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addPost as addPostAction } from "./../../actions/postAction";
 import "./makePost.css";
 function MakePost() {
   const myRef = React.useRef(null);
   const [upload, setUpload] = React.useState("./upload.jpg");
   const [addPost, setAddPost] = React.useState(false);
+  const [content, setContent] = React.useState("");
   const handleUploadPicture = () => {
     myRef.current.click();
   };
@@ -20,6 +23,14 @@ function MakePost() {
     "How Do You Do Today ?",
     "What Did you Learn Today?",
   ];
+  const dispatch = useDispatch();
+  const { token } = useSelector((state) => state.userLogin.userInfo);
+  const handleOnClick = (e) => {
+    e.preventDefault();
+    if (content) {
+      dispatch(addPostAction(content, token));
+    }
+  };
   return (
     <div className="makePost">
       <div className="card">
@@ -29,6 +40,7 @@ function MakePost() {
               <textarea
                 placeholder={words[Math.floor(Math.random() * (2 - 0 + 1)) + 0]}
                 onFocus={handleAddPost}
+                onChange={(e) => setContent(e.target.value)}
               />
             </div>
 
@@ -49,7 +61,10 @@ function MakePost() {
             </div>
           </div>
           <div className="add__post">
-            <button style={{ display: `${addPost ? "block" : "none"}` }}>
+            <button
+              style={{ display: `${addPost ? "block" : "none"}` }}
+              onClick={handleOnClick}
+            >
               Add Post
             </button>
           </div>

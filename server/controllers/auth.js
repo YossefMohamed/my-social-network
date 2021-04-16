@@ -3,9 +3,7 @@ const handler = require("express-async-handler");
 const User = require("../models/user");
 
 exports.signIn = (id) => {
-  return jwt.sign({ id }, "Process.env", {
-    expiresIn: "30d",
-  });
+  return jwt.sign({ id }, "Process.env");
 };
 
 exports.protect = handler(async (req, res, next) => {
@@ -18,6 +16,7 @@ exports.protect = handler(async (req, res, next) => {
     token = req.headers.authorization.split(" ")[1];
   }
   if (!token) {
+    res.status(400);
     return next(new Error("PLease Login !"));
   }
 

@@ -151,3 +151,17 @@ exports.updateMe = handler(async (req, res, next) => {
   const user = await req.user.save();
   res.status(200).json(user);
 });
+
+exports.addFriend = handler(async (req, res) => {
+  const user = req.body.user;
+  if (req.user.friends.includes(user)) {
+    res.status(401);
+    throw new Error("Friend is already added !");
+  }
+  req.user.friends.push(user);
+  await req.user.save();
+  res.status(200).json({
+    status: "ok",
+    data: req.user,
+  });
+});

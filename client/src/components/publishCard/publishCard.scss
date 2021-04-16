@@ -6,7 +6,11 @@ $second: rgba(0, 0, 0, 0.79);
   margin-bottom: 3rem;
   border: 0;
 }
-
+.liked {
+  svg {
+    color: rgb(0, 0, 0) !important;
+  }
+}
 .card__container {
   padding: 2rem;
   width: 65%;
@@ -96,14 +100,25 @@ $second: rgba(0, 0, 0, 0.79);
       }
     }
   }
-
-  .card__comment {
+  .card__container--border {
     margin-top: 2rem;
     border-top: rgba(85, 89, 92, 0.633) 1px solid;
-    padding-top: 2rem;
+    padding-top: 1rem;
     width: 100%;
+  }
+  .card__comment {
+    margin: 2.5rem 0;
     display: flex;
     justify-content: space-between;
+    .comment--content {
+      position: relative;
+      display: flex;
+      width: 100%;
+      justify-content: flex-start;
+      align-items: center;
+      font-size: initial;
+      padding: 5px 5rem 5px 2rem;
+    }
     &--image {
       width: 5rem;
       height: 5rem;
@@ -124,13 +139,13 @@ $second: rgba(0, 0, 0, 0.79);
         border: rgba(85, 89, 92, 0.633) 1px solid;
         outline: 0;
       }
-      .input--send {
-        position: absolute;
-        top: 50%;
-        right: 1rem;
+    }
+    .input--send {
+      position: absolute;
+      top: 50%;
+      right: 1rem;
 
-        transform: translateY(-50%);
-      }
+      transform: translateY(-50%);
     }
   }
 }

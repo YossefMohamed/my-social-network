@@ -1,11 +1,13 @@
 const express = require("express");
 const morgan = require("morgan");
 const app = express();
+var cors = require("cors");
 const path = require("path");
 const connectDB = require("./db");
 require("dotenv").config({ path: path.join(__dirname, "./.env") });
 connectDB();
 const port = 8080;
+app.use(cors());
 // const socket = require("socket.io");
 app.use(express.json());
 app.use(morgan("dev"));

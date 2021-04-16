@@ -31,6 +31,11 @@ const usersSchema = mongoose.Schema(
     code: {
       type: String,
     },
+    friends: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+      },
+    ],
     password: {
       type: String,
       minlength: [8, "Password Must Be More Than 8 Chars !"],

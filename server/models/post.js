@@ -13,10 +13,12 @@ const postSchema = mongoose.Schema(
       ref: "User",
       required: [true, "Who Is The Author ?"],
     },
-    likes: {
-      type: Number,
-      default: 0,
-    },
+    likes: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
   },
   {
     timestamps: true,
