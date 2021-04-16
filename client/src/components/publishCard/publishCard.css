@@ -9,10 +9,17 @@
 }
 
 .card__container {
+  position: relative;
   padding: 2rem;
   width: 65%;
   margin: auto;
   border: rgba(0, 0, 0, 0.144) 1px solid;
+}
+
+.card__container .exit__sign {
+  position: absolute;
+  top: 5%;
+  right: 5%;
 }
 
 .card__container .card__title {
@@ -84,7 +91,7 @@
 }
 
 .card__container .card__footer svg:hover {
-  color: rgba(0, 0, 0, 0.79);
+  color: rgba(0, 0, 0, 0.62);
 }
 
 .card__container .card__footer--like {
@@ -121,7 +128,7 @@
 }
 
 .card__container .card__footer--comment svg:hover {
-  color: rgba(0, 0, 0, 0.79);
+  color: rgba(0, 0, 0, 0.62);
 }
 
 .card__container .card__footer--comment .comment--counter {
@@ -138,8 +145,11 @@
 .card__container .card__container--border {
   margin-top: 2rem;
   border-top: rgba(85, 89, 92, 0.633) 1px solid;
-  padding-top: 1rem;
   width: 100%;
+}
+
+.card__container span {
+  font-size: initial;
 }
 
 .card__container .card__comment {
@@ -164,7 +174,7 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  font-size: initial;
+  font-size: 1.75rem;
   padding: 5px 5rem 5px 2rem;
 }
 
@@ -180,15 +190,17 @@
 }
 
 .card__container .card__comment--input {
-  width: 92%;
+  width: 100%;
   position: relative;
 }
 
 .card__container .card__comment--input input {
   height: 100%;
   padding: 5px 5rem 5px 1rem;
+  width: 98%;
+  margin-left: 2rem;
+  margin-right: 2rem;
   font-size: 1.5rem;
-  width: 100%;
   border: rgba(85, 89, 92, 0.633) 1px solid;
   outline: 0;
 }

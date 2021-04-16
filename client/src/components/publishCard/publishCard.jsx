@@ -2,6 +2,8 @@ import React from "react";
 import { AiFillLike } from "react-icons/ai";
 import { FaComments } from "react-icons/fa";
 import { BiSend } from "react-icons/bi";
+import { BsThreeDots } from "react-icons/bs";
+import { AiOutlineClose } from "react-icons/ai";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -41,6 +43,9 @@ function PuplishCard(props) {
   return (
     <div className="card">
       <div className="card__container">
+        <div className="exit__sign">
+          <BsThreeDots size="25px" />
+        </div>
         <div className="card__title">
           <div className="card__title--image">
             <img src="./favicon.ico" alt="Card_Image" />
@@ -89,7 +94,7 @@ function PuplishCard(props) {
             <div className="comment--content">
               This Is A Test Comment :)
               <div className="input--send">
-                <BiSend size="3rem" />
+                <AiOutlineClose size="25px" />
               </div>
             </div>
           </div>

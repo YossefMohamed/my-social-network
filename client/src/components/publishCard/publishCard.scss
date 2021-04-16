@@ -1,5 +1,5 @@
 $main: rgb(87, 87, 87);
-$second: rgba(0, 0, 0, 0.79);
+$second: rgba(0, 0, 0, 0.62);
 .card {
   margin-left: 6rem;
 
@@ -12,6 +12,12 @@ $second: rgba(0, 0, 0, 0.79);
   }
 }
 .card__container {
+  position: relative;
+  .exit__sign {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+  }
   padding: 2rem;
   width: 65%;
   margin: auto;
@@ -103,8 +109,10 @@ $second: rgba(0, 0, 0, 0.79);
   .card__container--border {
     margin-top: 2rem;
     border-top: rgba(85, 89, 92, 0.633) 1px solid;
-    padding-top: 1rem;
     width: 100%;
+  }
+  span {
+    font-size: initial;
   }
   .card__comment {
     margin: 2.5rem 0;
@@ -116,7 +124,7 @@ $second: rgba(0, 0, 0, 0.79);
       width: 100%;
       justify-content: flex-start;
       align-items: center;
-      font-size: initial;
+      font-size: 1.75rem;
       padding: 5px 5rem 5px 2rem;
     }
     &--image {
@@ -129,13 +137,15 @@ $second: rgba(0, 0, 0, 0.79);
       }
     }
     &--input {
-      width: 92%;
+      width: 100%;
       position: relative;
       input {
         height: 100%;
         padding: 5px 5rem 5px 1rem;
+        width: 98%;
+        margin-left: 2rem;
+        margin-right: 2rem;
         font-size: 1.5rem;
-        width: 100%;
         border: rgba(85, 89, 92, 0.633) 1px solid;
         outline: 0;
       }
