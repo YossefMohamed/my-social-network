@@ -94,20 +94,25 @@ export const unLikePost = (postId, token) => async (dispatch) => {
 };
 export const addPost = (content, token) => async (dispatch) => {
   try {
+    dispatch({
+      type: "GET_NEWS_REQUEST",
+    });
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     };
-    dispatch({
-      type: "GET_NEWS_REQUEST",
-    });
-    const { data } = await axios.post(
+    await axios.post(
       "http://localhost:8080/api/post/add",
 
       { content },
       config
     );
+    const { data } = await axios.get(
+      "http://localhost:8080/api/post/newfeed?page=" + 0,
+      config
+    );
+
     dispatch({
       type: "GET_NEWS_FEED",
       payload: data.data,

@@ -4,7 +4,7 @@ export const newsFeedReducer = (
 ) => {
   switch (action.type) {
     case "GET_NEWS_REQUEST":
-      return { ...state, loading: true, posts :[] };
+      return { ...state, loading: true, posts: [] };
     case "GET_NEWS_FEED":
       return { ...state, loading: false, posts: action.payload };
     default:

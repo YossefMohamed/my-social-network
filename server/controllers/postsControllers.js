@@ -1,15 +1,45 @@
 const handler = require("express-async-handler");
 const Post = require("./../models/post");
 
+exports.newsFeed = handler(async (req, res) => {
+  const selectedUser = [...req.user.friends, req.user.id];
+  const docNum = Math.ceil(
+    (await Post.countDocuments({
+      author: { $in: selectedUser },
+    })) / 10
+  );
+
+  const post = await Post.find({ author: { $in: selectedUser } })
+    .limit(10)
+    .skip(10 * req.query.page)
+    .populate("author", "name")
+    .sort("-createdAt")
+    .populate({
+      path: "comments",
+      populate: {
+        path: "author",
+        select: "email name",
+      },
+    });
+  // console.log(post);
+
+  if (!post) throw new Error("Post Not Found !!");
+  // console.log(post)
+
+  res.status(200).json({
+    status: "ok",
+    data: post,
+    docNum,
+  });
+});
 exports.addPost = handler(async (req, res) => {
- const { content } = req.body;
+  const { content } = req.body;
   const author = req.user._id;
   const posty = await Post.create({
     content,
     author,
   });
   const selectedUser = [...req.user.friends, req.user._id];
-  console.log(req.user._id);
 
   const post = await Post.find({ author: { $in: selectedUser } })
     .limit(10)
@@ -22,6 +52,16 @@ exports.addPost = handler(async (req, res) => {
         select: "email name",
       },
     });
+  console.log(post);
+  console.log(post);
+  console.log(post);
+  console.log(post);
+  console.log(post);
+  console.log(post);
+  console.log(post);
+  console.log(post);
+  console.log(post);
+  console.log(post);
   res.status(201).json({
     status: "ok",
     data: post,
@@ -74,36 +114,6 @@ exports.editPost = handler(async (req, res) => {
       error: error.message,
     });
   }
-});
-exports.newsFeed = handler(async (req, res) => {
-  const selectedUser = [...req.user.friends, req.user.id];
-  const docNum = Math.ceil(
-    (await Post.countDocuments({
-      author: { $in: selectedUser },
-    })) / 10
-  );
-  
-  const post = await Post.find({ author: { $in: selectedUser } })
-    .limit(10).skip(10 *req.query.page)
-    .populate("author", "name")
-    .sort("-createdAt")
-    .populate({
-      path: "comments",
-      populate: {
-        path: "author",
-        select: "email name",
-      },
-    });
-  // console.log(post);
-
-  if (!post) throw new Error("Post Not Found !!");
-  // console.log(post)
-
-  res.status(200).json({
-    status: "ok",
-    data: post,
-    docNum,
-  });
 });
 
 exports.likePost = handler(async (req, res) => {

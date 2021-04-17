@@ -20,54 +20,43 @@ function NewsFeed(props) {
   }, []);
 
   React.useEffect(() => {
-    dispatch(newsFeed(page, token));
+    if (page < docNum) dispatch(newsFeed(page, token));
+  }, [page]);
+  React.useEffect(() => {
+    if (page <= docNum) setPosts((p) => [...p, ...postsFromState.posts]);
   }, [page]);
   React.useEffect(() => {
     setPosts((p) => [...p, ...postsFromState.posts]);
-    
-  }, [page]);
-  React.useEffect(() => {
-    setPosts((p) => [...p, ...postsFromState.posts]);
-    
   }, []);
-  
-  // console.log(posts);
-  // console.log(posts);
-  // console.log(posts);
-  const handleInfiniteScroll = () => {
-    if (page < docNum) {
-      setPage((p) => p + 1);
-    }
-  };
 
   React.useEffect(() => {
-    
-  const observer = new IntersectionObserver((entries)=>{
-    if(entries[0].isIntersecting &&page < docNum && !postsFromState.loading)
-        setPage(prevPage => prevPage+1)
-  },{})
-  
-  observer.observe(myRef.current)
+    const observer = new IntersectionObserver((entries) => {
+      console.log();
+      if (entries[0].isIntersecting && page < docNum && !postsFromState.loading)
+        setPage((prevPage) => prevPage + 1);
+    }, {});
+    console.log(page < docNum);
 
+    observer.observe(myRef.current);
   }, []);
-    console.log(posts);
-    console.log(posts);
-    console.log(posts);
-    console.log(posts);
-    console.log(posts);
-    console.log(posts);
-    console.log(posts);
-    console.log(posts);
-    console.log(posts);
-    console.log(posts);
-    console.log(posts);
-    // console.log(page);
+  console.log(page);
+  console.log(page);
+  console.log(page);
+  console.log(page);
+  console.log(page);
+  console.log(page);
+  console.log(page);
+  console.log(page);
+  console.log(page);
+  console.log(page);
+  console.log(page);
+  // console.log(page);
   return (
     <div className="newsfeed__container">
       <MakePost />
       {postsFromState.loading &&
         [...Array(10)].map((i, idx) => <MyLoader key={idx} />)}
-      {postsFromState.posts.length === 0 && (
+      {posts.length === 0 && (
         <div className="nofriends">There's no posts Please Add Friends</div>
       )}
       {posts.map((i, idx) => (
@@ -76,13 +65,7 @@ function NewsFeed(props) {
         </>
       ))}
 
-      {page >= docNum ? (
-        <h1>No  Posts </h1>
-      ) : (
-        <h1 ref={myRef} onClick={handleInfiniteScroll}>
-          Loading...
-        </h1>
-      )}
+      {page >= docNum ? <h1>No Posts </h1> : <h1 ref={myRef}>Loading...</h1>}
     </div>
   );
 }
