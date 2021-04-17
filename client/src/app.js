@@ -10,27 +10,36 @@ import NotificationsPage from "./pages/notifications/notifcationsPage";
 
 import "./app.css";
 import Signup from "./pages/signup/signup";
+import { useSelector } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
 
 function App() {
-  // useEffect(() => {
-  //   const socket = io();
-  //   socket.emit("greeting", "Heeeyyy");
-
-  //   return () => socket.close();
-  // }, []);
+  const message = useSelector((s) => s.message);
+  useEffect(() => {
+    if (message) {
+      alert(message);
+    }
+  }, [message]);
+  function alert(payLoad) {
+    toast.error(<div className="toast--container">{payLoad}</div>);
+  }
   return (
-    <BrowserRouter>
-      <Navbar />
+    <div>
+      <ToastContainer />
 
-      <Switch>
-        <Route path="/" component={NewsFeed} exact />
-        <Route path="/chat" component={chat} exact />
-        <Route path="/me" component={Profile} exact />
-        <Route path="/signin" component={Signin} exact />
-        <Route path="/signup" component={Signup} exact />
-        <Route path="/notifcations" component={NotificationsPage} exact />
-      </Switch>
-    </BrowserRouter>
+      <BrowserRouter>
+        <Navbar />
+
+        <Switch>
+          <Route path="/" component={NewsFeed} exact />
+          <Route path="/chat" component={chat} exact />
+          <Route path="/me" component={Profile} exact />
+          <Route path="/signin" component={Signin} exact />
+          <Route path="/signup" component={Signup} exact />
+          <Route path="/notifcations" component={NotificationsPage} exact />
+        </Switch>
+      </BrowserRouter>
+    </div>
   );
 }
 

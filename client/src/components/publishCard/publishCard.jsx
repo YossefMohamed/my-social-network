@@ -3,15 +3,18 @@ import { AiFillLike } from "react-icons/ai";
 import { FaComments } from "react-icons/fa";
 import { BiSend } from "react-icons/bi";
 import { BsThreeDots } from "react-icons/bs";
-import { AiOutlineClose } from "react-icons/ai";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 
 import "./publishCard.css";
-import { likePost, unLikePost } from "../../actions/postAction";
+import { addComment, likePost, unLikePost } from "../../actions/postAction";
+import Comment from "../comment/comment";
 function PuplishCard(props) {
+  const postComments = props.comments ? props.comments : [];
   const [liked, setLiked] = React.useState(false);
+  const [comments, setComments] = React.useState(postComments);
   const [likes, setLikes] = React.useState(props.post.likes);
+  const [content, setContent] = React.useState("");
   const from =
     moment(props.post.createdAt).fromNow()[0] +
     moment(props.post.createdAt).fromNow()[1].trim();
@@ -26,6 +29,36 @@ function PuplishCard(props) {
     if (liked) {
       dispatch(unLikePost(props.post._id, userInfo.token));
       setLiked(false);
+    }
+  };
+
+  // console.log(content);
+  // console.log(content);
+  const handleCommentContent = (e) => {
+    setContent(e.target.value);
+    // console.log(e.target.value);
+  };
+  const handleAddComment = (e) => {
+    if (content) {
+      dispatch(addComment(content, props.post._id, userInfo.token));
+      setComments([
+        ...comments,
+        {
+          author: {
+            _id: userInfo._id,
+            name: userInfo.name,
+            email: userInfo.email,
+          },
+          content,
+          post: props.post._id,
+        },
+      ]);
+      setContent("");
+    } else {
+      dispatch({
+        type: "ADD_MESSAGE",
+        payload: "Please Add A Content For The Comment :)",
+      });
     }
   };
   React.useEffect(() => {
@@ -77,7 +110,6 @@ function PuplishCard(props) {
               liked ? "card__footer--like liked" : "card__footer--like"
             } `}
           >
-            {console.log(liked)}
             <AiFillLike size="2rem" onClick={handleLikePost} />
             <span className="like--counter">{likes.length} Likes</span>
           </div>
@@ -87,24 +119,22 @@ function PuplishCard(props) {
           </div>
         </div>
         <div className="card__container--border">
-          <div className="card__comment">
-            <div className="card__comment--image">
-              <img src="./favicon.ico" alt="" />
-            </div>
-            <div className="comment--content">
-              This Is A Test Comment :)
-              <div className="input--send">
-                <AiOutlineClose size="25px" />
-              </div>
-            </div>
-          </div>
+          {comments.map((comment, idx) => (
+            <Comment key={idx} comment={comment} />
+          ))}
+
           <div className="card__comment">
             <div className="card__comment--image">
               <img src="./favicon.ico" alt="" />
             </div>
             <div className="card__comment--input">
-              <input type="text" placeholder="Add Your Comment !!" />
-              <div className="input--send">
+              <input
+                type="text"
+                placeholder="Add Your Comment !!"
+                onChange={handleCommentContent}
+                value={content}
+              />
+              <div className="input--send" onClick={handleAddComment}>
                 <BiSend size="3rem" />
               </div>
             </div>

@@ -56,8 +56,8 @@ function Profile(props) {
             <div class="profile-bio">
               <p>
                 Lorem ipsum dolor sit, amet consectetur adipisicing elit 📷✈️🏕️
-                 <i class="fas fa-edit pen--edit"></i>
-              </p> 
+                <i class="fas fa-edit pen--edit"></i>
+              </p>
             </div>
           </div>
         </div>
@@ -65,13 +65,17 @@ function Profile(props) {
 
       <main>
         <div class="container">
-          {!friends ? <>
-            <div class="header">
+          {!friends ? (
+            <>
+              <div class="header">
                 <div class="card-title">Posts</div>
                 <div class="card-amount">26</div>
               </div>
-          <PublishCard /> 
-          </>: <FriendList />}
+              <PublishCard />
+            </>
+          ) : (
+            <FriendList />
+          )}
         </div>
       </main>
     </div>

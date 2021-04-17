@@ -2,9 +2,6 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../actions/userActions";
 
-import { ToastContainer, toast } from "react-toastify";
-
-import "react-toastify/dist/ReactToastify.css";
 import "./signin.css";
 import LoaderComponent from "../../components/loader/Loader";
 
@@ -14,11 +11,13 @@ function Signin(props) {
   const userLogin = useSelector((state) => state.userLogin);
   const dispatch = useDispatch();
   React.useEffect(() => {
-    userLogin.error && alert(userLogin.error);
+    userLogin.error &&
+      dispatch({
+        type: "ADD_MESSAGE",
+        payload: userLogin.error,
+      });
   }, [userLogin.error]);
-  function alert(payLoad) {
-    toast.error(<div className="toast--container">{payLoad}</div>);
-  }
+
   React.useEffect(() => {
     Object.keys(userLogin.userInfo).length && props.history.push("/");
   }, [userLogin.userInfo]);
@@ -26,14 +25,16 @@ function Signin(props) {
     e.preventDefault();
     userLogin.error = null;
     if (!email || !password) {
-      alert("Plaese Fill All The Fields !");
+      dispatch({
+        type: "ADD_MESSAGE",
+        payload: "Plaese Fill All The Fields !",
+      });
     } else {
       dispatch(login(email, password));
     }
   };
   return (
     <div className="signin">
-      <ToastContainer />
       {userLogin.loading ? (
         <LoaderComponent />
       ) : (
@@ -48,6 +49,7 @@ function Signin(props) {
                 type="email"
                 placeholder="Email"
                 onChange={(e) => setEmail(e.target.value)}
+                value={email}
               />
             </p>
             <p>
@@ -55,6 +57,7 @@ function Signin(props) {
                 type="password"
                 placeholder="Password"
                 onChange={(e) => setPassword(e.target.value)}
+                value={password}
               />
             </p>
             <p>

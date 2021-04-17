@@ -2,7 +2,8 @@ const handler = require("express-async-handler");
 const Comment = require("../models/Comment");
 
 exports.addComment = handler(async (req, res) => {
-  const { content, post } = req.body;
+  const { content } = req.body;
+  const { post } = req.params;
   const author = req.user._id;
   const comment = await Comment.create({
     content,

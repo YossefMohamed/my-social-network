@@ -118,3 +118,32 @@ export const addPost = (content, token) => async (dispatch) => {
     });
   }
 };
+
+export const addComment = (content, post, token) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const { data } = await axios.post(
+      "http://localhost:8080/api/comment/add/" + post,
+
+      { content },
+      config
+    );
+    dispatch({
+      type: "ADD_NEW__COMMENT",
+      payload: data.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: "ADD_MESSAGE",
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};

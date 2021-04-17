@@ -21,7 +21,14 @@ exports.addPost = handler(async (req, res) => {
   });
 });
 exports.getPost = handler(async (req, res, next) => {
-  const post = await Post.findById(req.body.post);
+  const post = await Post.findById(req.body.post).populate({
+    path: "comments",
+    populate: {
+      path: "author",
+      select: "email name",
+    },
+  });
+
   if (!post) throw new Error("Post Not Found !!");
   res.status(200).json({
     status: "ok",
@@ -71,7 +78,14 @@ exports.newsFeed = handler(async (req, res) => {
     .limit(10)
     .skip(10 * req.body.page)
     .populate("author", "name")
-    .sort("-createdAt");
+    .sort("-createdAt")
+    .populate({
+      path: "comments",
+      populate: {
+        path: "author",
+        select: "email name",
+      },
+    });
 
   if (!post) throw new Error("Post Not Found !!");
   res.status(200).json({
@@ -97,7 +111,7 @@ exports.likePost = handler(async (req, res) => {
 
 exports.unlikePost = handler(async (req, res) => {
   const postId = req.params.post;
-  console.log(req.params);
+
   const post = await Post.findById(postId);
   if (!post.likes.includes(req.user._id)) {
     return res.status(200).json({ status: "ok", data: post });

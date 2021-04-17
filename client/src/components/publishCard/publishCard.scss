@@ -15,8 +15,8 @@ $second: rgba(0, 0, 0, 0.62);
   position: relative;
   .exit__sign {
     position: absolute;
-    top: 5%;
-    right: 5%;
+    top: 30px;
+    right: 30px;
   }
   padding: 2rem;
   width: 65%;
@@ -123,9 +123,10 @@ $second: rgba(0, 0, 0, 0.62);
       display: flex;
       width: 100%;
       justify-content: flex-start;
-      align-items: center;
       font-size: 1.75rem;
-      padding: 5px 5rem 5px 2rem;
+      padding: 0px 5rem 0px 2rem;
+      // background: antiquewhite;
+      flex-direction: column;
     }
     &--image {
       width: 5rem;

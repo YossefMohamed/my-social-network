@@ -18,8 +18,8 @@
 
 .card__container .exit__sign {
   position: absolute;
-  top: 5%;
-  right: 5%;
+  top: 30px;
+  right: 30px;
 }
 
 .card__container .card__title {
@@ -171,11 +171,12 @@
   -webkit-box-pack: start;
       -ms-flex-pack: start;
           justify-content: flex-start;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
   font-size: 1.75rem;
-  padding: 5px 5rem 5px 2rem;
+  padding: 0px 5rem 0px 2rem;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 
 .card__container .card__comment--image {

@@ -13,6 +13,7 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 app.use("/api/user", require("./routes/userRoutes"));
+app.use("/api/comment", require("./routes/commentRoutes"));
 app.use("/api/post", require("./routes/postsRoutes"));
 app.use((err, req, res, next) => {
   res.statusCode = res.statusCode ? res.statusCode : 500;
