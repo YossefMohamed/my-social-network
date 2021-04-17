@@ -2,7 +2,11 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import { messageReducers } from "./reducers/messageReducers";
-import { newsFeedReducer, likePostReducer } from "./reducers/postReducers";
+import {
+  newsFeedReducer,
+  likePostReducer,
+  DocNumReducer,
+} from "./reducers/postReducers";
 import { userLoginReducer, userRegisterReducer } from "./reducers/userReducers";
 
 const userInfoFromStorage = localStorage.getItem("userInfo")
@@ -15,6 +19,7 @@ const reducers = combineReducers({
   newsFeed: newsFeedReducer,
   message: messageReducers,
   likePost: likePostReducer,
+  DocNum: DocNumReducer,
 });
 
 const initialState = {

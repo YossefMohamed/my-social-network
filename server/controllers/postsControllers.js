@@ -2,22 +2,29 @@ const handler = require("express-async-handler");
 const Post = require("./../models/post");
 
 exports.addPost = handler(async (req, res) => {
-  const { content } = req.body;
+ const { content } = req.body;
   const author = req.user._id;
-  const post = await Post.create({
+  const posty = await Post.create({
     content,
     author,
   });
   const selectedUser = [...req.user.friends, req.user._id];
   console.log(req.user._id);
-  const posts = await Post.find({ author: { $in: selectedUser } })
+
+  const post = await Post.find({ author: { $in: selectedUser } })
     .limit(10)
-    .skip(10 * 0)
     .populate("author", "name")
-    .sort("-createdAt");
+    .sort("-createdAt")
+    .populate({
+      path: "comments",
+      populate: {
+        path: "author",
+        select: "email name",
+      },
+    });
   res.status(201).json({
     status: "ok",
-    data: posts,
+    data: post,
   });
 });
 exports.getPost = handler(async (req, res, next) => {
@@ -28,7 +35,6 @@ exports.getPost = handler(async (req, res, next) => {
       select: "email name",
     },
   });
-
   if (!post) throw new Error("Post Not Found !!");
   res.status(200).json({
     status: "ok",
@@ -71,12 +77,14 @@ exports.editPost = handler(async (req, res) => {
 });
 exports.newsFeed = handler(async (req, res) => {
   const selectedUser = [...req.user.friends, req.user.id];
-  const docNum = await Post.find({
-    author: { $in: req.user.friends },
-  }).countDocuments();
+  const docNum = Math.ceil(
+    (await Post.countDocuments({
+      author: { $in: selectedUser },
+    })) / 10
+  );
+  
   const post = await Post.find({ author: { $in: selectedUser } })
-    .limit(10)
-    .skip(10 * req.body.page)
+    .limit(10).skip(10 *req.query.page)
     .populate("author", "name")
     .sort("-createdAt")
     .populate({
@@ -86,11 +94,15 @@ exports.newsFeed = handler(async (req, res) => {
         select: "email name",
       },
     });
+  // console.log(post);
 
   if (!post) throw new Error("Post Not Found !!");
+  // console.log(post)
+
   res.status(200).json({
     status: "ok",
     data: post,
+    docNum,
   });
 });
 

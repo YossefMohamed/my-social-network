@@ -10,7 +10,7 @@ import "./publishCard.css";
 import { addComment, likePost, unLikePost } from "../../actions/postAction";
 import Comment from "../comment/comment";
 function PuplishCard(props) {
-  const postComments = props.comments ? props.comments : [];
+  const postComments = props.post.comments ? props.post.comments : [];
   const [liked, setLiked] = React.useState(false);
   const [comments, setComments] = React.useState(postComments);
   const [likes, setLikes] = React.useState(props.post.likes);
@@ -115,7 +115,7 @@ function PuplishCard(props) {
           </div>
           <div className="card__footer--comment">
             <FaComments size="2rem" />
-            <span className="comment--counter">150 comment</span>
+            <span className="comment--counter">{comments.length} comment</span>
           </div>
         </div>
         <div className="card__container--border">

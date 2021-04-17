@@ -4,7 +4,7 @@ export const newsFeedReducer = (
 ) => {
   switch (action.type) {
     case "GET_NEWS_REQUEST":
-      return { ...state, loading: true, posts: [] };
+      return { ...state, loading: true, posts :[] };
     case "GET_NEWS_FEED":
       return { ...state, loading: false, posts: action.payload };
     default:
@@ -21,6 +21,16 @@ export const likePostReducer = (
       return { ...state, loading: true };
     case "ADD_LIKE_POST":
       return { ...state, post: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const DocNumReducer = (state = { docNum: 1 }, action) => {
+  switch (action.type) {
+    case "GET_DOCUMENT_COUNT":
+      return { ...state, docNum: action.payload };
+
     default:
       return state;
   }

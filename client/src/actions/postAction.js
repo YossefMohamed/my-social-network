@@ -11,12 +11,16 @@ export const newsFeed = (page, token) => async (dispatch) => {
       },
     };
     const { data } = await axios.get(
-      "http://localhost:8080/api/post/newfeed",
+      "http://localhost:8080/api/post/newfeed?page=" + page,
       config
     );
     dispatch({
       type: "GET_NEWS_FEED",
       payload: data.data,
+    });
+    dispatch({
+      type: "GET_DOCUMENT_COUNT",
+      payload: data.docNum,
     });
   } catch (error) {
     dispatch({

@@ -30,6 +30,7 @@ function MakePost() {
     if (content) {
       dispatch(addPostAction(content, token));
     }
+    setContent("")
   };
   return (
     <div className="makePost">
@@ -40,6 +41,7 @@ function MakePost() {
               <textarea
                 placeholder={words[Math.floor(Math.random() * (2 - 0 + 1)) + 0]}
                 onFocus={handleAddPost}
+                value={content}
                 onChange={(e) => setContent(e.target.value)}
               />
             </div>

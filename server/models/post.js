@@ -22,17 +22,10 @@ const postSchema = mongoose.Schema(
   },
 
   {
-    toJSON: {
-      virtuals: true,
-    },
-    toObject: { virtuals: true },
-  },
-
-  {
     timestamps: true,
   }
 );
-
+postSchema.set("toJSON", { virtuals: true });
 postSchema.virtual("comments", {
   ref: "Comment",
   foreignField: "post",
