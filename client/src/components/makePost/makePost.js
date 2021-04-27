@@ -29,8 +29,16 @@ function MakePost() {
     e.preventDefault();
     if (content) {
       dispatch(addPostAction(content, token));
+    } else {
+      dispatch({
+        type: "ADD_MESSAGE",
+        payload: {
+          type: "error",
+          message: "Please add content to your post !",
+        },
+      });
     }
-    setContent("")
+    setContent("");
   };
   return (
     <div className="makePost">

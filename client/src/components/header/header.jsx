@@ -62,7 +62,10 @@ const Navbar = (props) => {
             </Link>
           </div>
           <div className="nav__item">
-            <Link className="nav__link" to="/me">
+            <Link
+              className="nav__link"
+              to={`/profile/${userLogin.userInfo._id}`}
+            >
               <FaUserFriends size="3.5rem" />
               <span className="nav--text">Friends</span>
             </Link>

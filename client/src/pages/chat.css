@@ -5,6 +5,33 @@
   padding-top: 2rem;
 }
 
+.chat__container .no--chat {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.chat__container .no--chat h1 {
+  display: block;
+  text-align: center;
+  font-size: 3rem;
+}
+
+.chat__container__friendList {
+  position: relative;
+}
+
+.chat__container .chat__body {
+  position: relative;
+}
+
 .chat__container .search--input {
   width: 100%;
   height: 5rem;
@@ -34,6 +61,16 @@
 
 .chat__container .friend__item {
   overflow: auto;
+}
+
+.chat__container .loader {
+  margin: auto;
+  width: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
 }
 
 .chat__container--flex {

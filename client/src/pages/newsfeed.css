@@ -2,13 +2,14 @@
   padding-left: 6rem;
   padding-top: 2rem;
 }
-.newsfeed__container h1 {
-    text-align: center;
-  }
 
 .newsfeed__container .nofriends {
   margin-top: 10rem;
   font-size: 2rem;
+  text-align: center;
+}
+
+.newsfeed__container h1 {
   text-align: center;
 }
 /*# sourceMappingURL=newsfeed.css.map */

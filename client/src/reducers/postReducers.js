@@ -4,7 +4,7 @@ export const newsFeedReducer = (
 ) => {
   switch (action.type) {
     case "GET_NEWS_REQUEST":
-      return { ...state, loading: true, posts: [] };
+      return { ...state, loading: true };
     case "GET_NEWS_FEED":
       return { ...state, loading: false, posts: action.payload };
     default:
@@ -20,6 +20,23 @@ export const likePostReducer = (
     case "ADD_LIKE_REQUSET":
       return { ...state, loading: true };
     case "ADD_LIKE_POST":
+      return { ...state, post: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const deletedPostReducer = (state = { post: {} }, action) => {
+  switch (action.type) {
+    case "DELETE_POST":
+      return { ...state, post: action.payload };
+    default:
+      return state;
+  }
+};
+export const AddpostReducer = (state = { post: {} }, action) => {
+  switch (action.type) {
+    case "ADD_NEW_POST":
       return { ...state, post: action.payload };
     default:
       return state;

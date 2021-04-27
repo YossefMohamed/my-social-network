@@ -16,7 +16,7 @@ router.post("/like/:post", protect, likePost);
 router.post("/unlike/:post", protect, unlikePost);
 router.get("/get", getPost);
 router.patch("/edit", protect, editPost);
-router.delete("/delete", protect, deletePost);
+router.delete("/delete/:post", protect, deletePost);
 router.get("/newfeed", protect, newsFeed);
 
 module.exports = router;

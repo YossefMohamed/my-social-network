@@ -1,6 +1,22 @@
 $main: rgb(87, 87, 87);
 $second: rgba(0, 0, 0, 0.79);
 .chat__container {
+  .no--chat {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    h1 {
+      display: block;
+      text-align: center;
+      font-size: 3rem;
+    }
+  }
+  &__friendList {
+    position: relative;
+  }
+  .chat__body {
+    position: relative;
+  }
   padding-left: 6rem;
   width: 90%;
   margin: auto;
@@ -25,6 +41,14 @@ $second: rgba(0, 0, 0, 0.79);
   }
   .friend__item {
     overflow: auto;
+  }
+  .loader {
+    margin: auto;
+    width: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
   &--flex {
     height: 90vh;

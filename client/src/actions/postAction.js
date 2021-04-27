@@ -94,27 +94,20 @@ export const unLikePost = (postId, token) => async (dispatch) => {
 };
 export const addPost = (content, token) => async (dispatch) => {
   try {
-    dispatch({
-      type: "GET_NEWS_REQUEST",
-    });
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     };
-    await axios.post(
+    const { data } = await axios.post(
       "http://localhost:8080/api/post/add",
 
       { content },
       config
     );
-    const { data } = await axios.get(
-      "http://localhost:8080/api/post/newfeed?page=" + 0,
-      config
-    );
 
     dispatch({
-      type: "GET_NEWS_FEED",
+      type: "ADD_NEW_POST",
       payload: data.data,
     });
   } catch (error) {
@@ -144,6 +137,32 @@ export const addComment = (content, post, token) => async (dispatch) => {
     );
     dispatch({
       type: "ADD_NEW__COMMENT",
+      payload: data.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: "ADD_MESSAGE",
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const deletePost = (post, token) => async (dispatch, getState) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const { data } = await axios.delete(
+      "http://localhost:8080/api/post/delete/" + post,
+      config
+    );
+    dispatch({
+      type: "DELETE_POST",
       payload: data.data,
     });
   } catch (error) {

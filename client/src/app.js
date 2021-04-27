@@ -6,22 +6,28 @@ import chat from "./pages/chat";
 import Profile from "./pages/profile";
 import Signin from "./pages/signin/signin";
 import NotificationsPage from "./pages/notifications/notifcationsPage";
-// import io, { Socket } from "socket.io-client";
-
+import socketIOClient from "socket.io-client";
 import "./app.css";
 import Signup from "./pages/signup/signup";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 
 function App() {
   const message = useSelector((s) => s.message);
+  const socket = socketIOClient("/");
+  const dispatch = useDispatch();
+  dispatch({
+    type: "ADD_SOCKET",
+    payload: socket,
+  });
   useEffect(() => {
-    if (message) {
-      alert(message);
+    console.log(message.type);
+    if (message.message) {
+      alert(message.message, message.type);
     }
   }, [message]);
-  function alert(payLoad) {
-    toast.error(<div className="toast--container">{payLoad}</div>);
+  function alert(payLoad = "Random Error", type = "alert") {
+    toast[type](<div className="toast--container">{payLoad}</div>);
   }
   return (
     <div>
@@ -33,7 +39,7 @@ function App() {
         <Switch>
           <Route path="/" component={NewsFeed} exact />
           <Route path="/chat" component={chat} exact />
-          <Route path="/me" component={Profile} exact />
+          <Route path="/profile/:id" component={Profile} exact />
           <Route path="/signin" component={Signin} exact />
           <Route path="/signup" component={Signup} exact />
           <Route path="/notifcations" component={NotificationsPage} exact />

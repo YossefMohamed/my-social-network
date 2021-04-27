@@ -52,16 +52,7 @@ exports.addPost = handler(async (req, res) => {
         select: "email name",
       },
     });
-  console.log(post);
-  console.log(post);
-  console.log(post);
-  console.log(post);
-  console.log(post);
-  console.log(post);
-  console.log(post);
-  console.log(post);
-  console.log(post);
-  console.log(post);
+
   res.status(201).json({
     status: "ok",
     data: post,
@@ -83,8 +74,17 @@ exports.getPost = handler(async (req, res, next) => {
 });
 exports.deletePost = handler(async (req, res) => {
   try {
-    const post = await Post.findById(req.body.post);
-
+    const post = await Post.findById(req.params.post);
+    console.log(post);
+    console.log(post);
+    console.log(post);
+    console.log(post);
+    console.log(post);
+    console.log(post);
+    console.log(post);
+    console.log(post);
+    console.log(post);
+    console.log(post);
     if (!req.user._id.equals(post.author)) throw new Error("Not Authorized !");
 
     await post.delete();

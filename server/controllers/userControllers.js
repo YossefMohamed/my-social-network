@@ -59,26 +59,40 @@ exports.resizeUserPhoto = handler(async (req, res, next) => {
 //end of image controlles
 exports.login = handler(async (req, res) => {
   const { email, password } = req.body;
+  console.log(email);
   const user = await User.findOne({ email }).select("-__v +password");
-
+  console.log(email);
   if (user && (await user.correctPassword(password, user.password))) {
-    const ModUser = user;
-    ModUser._doc.token = signIn(user._id);
-    ModUser._doc.password = undefined;
-    res.status(200).json(ModUser);
+    res.status(201).json({
+      status: "ok",
+      data: {
+        ...user._doc,
+        token: signIn(user._id),
+      },
+    });
   } else {
-    res.status(401);
-    throw new Error("Invalid Email or Password !");
+    res.status(401).json({
+      status: "Faild",
+      message: "Invalid Email Or Password",
+    });
+    // throw new Error("Invalid Email or Password !");
   }
 });
 
 exports.getUserProfile = handler(async (req, res) => {
-  // console.log(req.user);
-  if (!req.user) {
+  const user = await User.findById(req.params.id).populate({
+    path: "posts",
+    popualte: {
+      path: "comments",
+    },
+  });
+  user.populate({ path: "author" });
+  console.log(user);
+  if (!user) {
     res.status(404);
     throw new Error("User Not Found !");
   }
-  res.status(200).json(req.user);
+  res.status(200).json({ status: "ok", user });
 });
 
 exports.registerUser = handler(async (req, res) => {
@@ -91,8 +105,11 @@ exports.registerUser = handler(async (req, res) => {
     }
     const checkMail = await User.findOne({ email });
     if (checkMail) {
-      res.status(404);
-      throw new Error("There's Account with this Email !");
+      res.status(400).json({
+        status: "Faild",
+        message: "There's An Account With This Email !",
+      });
+      // throw new Error("There's Account with this Email !");
     }
     const user = await User.create({
       email,
@@ -152,16 +169,107 @@ exports.updateMe = handler(async (req, res, next) => {
   res.status(200).json(user);
 });
 
-exports.addFriend = handler(async (req, res) => {
+exports.sendFriendRequest = handler(async (req, res) => {
   const user = req.body.user;
   if (req.user.friends.includes(user)) {
     res.status(401);
     throw new Error("Friend is already added !");
   }
-  req.user.friends.push(user);
+  const neededUser = await User.findById(req.body.user)
+    .populate({
+      path: "posts",
+    })
+    .populate({ path: "friends" });
+  console.log(neededUser);
+  neededUser.friendRequests.push(req.user._id);
+  req.user.sentRequests.push(user);
+  await neededUser.save();
   await req.user.save();
-  res.status(200).json({
-    status: "ok",
-    data: req.user,
-  });
+  res.status(200).json({ status: "ok", user: neededUser });
 });
+
+exports.acceptFriend = handler(async (req, res) => {
+  const user = req.body.user;
+  const neededUser = await User.findById(req.body.user)
+    .populate({
+      path: "posts",
+    })
+    .populate({ path: "friends" });
+  console.log(neededUser);
+
+  neededUser.friendRequests = neededUser.friendRequests.filter(
+    (id) => String(req.user._id) !== String(id)
+  );
+  neededUser.sentRequests = neededUser.sentRequests.filter(
+    (id) => String(req.user._id) !== String(id)
+  );
+  req.user.sentRequests = req.user.sentRequests.filter(
+    (id) => String(user) !== String(id)
+  );
+  req.user.friendRequests = req.user.friendRequests.filter(
+    (id) => String(user) !== String(id)
+  );
+  neededUser.friends.push(req.user._id);
+  req.user.friends.push(user);
+  await neededUser.save();
+  await req.user.save();
+  res.status(200).json({ status: "ok", user: neededUser });
+});
+exports.cancel = handler(async (req, res) => {
+  const user = req.body.user;
+  const neededUser = await User.findById(req.body.user)
+    .populate({
+      path: "posts",
+    })
+    .populate({ path: "friends" });
+  neededUser.friendRequests = neededUser.friendRequests.filter(
+    (id) => String(req.user._id) !== String(id)
+  );
+  neededUser.sentRequests = neededUser.sentRequests.filter(
+    (id) => String(req.user._id) !== String(id)
+  );
+  req.user.sentRequests = req.user.sentRequests.filter(
+    (id) => String(user) !== String(id)
+    );
+    req.user.friendRequests = req.user.friendRequests.filter(
+      (id) => String(user) !== String(id)
+      );
+      await neededUser.save();
+      await req.user.save();
+      res.status(200).json({ status: "ok", user: neededUser });
+    });
+    
+exports.deleteUser = handler(async (req, res) => {
+  const user = req.body.user;
+  const neededUser = await User.findById(req.body.user)
+    .populate({
+      path: "posts",
+    })
+    .populate({ path: "friends" });
+  neededUser.friendRequests = neededUser.friendRequests.filter(
+    (id) => String(req.user._id) !== String(id)
+  );
+  neededUser.sentRequests = neededUser.sentRequests.filter(
+    (id) => String(req.user._id) !== String(id)
+  );
+  req.user.sentRequests = req.user.sentRequests.filter(
+    (id) => String(user) !== String(id)
+  );
+  req.user.friendRequests = req.user.friendRequests.filter(
+    (id) => String(user) !== String(id)
+  );
+
+  neededUser.friends = neededUser.friends.filter(
+    (id) => String(req.user._id) !== String(id)
+  );
+  req.user.friends = req.user.friends.filter(
+    (id) => String(user) !== String(id)
+  );
+
+  await neededUser.save();
+  await req.user.save();
+  res.status(200).json({ status: "ok", user: neededUser });
+});
+
+
+

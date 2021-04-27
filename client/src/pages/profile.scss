@@ -1,4 +1,137 @@
+.list--container {
+  .create-post {
+    width: 100%;
+    min-height: 90px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #f1f2f2;
+  }
+
+  .create-post .form-group {
+    margin-bottom: 0;
+    display: inline-flex;
+  }
+
+  .create-post .form-group .form-control {
+    border: 1px solid #ccc;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  }
+
+  .create-post .form-group img.profile-photo-md {
+    margin-right: 10px;
+  }
+
+  .create-post .tools {
+    padding: 8px 0 10px;
+  }
+
+  .create-post .tools ul.publishing-tools {
+    display: inline-block;
+    text-align: left;
+    margin: 0;
+    padding: 5px 0;
+  }
+
+  .create-post .tools ul.publishing-tools li a {
+    color: #6d6e71;
+    font-size: 18px;
+  }
+
+  .create-post .tools ul.publishing-tools li a:hover {
+    color: #27aae1;
+  }
+
+  .list-inline > li {
+    display: inline-block;
+    padding-right: 5px;
+    padding-left: 5px;
+  }
+
+  /*==================================================
+    Friend List CSS = Newsfeed and Timeline
+    ==================================================*/
+
+  .friend-list .friend-card {
+    border-radius: 4px;
+    border-bottom: 1px solid #f1f2f2;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+
+  .friend-list .friend-card .card-info {
+    padding: 0 20px 10px;
+  }
+
+  .friend-list .friend-card .card-info img.profile-photo-lg {
+    margin-top: -60px;
+    border: 7px solid #fff;
+  }
+
+  img.profile-photo-lg {
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+  }
+
+  .text-green {
+    color: #8dc63f;
+  }
+}
 .profil__wrapper {
+  .message--form {
+    .close--message {
+      z-index: 99;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 40px;
+      height: 40px;
+      // background-color: gold;
+      font-size: initial;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      button {
+        width: 100%;
+        height: 100%;
+        background-color: rgba(206, 206, 206, 0.164);
+        border: none;
+        outline: none;
+        border-radius: 10px;
+      }
+    }
+    width: 50%;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    height: 50%;
+    // border: 0.5px solid black;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    z-index: 8;
+    box-shadow: rgba(30, 30, 31, 0.2) 0px 7px 29px 0px;
+    display: flex;
+    flex-direction: column;
+    padding: 50px;
+    justify-content: space-around;
+    align-items: center;
+    button {
+      width: 70%;
+      height: 50px;
+      font-size: initial;
+      margin: 0;
+      border: none;
+      outline: none;
+      border: 2px solid rgba(128, 128, 128, 0.456);
+    }
+    .message--form--input {
+      height: 35px;
+      font-size: initial;
+      padding: 20px 10px;
+      width: 70%;
+    }
+  }
   width: 65%;
   margin: auto;
   padding-left: 6rem;
@@ -101,10 +234,10 @@ Flexbox and floats are used as a fallback so that browsers which don't support g
     align-items: center;
     margin-right: 3rem;
   }
-.pen--edit{
-  margin-left: 15px;
-  cursor: pointer;
-}
+  .pen--edit {
+    margin-left: 15px;
+    cursor: pointer;
+  }
   .profile-image img {
     border-radius: 5px;
   }

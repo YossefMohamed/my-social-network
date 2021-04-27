@@ -14,7 +14,10 @@ function Signin(props) {
     userLogin.error &&
       dispatch({
         type: "ADD_MESSAGE",
-        payload: userLogin.error,
+        payload: {
+          type: "error",
+          message: userLogin.error,
+        },
       });
   }, [userLogin.error]);
 
@@ -27,7 +30,10 @@ function Signin(props) {
     if (!email || !password) {
       dispatch({
         type: "ADD_MESSAGE",
-        payload: "Plaese Fill All The Fields !",
+        payload: {
+          type: "error",
+          message: "Plaese Fill All The Fields !",
+        },
       });
     } else {
       dispatch(login(email, password));

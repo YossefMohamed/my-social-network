@@ -9,6 +9,12 @@ const usersSchema = mongoose.Schema(
       trim: true,
       required: [true, "Please Write Your Name"],
     },
+    chat: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
     email: {
       type: String,
       required: [true, "Please Provide Your Email !"],
@@ -34,8 +40,20 @@ const usersSchema = mongoose.Schema(
     friends: [
       {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
       },
     ],
+    friendRequests: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+      },
+    ],
+    sentRequests: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+      },
+    ],
+    bio: { type: String },
     password: {
       type: String,
       minlength: [8, "Password Must Be More Than 8 Chars !"],
@@ -53,8 +71,8 @@ const usersSchema = mongoose.Schema(
 );
 
 usersSchema.virtual("posts", {
-  ref: "Posts",
-  foreignField: "user",
+  ref: "Post",
+  foreignField: "author",
   localField: "_id",
 });
 usersSchema.methods.correctPassword = async function (

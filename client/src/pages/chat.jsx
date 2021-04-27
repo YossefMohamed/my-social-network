@@ -1,7 +1,33 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { userChatAction } from "../actions/userActions";
+import { getChatList } from "../actions/messageActions";
+import LoaderComponent from "../components/loader/Loader";
 import ChatItem from "./../components/chatFriendItem/chatListItem";
 import "./chat.css";
-function chat(props) {
+import Loader from "react-loader-spinner";
+import ChatBody from "../components/chatBody/chatBody";
+function Chat(props) {
+  const dispatch = useDispatch();
+  // const { userInfo } = useSelector((state) => state.userLogin);
+  const { userInfo } = useSelector((state) => state.userLogin);
+  const userChatState = useSelector((state) => state.userChat);
+  const { userChatList } = useSelector((state) => state);
+  const { chatMessages } = useSelector((state) => state);
+  // const { chatMessages } = useSelector((state) => state);
+  const { currentChatUser } = useSelector((state) => state);
+
+  const [userChat, setUserChat] = React.useState(userInfo.chat[0]);
+  console.log(userInfo.chat[0]);
+  React.useEffect(() => {
+    // dispatch(getMessages(userInfo.token));
+    dispatch(userChatAction(userChat, userInfo.token));
+  }, [userChat]);
+  React.useEffect(() => {
+    dispatch(getChatList(userInfo.chat, userInfo.token));
+  }, []);
+  // const userChatClick = (e, i) => setUserChat(i);
+
   return (
     <div className="chat__container">
       <div className="chat__container--flex">
@@ -16,50 +42,45 @@ function chat(props) {
             <div className="search--input">
               <input type="text" placeholder="Search For A Friend !" />
             </div>
-            <ChatItem />
-            <ChatItem />
-            <ChatItem />
-            <ChatItem />
-          </div>
-        </div>
-        <div className="chat__body">
-          <div className="chat__body--title">
-            <div className="title--image">
-              <img src="./favicon.ico" alt="profilePicture" />
-            </div>
-            <div className="title--text">
-              {" "}
-              <div className="about">
-                <div className="name">Vincent Porter</div>
-                <div className="status">
-                  <i className="fa fa-circle online"></i> online
-                </div>
+            {userChatList.loading && (
+              <div className="loader">
+                <Loader type="Oval" color="black" height={100} width={100} />
               </div>
-            </div>
+            )}
+            {userChatList.chatList.map((i) => {
+              return (
+                <div>
+                  <ChatItem user={i} />
+                </div>
+              );
+            })}
           </div>
-
-          <div className="chat__body__content chat">
-            <div class="bubble you">
-              <span className="message--date">Today, 5:38 PM</span>... about who
-              we used to be.
-            </div>
-            <div class="bubble me">
-              <span className="message--date">Today, 5:38 PM</span>
-              Are you serious?
-            </div>
-          </div>
-
-          <div class="write">
-            <input type="text" placeholder="Write Your Message !!" />
-            <div className="send__links">
-              <a href="javascript:;" class="write-link smiley"></a>
-              <a href="javascript:;" class="write-link send"></a>
-            </div>
-          </div>
+          {console.log(userChat)}
         </div>
+        {console.log(!currentChatUser.user)}
+        {console.log(currentChatUser)}
+        {console.log(currentChatUser.user)}
+        {console.log(currentChatUser)}
+        {console.log(currentChatUser.user)}
+        {!userChat || !Object.keys(currentChatUser.user).length ? (
+          <div className="chat__body no--chat">
+            <h1>Select user to chat with</h1>
+          </div>
+        ) : chatMessages.loading ? (
+          <div className="chat__body no--chat">
+            <h1>
+              <LoaderComponent />
+            </h1>
+          </div>
+        ) : (
+          <ChatBody
+            currentChatUser={currentChatUser}
+            chatMessages={chatMessages.messages}
+          />
+        )}
       </div>
     </div>
   );
 }
 
-export default chat;
+export default Chat;

@@ -10,46 +10,49 @@ function NewsFeed(props) {
   const dispatch = useDispatch();
   const postsFromState = useSelector((state) => state.newsFeed);
   const docNum = useSelector((state) => state.DocNum.docNum);
-  const [posts, setPosts] = React.useState(postsFromState.posts);
+  const [posts, setPosts] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const { token } = useSelector((state) => state.userLogin.userInfo);
+  const deletedPost = useSelector((state) => state.deletedPost.post);
+  const addedPosts = useSelector((state) => state.addPost.post);
+
+  const userInfo = useSelector((state) => state.userLogin.userInfo);
   const myRef = React.useRef();
   React.useEffect(() => {
-    if (!token) props.history.push("/signin");
-    else dispatch(newsFeed(page, token));
+    console.log(userInfo.token);
+    if (!userInfo.token) props.history.push("/signin");
+    else dispatch(newsFeed(page, userInfo.token));
   }, []);
+  React.useEffect(() => {
+    if (addedPosts.length) {
+      setPosts([...addedPosts]);
+    }
+  }, [addedPosts]);
 
   React.useEffect(() => {
-    if (page < docNum) dispatch(newsFeed(page, token));
+    if (page <= docNum) dispatch(newsFeed(page, userInfo.token));
   }, [page]);
   React.useEffect(() => {
     if (page <= docNum) setPosts((p) => [...p, ...postsFromState.posts]);
-  }, [page]);
-  React.useEffect(() => {
-    setPosts((p) => [...p, ...postsFromState.posts]);
-  }, []);
+  }, [postsFromState.posts]);
 
+  React.useEffect(() => {
+    if (deletedPost._id) {
+      setPosts([...posts.filter((p1) => p1._id !== deletedPost._id)]);
+      dispatch({
+        type: "ADD_MESSAGE",
+        payload: { type: "success", message: "Post has been deleted !" },
+      });
+    }
+  }, [deletedPost]);
   React.useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
-      console.log();
       if (entries[0].isIntersecting && page < docNum && !postsFromState.loading)
         setPage((prevPage) => prevPage + 1);
-    }, {});
+    });
+    if (myRef.current) observer.observe(myRef.current);
     console.log(page < docNum);
-
-    observer.observe(myRef.current);
   }, []);
-  console.log(page);
-  console.log(page);
-  console.log(page);
-  console.log(page);
-  console.log(page);
-  console.log(page);
-  console.log(page);
-  console.log(page);
-  console.log(page);
-  console.log(page);
-  console.log(page);
+
   // console.log(page);
   return (
     <div className="newsfeed__container">
@@ -65,7 +68,17 @@ function NewsFeed(props) {
         </>
       ))}
 
-      {page >= docNum ? <h1>No Posts </h1> : <h1 ref={myRef}>Loading...</h1>}
+      {page >= docNum ? (
+        posts.length && (
+          <div>
+            <h1>No More Posts </h1>
+            <br />
+            <br />
+          </div>
+        )
+      ) : (
+        <h1 ref={myRef}>Loading...</h1>
+      )}
     </div>
   );
 }

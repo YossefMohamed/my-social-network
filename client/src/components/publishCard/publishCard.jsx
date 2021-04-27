@@ -7,20 +7,33 @@ import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 
 import "./publishCard.css";
-import { addComment, likePost, unLikePost } from "../../actions/postAction";
+import {
+  addComment,
+  deletePost,
+  likePost,
+  unLikePost,
+} from "../../actions/postAction";
 import Comment from "../comment/comment";
 function PuplishCard(props) {
+  console.log(props);
+  console.log(props);
+  console.log(props);
+  console.log(props);
+  console.log(props);
+  console.log(props);
   const postComments = props.post.comments ? props.post.comments : [];
   const [liked, setLiked] = React.useState(false);
   const [comments, setComments] = React.useState(postComments);
   const [likes, setLikes] = React.useState(props.post.likes);
   const [content, setContent] = React.useState("");
+  const [options, setOptions] = React.useState(false);
   const from =
     moment(props.post.createdAt).fromNow()[0] +
     moment(props.post.createdAt).fromNow()[1].trim();
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.userLogin.userInfo);
   const { post } = useSelector((state) => state.likePost);
+  const socket = useSelector((state) => state.socket);
   const handleLikePost = (e) => {
     if (!liked) {
       dispatch(likePost(props.post._id, userInfo.token));
@@ -32,7 +45,6 @@ function PuplishCard(props) {
     }
   };
 
-  // console.log(content);
   // console.log(content);
   const handleCommentContent = (e) => {
     setContent(e.target.value);
@@ -53,11 +65,23 @@ function PuplishCard(props) {
           post: props.post._id,
         },
       ]);
+      socket.emit("comment", {
+        author: {
+          _id: userInfo._id,
+          name: userInfo.name,
+          email: userInfo.email,
+        },
+        content,
+        post: props.post._id,
+      });
       setContent("");
     } else {
       dispatch({
         type: "ADD_MESSAGE",
-        payload: "Please Add A Content For The Comment :)",
+        payload: {
+          type: "error",
+          message: "Please Add A Content For The Comment :)",
+        },
       });
     }
   };
@@ -77,7 +101,32 @@ function PuplishCard(props) {
     <div className="card">
       <div className="card__container">
         <div className="exit__sign">
-          <BsThreeDots size="25px" />
+          <div
+            className="option--disiplay"
+            onClick={(e) => {
+              console.log(options);
+              setOptions(!options);
+            }}
+          ></div>
+          {props.post.author._id === userInfo._id && (
+            <BsThreeDots size="25px" />
+          )}
+          {
+            <div
+              className="options"
+              style={{ display: `${options ? "flex" : "none"}` }}
+            >
+              <span onClick={(e) => dispatch()}>Edit</span>
+              <span
+                onClick={(e) => {
+                  setOptions(!options);
+                  dispatch(deletePost(props.post._id, userInfo.token));
+                }}
+              >
+                Delete
+              </span>
+            </div>
+          }
         </div>
         <div className="card__title">
           <div className="card__title--image">

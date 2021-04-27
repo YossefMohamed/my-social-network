@@ -1,30 +1,38 @@
 const express = require("express");
 const morgan = require("morgan");
 const app = express();
+const server = require("http").createServer(app);
 var cors = require("cors");
+app.use(cors());
+const socketio = require("socket.io")(server);
 const path = require("path");
 const connectDB = require("./db");
 require("dotenv").config({ path: path.join(__dirname, "./.env") });
 connectDB();
 const port = 8080;
-app.use(cors());
 // const socket = require("socket.io");
 app.use(express.json());
 app.use(morgan("dev"));
+socketio.on("connection", (socket) => {
+  console.log("Client Connected !!");
+  socket.on("comment", (data) => console.log(data));
+  console.log(socket.id);
+});
 
 app.use("/api/user", require("./routes/userRoutes"));
+app.use("/api/message", require("./routes/messageRoutes"));
 app.use("/api/comment", require("./routes/commentRoutes"));
 app.use("/api/post", require("./routes/postsRoutes"));
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   res.statusCode = res.statusCode ? res.statusCode : 500;
+  console.log(err.message);
   res.json({
     status: "failed",
-    sda: "asd",
     message: err.message,
   });
 });
 
-const server = app.listen(port, () =>
+server.listen(port, () =>
   console.log(`Example app listening on port ${port}!`)
 );
 
