@@ -7,19 +7,20 @@ function ChatItem({ user }) {
 
   const [chatUserId, setChatUserId] = React.useState("");
   const dispatch = useDispatch();
-  React.useEffect(() => {
-    if (chatUserId) {
-      dispatch(getMessages(chatUserId, userInfo.token));
-      dispatch({
-        type: "CURRENT_USER_CHAT",
-        payload: user,
-      });
-    }
-  }, [chatUserId]);
+
   return (
     <div
       className="chat--item--container"
-      onClick={(e) => setChatUserId(user._id)}
+      onClick={(e) => {
+        dispatch({
+          type: "CURRENT_USER_CHAT",
+          payload: user,
+        });
+        dispatch({
+          type: "GET_CHAT_USER_ID",
+          payload: user._id,
+        });
+      }}
     >
       <li className="item--flex">
         <img
@@ -38,3 +39,13 @@ function ChatItem({ user }) {
 }
 
 export default ChatItem;
+
+// React.useEffect(() => {
+//   if (chatUserId) {
+//     dispatch(getMessages(chatUserId, userInfo.token));
+//     dispatch({
+//       type: "CURRENT_USER_CHAT",
+//       payload: user,
+//     });
+//   }
+// }, [chatUserId]);

@@ -5,6 +5,7 @@ import { BiSend } from "react-icons/bi";
 import { BsThreeDots } from "react-icons/bs";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
+import { socket } from "./../../app";
 
 import "./publishCard.css";
 import {
@@ -15,12 +16,10 @@ import {
 } from "../../actions/postAction";
 import Comment from "../comment/comment";
 function PuplishCard(props) {
-  console.log(props);
-  console.log(props);
-  console.log(props);
-  console.log(props);
-  console.log(props);
-  console.log(props);
+  React.useEffect(() => {
+    socket.emit("joinPostRoom", props.post.id);
+  }, []);
+
   const postComments = props.post.comments ? props.post.comments : [];
   const [liked, setLiked] = React.useState(false);
   const [comments, setComments] = React.useState(postComments);
@@ -33,24 +32,49 @@ function PuplishCard(props) {
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.userLogin.userInfo);
   const { post } = useSelector((state) => state.likePost);
-  const socket = useSelector((state) => state.socket);
   const handleLikePost = (e) => {
     if (!liked) {
       dispatch(likePost(props.post._id, userInfo.token));
+
+      socket.emit("likePost", {
+        post: props.post._id,
+        user: userInfo._id,
+        author: props.post.author,
+        name: userInfo.name,
+      });
       setLiked(true);
     }
     if (liked) {
       dispatch(unLikePost(props.post._id, userInfo.token));
+
+      socket.emit("unLikePost", { post: props.post._id, user: userInfo._id });
       setLiked(false);
     }
   };
-
-  // console.log(content);
+  socket.on("receiverLikePost", (user) => {
+    setLikes([...likes, user]);
+  });
+  socket.on("receiverUnlikePost", (user) => {
+    setLikes(likes.filter((like) => like !== user));
+  });
+  socket.on("receiveAddComment", (comment) => {
+    setComments([...comments, comment]);
+  });
   const handleCommentContent = (e) => {
     setContent(e.target.value);
     // console.log(e.target.value);
   };
   const handleAddComment = (e) => {
+    socket.emit("addComment", {
+      author: {
+        _id: userInfo._id,
+        name: userInfo.name,
+        email: userInfo.email,
+      },
+      content,
+      post: props.post._id,
+      postAuthor: props.post.author,
+    });
     if (content) {
       dispatch(addComment(content, props.post._id, userInfo.token));
       setComments([
@@ -158,8 +182,9 @@ function PuplishCard(props) {
             className={` ${
               liked ? "card__footer--like liked" : "card__footer--like"
             } `}
+            onClick={handleLikePost}
           >
-            <AiFillLike size="2rem" onClick={handleLikePost} />
+            <AiFillLike size="2rem" />
             <span className="like--counter">{likes.length} Likes</span>
           </div>
           <div className="card__footer--comment">

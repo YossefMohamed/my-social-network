@@ -1,6 +1,7 @@
 const handler = require("express-async-handler");
 const User = require("../models/user");
 const Message = require("./../models/message");
+const { v4: uuidv4 } = require("uuid");
 
 exports.sendMessage = handler(async (req, res) => {
   receiver = await User.findById(req.params.id);
@@ -9,17 +10,25 @@ exports.sendMessage = handler(async (req, res) => {
     author: req.user._id,
     reciever: req.params.id,
   });
-
+  let uuid = uuidv4();
+  let currentUserChatList = [];
+  let receiverUserChatList = [];
+  req.user.chat.map((c) => {
+    currentUserChatList.push(c.user);
+  });
+  receiver.chat.map((c) => {
+    receiverUserChatList.push(c.user);
+  });
   // console.log(!req.user.chat.includes(req.params.id));
-  if (!req.user.chat.includes(req.params.id)) {
-    req.user.chat.push(req.params.id);
+  if (!currentUserChatList.includes(req.params.id)) {
+    req.user.chat.push({ user: req.params.id, chatId: uuid });
     // console.log(req.user);
 
     await req.user.save();
   }
-  if (!receiver.chat.includes(req.user._id)) {
-    receiver.chat.push(req.user._id);
-    console.log(receiver.chat);
+  if (!receiverUserChatList.includes(req.user._id)) {
+    receiver.chat.unshift({ user: req.user._id, chatId: uuid });
+    // console.log(receiver.chat);
     await receiver.save();
   }
   res.status(201).json({
@@ -49,10 +58,10 @@ exports.getMessages = handler(async (req, res) => {
       },
     ],
   }).sort("createdAt");
-  console.log(req.params.id, "user");
-  console.log(req.user._id, "me");
-  console.log(messages);
-  console.log(req.params.id);
+  // console.log(req.params.id, "user");
+  // console.log(req.user._id, "me");
+  // console.log(messages);
+  // console.log(req.params.id);
   res.status(200).json({
     status: "ok",
     data: messages,

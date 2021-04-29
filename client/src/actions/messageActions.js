@@ -33,7 +33,10 @@ export const getMessages = (id, token) => async (dispatch, getState) => {
     });
   }
 };
-export const sendMessage = (id, token) => async (dispatch, getState) => {
+export const sendMessage = (message, id, token) => async (
+  dispatch,
+  getState
+) => {
   try {
     const config = {
       headers: {
@@ -44,7 +47,7 @@ export const sendMessage = (id, token) => async (dispatch, getState) => {
     const { data } = await axios.post(
       "http://localhost:8080/api/message/add/" + id,
       {
-        content: "60874cddcd61600c68e9dff9",
+        content: message,
       },
       config
     );

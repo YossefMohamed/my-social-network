@@ -4,10 +4,12 @@ import thunk from "redux-thunk";
 import {
   chatListReducer,
   chatMessagesReducers,
+  chatUserIdReducer,
   currentChatUserReducer,
   messageReducers,
   userChatReducer,
 } from "./reducers/messageReducers";
+import { notificationReducer } from "./reducers/notification";
 import {
   newsFeedReducer,
   likePostReducer,
@@ -41,6 +43,8 @@ const reducers = combineReducers({
   userData: userDataReducer,
   chatMessages: chatMessagesReducers,
   currentChatUser: currentChatUserReducer,
+  chatUserId: chatUserIdReducer,
+  notification: notificationReducer,
 });
 
 const initialState = {

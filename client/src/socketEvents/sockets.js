@@ -1,9 +1,5 @@
-import React from "react";
-import socketIOClient from "socket.io-client";
+import openSocket from "socket.io-client";
 
-function socket() {
-  const socket = socketIOClient("/");
-  return socket;
-}
+const socket = openSocket("http://localhost:8080");
 
 export default socket;

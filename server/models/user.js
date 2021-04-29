@@ -11,8 +11,14 @@ const usersSchema = mongoose.Schema(
     },
     chat: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        user: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+        },
+        chatId: {
+          type: String,
+          required: true,
+        },
       },
     ],
     email: {

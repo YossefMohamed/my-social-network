@@ -1,12 +1,63 @@
+import moment from "moment";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { sendMessage } from "../../actions/messageActions";
+import { getMe } from "../../actions/userActions";
+import { socket } from "./../../app";
 
+import "./chatBody.css";
 function ChatBody(props) {
-  console.log(props);
-  console.log(props);
-  console.log(props);
-  console.log(props);
+  const [message, setMessage] = React.useState("");
+  const [messageFromSocket, setMessageFromSocket] = React.useState("");
+  const [messageList, setMessageList] = React.useState(props.chatMessages);
+  const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.userLogin);
+  const { userId } = useSelector((state) => state.chatUserId);
+  const myRef = React.useRef("");
+  React.useEffect(() => {
+    dispatch(getMe(userInfo._id, userInfo.token));
+  }, []);
+  React.useEffect(() => {
+    socket.emit("joinChat", props.currentUserChatId);
+  }, []);
+
+  React.useEffect(() => {
+    if (myRef.current) {
+      myRef.current.scrollTo(0, myRef.current.scrollHeight);
+    }
+  }, [, myRef]);
+  const onSubmitMessageHandler = (e) => {
+    e.preventDefault();
+    dispatch(
+      sendMessage(message, props.currentChatUser.user._id, userInfo.token)
+    );
+    socket.emit("sendMessage", {
+      author: userInfo._id,
+      receiver: props.currentChatUser.user._id,
+      content: message,
+      createdAt: Date.now(),
+      chatIdd: props.currentUserChatId,
+    });
+
+    setMessage("");
+  };
+  socket.on("newMessage", (data) => {
+    console.log(data);
+    console.log(data);
+    console.log(data);
+    console.log(data);
+    console.log(data);
+    console.log(data);
+    console.log(data);
+    console.log(data);
+    setMessageFromSocket(data);
+
+    myRef.current && myRef.current.scrollTo(0, myRef.current.scrollHeight);
+  });
+  React.useEffect(() => {
+    messageFromSocket &&
+      setMessageList((messages) => [...messages, messageFromSocket]);
+  }, [messageFromSocket]);
   return (
     <div className="chat__body">
       <div className="chat__body--title">
@@ -24,26 +75,25 @@ function ChatBody(props) {
         </div>
       </div>
 
-      <div className="chat__body__content chat">
-        {props.chatMessages.map((i) => {
-          //   console.log(i.author === userInfo._id);
-          //   console.log(i.author, userInfo._id);
-          //   console.log(i.author, userInfo._id);
-          //   console.log(i.author, userInfo._id);
-          //   console.log(i.author, userInfo._id);
-          //   console.log(i.author);
-          //   console.log(i.author);
+      <div className="chat__body__content chat" ref={myRef}>
+        {messageList.map((i) => {
           if (i.author === userInfo._id) {
             return (
-              <div class="bubble you">
-                <span className="message--date">Today, 5:38 PM</span>
+              <div class="bubble me" key={i._id}>
+                <span className="message--date">
+                  {" "}
+                  {moment(i.createdAt).fromNow()}
+                </span>
                 {i.content}
               </div>
             );
           }
           return (
-            <div class="bubble me">
-              <span className="message--date">Today, 5:38 PM</span>
+            <div class="bubble you" key={i._id}>
+              <span className="message--date">
+                {" "}
+                {moment(i.createdAt).fromNow()}
+              </span>
               {i.content}
             </div>
           );
@@ -51,11 +101,18 @@ function ChatBody(props) {
       </div>
 
       <div class="write">
-        <input type="text" placeholder="Write Your Message !!" />
-        <div className="send__links">
-          <a href="javascript:;" class="write-link smiley"></a>
-          <a href="javascript:;" class="write-link send"></a>
-        </div>
+        <form onSubmit={onSubmitMessageHandler}>
+          <input
+            type="text"
+            placeholder="Write Your Message !!"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+          />
+          <div className="send__links">
+            <a href="javascript:;" class="write-link smiley"></a>
+            <button href="javascript:;" class="write-link send"></button>
+          </div>
+        </form>
       </div>
     </div>
   );

@@ -62,3 +62,12 @@ export const currentChatUserReducer = (state = { user: {} }, action) => {
       return state;
   }
 };
+
+export const chatUserIdReducer = (state = { userId: "" }, action) => {
+  switch (action.type) {
+    case "GET_CHAT_USER_ID":
+      return { ...state, userId: action.payload };
+    default:
+      return state;
+  }
+};

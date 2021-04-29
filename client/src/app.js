@@ -11,11 +11,31 @@ import "./app.css";
 import Signup from "./pages/signup/signup";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
+export const socket = socketIOClient("/");
 
 function App() {
   const message = useSelector((s) => s.message);
-  const socket = socketIOClient("/");
+  const { userInfo } = useSelector((s) => s.userLogin);
+  const [notification, setNotification] = React.useState();
   const dispatch = useDispatch();
+  socket.on("newNofitication", (notification) => {
+    setNotification(notification);
+  });
+  React.useEffect(() => {
+    socket.emit("joinNotificationsRoom", userInfo._id);
+  }, []);
+  React.useEffect(() => {
+    if (notification) {
+      dispatch({
+        type: "ADD_NOTIFICATION",
+        payload: notification,
+      });
+      alert(notification.content, "info");
+    }
+  }, [notification]);
+  socket.on("connect", () => {
+    socket.emit("goOnline", userInfo._id);
+  });
   dispatch({
     type: "ADD_SOCKET",
     payload: socket,
@@ -39,7 +59,12 @@ function App() {
         <Switch>
           <Route path="/" component={NewsFeed} exact />
           <Route path="/chat" component={chat} exact />
-          <Route path="/profile/:id" component={Profile} exact />
+          <Route
+            path="/profile/:id"
+            component={Profile}
+            exact
+            socket={socket}
+          />
           <Route path="/signin" component={Signin} exact />
           <Route path="/signup" component={Signup} exact />
           <Route path="/notifcations" component={NotificationsPage} exact />

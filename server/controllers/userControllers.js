@@ -3,6 +3,7 @@ const User = require("./../models/user");
 const { signIn } = require("./auth");
 const multer = require("multer");
 const path = require("path");
+const { io } = require("./../app");
 
 //Image Controlles
 // const sharp = require("sharp");
@@ -230,15 +231,15 @@ exports.cancel = handler(async (req, res) => {
   );
   req.user.sentRequests = req.user.sentRequests.filter(
     (id) => String(user) !== String(id)
-    );
-    req.user.friendRequests = req.user.friendRequests.filter(
-      (id) => String(user) !== String(id)
-      );
-      await neededUser.save();
-      await req.user.save();
-      res.status(200).json({ status: "ok", user: neededUser });
-    });
-    
+  );
+  req.user.friendRequests = req.user.friendRequests.filter(
+    (id) => String(user) !== String(id)
+  );
+  await neededUser.save();
+  await req.user.save();
+  res.status(200).json({ status: "ok", user: neededUser });
+});
+
 exports.deleteUser = handler(async (req, res) => {
   const user = req.body.user;
   const neededUser = await User.findById(req.body.user)
@@ -270,6 +271,3 @@ exports.deleteUser = handler(async (req, res) => {
   await req.user.save();
   res.status(200).json({ status: "ok", user: neededUser });
 });
-
-
-

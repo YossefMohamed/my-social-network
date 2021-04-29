@@ -14,27 +14,13 @@ export const login = (email, password) => async (dispatch) => {
       email,
       password,
     });
-    console.log(data);
-    console.log(data);
-    console.log(data);
-    console.log(data);
-    console.log(data);
-    console.log(data);
+
     dispatch({
       type: "USER_LOGIN_SUCCESS",
       payload: data.data,
     });
     localStorage.setItem("userInfo", JSON.stringify(data.data));
   } catch (error) {
-    console.log(error);
-    console.log(error);
-    console.log(error);
-    console.log(error);
-    console.log(
-      error.response && error.response.data.message
-        ? error.response.data.message
-        : error.message
-    );
     dispatch({
       type: "USER_LOGIN_FAIL",
       payload:
@@ -94,6 +80,11 @@ export const userData = (id, token) => async (dispatch) => {
       "http://localhost:8080/api/user/profile/" + id,
       config
     );
+    console.log(data);
+    console.log(data);
+    console.log(data);
+    console.log(data);
+    console.log(data);
     console.log(data);
     dispatch({
       type: "USER_DATA_SUCCESS",

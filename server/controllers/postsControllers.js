@@ -120,6 +120,8 @@ exports.likePost = handler(async (req, res) => {
   const postId = req.params.post;
   console.log(req.params);
   const post = await Post.findById(postId);
+  console.log(post.likes.includes(req.user._id));
+  console.log(post.likes, req.user._id);
   if (post.likes.includes(req.user._id)) {
     return res.status(200).json({ status: "ok", data: post });
   }

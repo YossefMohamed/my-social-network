@@ -1,12 +1,14 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { userChatAction } from "../actions/userActions";
-import { getChatList } from "../actions/messageActions";
+import { getMe, userChatAction } from "../actions/userActions";
+import { getChatList, getMessages } from "../actions/messageActions";
 import LoaderComponent from "../components/loader/Loader";
 import ChatItem from "./../components/chatFriendItem/chatListItem";
 import "./chat.css";
+
 import Loader from "react-loader-spinner";
 import ChatBody from "../components/chatBody/chatBody";
+
 function Chat(props) {
   const dispatch = useDispatch();
   // const { userInfo } = useSelector((state) => state.userLogin);
@@ -16,18 +18,35 @@ function Chat(props) {
   const { chatMessages } = useSelector((state) => state);
   // const { chatMessages } = useSelector((state) => state);
   const { currentChatUser } = useSelector((state) => state);
+  const { userId } = useSelector((state) => state.chatUserId);
+  let chatsFromUserInfo = [];
 
-  const [userChat, setUserChat] = React.useState(userInfo.chat[0]);
-  console.log(userInfo.chat[0]);
+  const [userChat, setUserChat] = React.useState(chatsFromUserInfo[0]);
+
+  React.useEffect(() => {
+    userInfo.chat.map((c) => {
+      chatsFromUserInfo.push(c.user);
+    });
+    setUserChat(chatsFromUserInfo[0]);
+  }, []);
+  console.log(chatsFromUserInfo);
+
   React.useEffect(() => {
     // dispatch(getMessages(userInfo.token));
     dispatch(userChatAction(userChat, userInfo.token));
   }, [userChat]);
   React.useEffect(() => {
-    dispatch(getChatList(userInfo.chat, userInfo.token));
+    dispatch(getMe(userInfo._id, userInfo.token));
+    dispatch(getChatList(chatsFromUserInfo, userInfo.token));
   }, []);
+  React.useEffect(() => {
+    dispatch(getMessages(userId, userInfo.token));
+  }, [userId]);
   // const userChatClick = (e, i) => setUserChat(i);
-
+  let currentUserChatId;
+  userInfo.chat.map((c) => {
+    if (c.user === userId) currentUserChatId = c.chatId;
+  });
   return (
     <div className="chat__container">
       <div className="chat__container--flex">
@@ -56,12 +75,14 @@ function Chat(props) {
             })}
           </div>
           {console.log(userChat)}
+          {console.log(userChat)}
+          {console.log(userChat)}
+          {console.log(userChat)}
+          {console.log(userChat)}
+          {console.log(userChat)}
+          {console.log(userChat)}
         </div>
-        {console.log(!currentChatUser.user)}
-        {console.log(currentChatUser)}
-        {console.log(currentChatUser.user)}
-        {console.log(currentChatUser)}
-        {console.log(currentChatUser.user)}
+
         {!userChat || !Object.keys(currentChatUser.user).length ? (
           <div className="chat__body no--chat">
             <h1>Select user to chat with</h1>
@@ -76,6 +97,7 @@ function Chat(props) {
           <ChatBody
             currentChatUser={currentChatUser}
             chatMessages={chatMessages.messages}
+            currentUserChatId={currentUserChatId}
           />
         )}
       </div>

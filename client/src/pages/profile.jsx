@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import FriendList from "../components/friendList/friendList";
 import PublishCard from "./../components/publishCard/publishCard";
+import { socket } from "./../app";
+
 import {
   acceptUser,
   addUser,
@@ -14,7 +16,15 @@ import "./profile.css";
 import LoaderComponent from "../components/loader/Loader";
 import PuplishCard from "./../components/publishCard/publishCard";
 import { sendMessage } from "../actions/messageActions";
+import Loader from "react-loader-spinner";
 function Profile(props) {
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(userData(props.match.params.id, userInfo.token));
+  }, [,]);
+  socket.on("getUser", () => {
+    dispatch(userData(props.match.params.id, userInfo.token));
+  });
   const [friends, setFriends] = React.useState(false);
   const [message, setMessage] = React.useState(false);
   const { userInfo } = useSelector((state) => state.userLogin);
@@ -28,22 +38,21 @@ function Profile(props) {
       setFriends(true);
     }
   }, [props.location]);
-  const dispatch = useDispatch();
-  React.useEffect(() => {
-    dispatch(userData(props.match.params.id, userInfo.token));
-  }, [, props.location]);
 
-  const userDataInfo = useSelector((state) => state.userData);
+  const userDataInfoFromState = useSelector((state) => state.userData);
+  const [userDataInfo, setUserDataInfo] = React.useState(userDataInfoFromState);
+  React.useEffect(() => {
+    console.log("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh");
+    setUserDataInfo(userDataInfoFromState);
+  }, [userDataInfoFromState]);
+
   const handleFriendList = () => {
     setFriends(true);
   };
   const handleUserPosts = () => {
     setFriends(false);
   };
-  console.log(userInfo);
-  console.log(userInfo);
-  console.log(userInfo);
-  console.log(userInfo);
+
   return (
     <div className="profil__wrapper">
       <div
@@ -57,18 +66,31 @@ function Profile(props) {
         <input
           type="text"
           className="message--form--input"
-          onChange={(e) => {
-            dispatch(sendMessage(userDataInfo.userData._id, userInfo.token));
+          onChange={(e) => {}}
+        />
+        <button
+          className="btn profile-edit-btn"
+          onClick={(e) => {
+            dispatch(
+              sendMessage("message", userDataInfo.userData._id, userInfo.token)
+            );
+            dispatch({
+              type: "ADD_MESSAGE",
+              payload: { type: "success", message: "Message Sent !" },
+            });
+
             setMessage(false);
           }}
-        />
-        <button className="btn profile-edit-btn">Send</button>
+        >
+          Send
+        </button>
       </div>
       {userDataInfo.loading ? (
-        <LoaderComponent />
+        <div className="loader">
+          <Loader type="Oval" color="black" height={100} width={100} />
+        </div>
       ) : (
         <>
-          {" "}
           <header>
             <div className="container">
               <div className="profile">
@@ -93,11 +115,11 @@ function Profile(props) {
                     ) ? (
                     <button
                       className="btn profile-edit-btn"
-                      onClick={(e) =>
+                      onClick={(e) => {
                         dispatch(
                           cancel(userDataInfo.userData._id, userInfo.token)
-                        )
-                      }
+                        );
+                      }}
                     >
                       Canacle Request
                     </button>
@@ -128,11 +150,18 @@ function Profile(props) {
                     ) ? (
                     <button
                       className="btn profile-edit-btn"
-                      onClick={(e) =>
+                      onClick={(e) => {
                         dispatch(
                           acceptUser(userDataInfo.userData._id, userInfo.token)
-                        )
-                      }
+                        );
+                        socket.emit("acceptFriend", {
+                          from: { name: userInfo.name, id: userInfo._id },
+                          to: {
+                            name: userDataInfo.userData.name,
+                            id: userDataInfo.userData._id,
+                          },
+                        });
+                      }}
                     >
                       Accept Friend
                     </button>
@@ -143,6 +172,13 @@ function Profile(props) {
                         dispatch(
                           addUser(userDataInfo.userData._id, userInfo.token)
                         );
+                        socket.emit("sendRequest", {
+                          from: { name: userInfo.name, id: userInfo._id },
+                          to: {
+                            name: userDataInfo.userData.name,
+                            id: userDataInfo.userData._id,
+                          },
+                        });
                       }}
                     >
                       Add Friend
