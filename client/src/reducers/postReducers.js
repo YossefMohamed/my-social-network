@@ -42,12 +42,34 @@ export const AddpostReducer = (state = { post: {} }, action) => {
       return state;
   }
 };
+export const addedComment = (state = {}, action) => {
+  switch (action.type) {
+    case "ADD_NEW__COMMENT":
+      return action.payload;
+    default:
+      return state;
+  }
+};
 
 export const DocNumReducer = (state = { docNum: 1 }, action) => {
   switch (action.type) {
     case "GET_DOCUMENT_COUNT":
       return { ...state, docNum: action.payload };
 
+    default:
+      return state;
+  }
+};
+
+export const getSinglePostReducer = (
+  state = { loading: false, post: {} },
+  action
+) => {
+  switch (action.type) {
+    case "GET_SINGLE_POST_REQUEST":
+      return { ...state, loading: true };
+    case "GET_SINGLE_POST_SUCCESS":
+      return { ...state, post: action.payload, loading: false };
     default:
       return state;
   }

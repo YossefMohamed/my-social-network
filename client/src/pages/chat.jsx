@@ -24,6 +24,18 @@ function Chat(props) {
   const [userChat, setUserChat] = React.useState(chatsFromUserInfo[0]);
 
   React.useEffect(() => {
+    dispatch(getMe(userInfo._id, userInfo.token));
+    // dispatch({
+    //   type: "CURRENT_USER_CHAT",
+    //   payload: props.location.search.split("=")[1],
+    // });
+    // dispatch({
+    //   type: "GET_CHAT_USER_ID",
+    //   payload: props.location.search.split("=")[1],
+    // });
+    // console.log(props.location.search.split("=")[1], "asdsadadawdwa");
+    // console.log(props.location.search.split("=")[1], "asdsadadawdwa");
+    // console.log(props.location.search.split("=")[1], "asdsadadawdwa");
     userInfo.chat.map((c) => {
       chatsFromUserInfo.push(c.user);
     });

@@ -10,13 +10,18 @@ import { useSelector, useDispatch } from "react-redux";
 import { withRouter } from "react-router-dom";
 const Navbar = (props) => {
   console.log(props);
+  const [newNot, setNewNot] = useState(false);
   const [navWider, setNavWider] = useState(false);
   let NavStyle;
   const handleNavWider = (e) => {
     setNavWider((s) => !s);
   };
   const userLogin = useSelector((state) => state.userLogin);
+  const { hasNew } = useSelector((state) => state);
   const dispatch = useDispatch();
+  React.useEffect(() => {
+    setNewNot(hasNew);
+  }, [hasNew]);
   React.useEffect(() => {
     let x = document.querySelectorAll(".nav--text");
     if (navWider) {
@@ -28,7 +33,7 @@ const Navbar = (props) => {
         e.style.display = "none";
       });
     }
-  });
+  }, [navWider]);
   return (
     <div
       className="nav"
@@ -55,10 +60,13 @@ const Navbar = (props) => {
               <span className="nav--text">NewsFeed</span>
             </Link>
           </div>
-          <div className="nav__item">
+          <div
+            className="nav__item"
+            style={{ background: `${newNot && "red"}` }}
+          >
             <Link className="nav__link" to="/notifcations">
               <BiBell size="3.5rem" />
-              <span className="nav--text">Notofication</span>
+              <span className="nav--text">Notification</span>
             </Link>
           </div>
           <div className="nav__item">
@@ -79,7 +87,7 @@ const Navbar = (props) => {
           <div className="nav__item">
             <Link className="nav__link" to="#">
               <BiSearchAlt2 size="3.5rem" />
-              <span className="nav--text">Notofication</span>
+              <span className="nav--text">Notification</span>
             </Link>
           </div>
           <div

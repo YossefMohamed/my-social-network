@@ -19,7 +19,16 @@ const commentSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-
+// commentSchema.pre(/^find/, function (next) {
+//   // this points to the current query
+//   this.populate({
+//     path: "author",
+//     // populate : {
+//     //   path : 'reviewId'
+//     // }
+//   });
+//   next();
+// });
 const Comment = mongoose.model("Comment", commentSchema);
 
 module.exports = Comment;

@@ -9,16 +9,19 @@ import {
   messageReducers,
   userChatReducer,
 } from "./reducers/messageReducers";
-import { notificationReducer } from "./reducers/notification";
+import { hasNewReducer, notificationReducer } from "./reducers/notification";
 import {
   newsFeedReducer,
   likePostReducer,
   DocNumReducer,
   deletedPostReducer,
   AddpostReducer,
+  getSinglePostReducer,
+  addedComment,
 } from "./reducers/postReducers";
 import { socketReducer } from "./reducers/socketReducers";
 import {
+  getFriendsListReducer,
   userDataReducer,
   userLoginReducer,
   userRegisterReducer,
@@ -45,6 +48,11 @@ const reducers = combineReducers({
   currentChatUser: currentChatUserReducer,
   chatUserId: chatUserIdReducer,
   notification: notificationReducer,
+  hasNew: hasNewReducer,
+  notifications: notificationReducer,
+  getSinglePost: getSinglePostReducer,
+  FriendsList: getFriendsListReducer,
+  addedComment,
 });
 
 const initialState = {

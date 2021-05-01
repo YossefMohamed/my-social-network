@@ -1,5 +1,6 @@
 const handler = require("express-async-handler");
 const User = require("./../models/user");
+const Post = require("./../models/post");
 const { signIn } = require("./auth");
 const multer = require("multer");
 const path = require("path");
@@ -81,14 +82,23 @@ exports.login = handler(async (req, res) => {
 });
 
 exports.getUserProfile = handler(async (req, res) => {
-  const user = await User.findById(req.params.id).populate({
-    path: "posts",
-    popualte: {
-      path: "comments",
-    },
+  const user = await User.findById(req.params.id).populate("posts", {
+    select: "id -author",
   });
-  user.populate({ path: "author" });
-  console.log(user);
+  const userPosts = user.posts.map((post) => post._id);
+  userPostsList = await Post.find({
+    _id: { $in: userPosts },
+  })
+    .populate({
+      path: "comments",
+      populate: {
+        path: "author",
+        select: "name",
+      },
+    })
+    .populate({ path: "author", select: "name" });
+  console.log("userPostsList");
+  user.posts = userPostsList;
   if (!user) {
     res.status(404);
     throw new Error("User Not Found !");
@@ -270,4 +280,13 @@ exports.deleteUser = handler(async (req, res) => {
   await neededUser.save();
   await req.user.save();
   res.status(200).json({ status: "ok", user: neededUser });
+});
+
+exports.getFriendList = handler(async (req, res) => {
+  console.log(req.params.id);
+  const friendList = await User.findById(req.params.id).populate(
+    "friends",
+    "name email friends"
+  );
+  res.status(200).json({ status: "ok", user: friendList.friends });
 });

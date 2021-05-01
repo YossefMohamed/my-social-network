@@ -1,10 +1,10 @@
 import React from "react";
 import "./notications.css";
-function Notifications() {
+function Notifications(props) {
   return (
     <div className="content__container">
       <div id="content">
-        <div class="notification green">
+        {/* <div class="notification green">
           <div class="info">
             <h1>
               This is a <a href="https://goo.gl/GykQEn">notification</a>
@@ -14,32 +14,20 @@ function Notifications() {
           <div class="icon">
             <img src="./upload.jpg" />
           </div>
-        </div>
+        </div> */}
 
         <div class="notification green">
           <div class="info">
-            <h1>
-              This is a <a href="https://goo.gl/GykQEn">notification</a>
-            </h1>
-            <p>You have been notified</p>
+            <h1>{props.item.content}</h1>
+            <br />
+            <p>Click Here To Go To See The Notification</p>
           </div>
           <div class="icon">
-            <img src="./logo192.png" />
+            <img src="https://ultimatemember.com/wp-content/uploads/bb-plugin/cache/notifications-circle.png" />
           </div>
         </div>
-        {/* <div class="notification red">
-          <div class="info">
-            <h1>
-              <a href="https://goo.gl/IiwBDn">ruandre</a> followed you
-            </h1>
-            <p>
-              You have a new follower! Feel the fame flow through your vains!
-            </p>
-          </div>
-          <div class="icon">
-            <i class="fa fa-heart"></i>
-          </div>
-        </div>
+
+        {/* 
 
         <div class="notification blue">
           <div class="info">

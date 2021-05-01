@@ -26,6 +26,7 @@ function ChatBody(props) {
       myRef.current.scrollTo(0, myRef.current.scrollHeight);
     }
   }, [, myRef]);
+
   const onSubmitMessageHandler = (e) => {
     e.preventDefault();
     dispatch(
@@ -33,26 +34,19 @@ function ChatBody(props) {
     );
     socket.emit("sendMessage", {
       author: userInfo._id,
+      name: userInfo.name,
       receiver: props.currentChatUser.user._id,
       content: message,
       createdAt: Date.now(),
       chatIdd: props.currentUserChatId,
     });
-
     setMessage("");
   };
   socket.on("newMessage", (data) => {
-    console.log(data);
-    console.log(data);
-    console.log(data);
-    console.log(data);
-    console.log(data);
-    console.log(data);
-    console.log(data);
-    console.log(data);
     setMessageFromSocket(data);
-
+    console.log(data);
     myRef.current && myRef.current.scrollTo(0, myRef.current.scrollHeight);
+    console.log(data);
   });
   React.useEffect(() => {
     messageFromSocket &&

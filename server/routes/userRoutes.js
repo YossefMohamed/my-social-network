@@ -10,6 +10,7 @@ const {
   acceptFriend,
   cancel,
   deleteUser,
+  getFriendList,
 } = require("../controllers/userControllers");
 const router = app.Router();
 const auth = require("./../controllers/auth");
@@ -22,6 +23,7 @@ router.post("/canceluser", auth.protect, cancel);
 router.post("/deleteuser", auth.protect, deleteUser);
 router.patch("/:id", auth.protect, updateMe);
 router.get("/profile/:id", auth.protect, getUserProfile);
+router.get("/getfriend/:id", auth.protect, getFriendList);
 router.post("/profileimage", auth.protect, uploadUserPhoto, resizeUserPhoto);
 
 router.delete("/:id");

@@ -51,3 +51,17 @@ export const userDataReducer = (
       return state;
   }
 };
+
+export const getFriendsListReducer = (
+  state = { loading: false, users: [] },
+  action
+) => {
+  switch (action.type) {
+    case "USER_FRIENDS_REQUEST":
+      return { ...state, loading: true };
+    case "USER_FRIENDS_SUCCESS":
+      return { ...state, users: action.payload, loading: false };
+    default:
+      return state;
+  }
+};

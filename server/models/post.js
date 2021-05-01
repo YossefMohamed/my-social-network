@@ -31,6 +31,16 @@ postSchema.virtual("comments", {
   foreignField: "post",
   localField: "_id",
 });
+// postSchema.pre(/^find/, function (next) {
+//   // this points to the current query
+//   this.populate({
+//     path: "comments",
+//     // populate : {
+//     //   path : 'reviewId'
+//     // }
+//   });
+//   next();
+// });
 const Post = mongoose.model("Post", postSchema);
 
 module.exports = Post;

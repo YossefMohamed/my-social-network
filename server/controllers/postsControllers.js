@@ -59,14 +59,19 @@ exports.addPost = handler(async (req, res) => {
   });
 });
 exports.getPost = handler(async (req, res, next) => {
-  const post = await Post.findById(req.body.post).populate({
-    path: "comments",
+  console.log(req.params.id);
+  const post = await Post.findById(req.params.id).populate({
+    path: "author",
     populate: {
-      path: "author",
+      path: "comment",
       select: "email name",
     },
   });
-  if (!post) throw new Error("Post Not Found !!");
+  if (!post)
+    res.status(200).json({
+      status: "ok",
+      data: {},
+    });
   res.status(200).json({
     status: "ok",
     data: post,

@@ -4,11 +4,11 @@ const Comment = require("../models/Comment");
 exports.addComment = handler(async (req, res) => {
   const { content } = req.body;
   const { post } = req.params;
-  const author = req.user._id;
+  const author = { name: req.user.name, _id: req.user._id };
   const comment = await Comment.create({
     content,
     post,
-    author,
+    author: req.user,
   });
   res.status(201).json({
     status: "ok",
@@ -18,7 +18,7 @@ exports.addComment = handler(async (req, res) => {
 
 exports.deleteComment = handler(async (req, res) => {
   try {
-    const comment = await Comment.findById(req.body.comment);
+    const comment = await Comment.findById(req.params.comment);
 
     if (!req.user._id.equals(comment.author))
       throw new Error("Not Authorized !");

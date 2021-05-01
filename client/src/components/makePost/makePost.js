@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addPost as addPostAction } from "./../../actions/postAction";
+import { addPost as addPostAction, newsFeed } from "./../../actions/postAction";
 import "./makePost.css";
 function MakePost() {
   const myRef = React.useRef(null);
@@ -29,6 +29,7 @@ function MakePost() {
     e.preventDefault();
     if (content) {
       dispatch(addPostAction(content, token));
+      dispatch(newsFeed(0, token));
     } else {
       dispatch({
         type: "ADD_MESSAGE",

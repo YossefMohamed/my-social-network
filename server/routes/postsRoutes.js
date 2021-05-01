@@ -14,7 +14,7 @@ const router = express.Router();
 router.post("/add", protect, addPost);
 router.post("/like/:post", protect, likePost);
 router.post("/unlike/:post", protect, unlikePost);
-router.get("/get", getPost);
+router.get("/get/:id", getPost);
 router.patch("/edit", protect, editPost);
 router.delete("/delete/:post", protect, deletePost);
 router.get("/newfeed", protect, newsFeed);

@@ -21,7 +21,6 @@ function PuplishCard(props) {
   }, []);
 
   const postComments = props.post.comments ? props.post.comments : [];
-  const [liked, setLiked] = React.useState(false);
   const [comments, setComments] = React.useState(postComments);
   const [likes, setLikes] = React.useState(props.post.likes);
   const [content, setContent] = React.useState("");
@@ -31,7 +30,13 @@ function PuplishCard(props) {
     moment(props.post.createdAt).fromNow()[1].trim();
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.userLogin.userInfo);
+  const [liked, setLiked] = React.useState(false);
+  console.log(liked ? "card__footer--like liked" : "card__footer--like");
+  console.log(liked ? "card__footer--like liked" : "card__footer--like");
+  console.log(liked ? "card__footer--like liked" : "card__footer--like");
+  console.log(liked ? "card__footer--like liked" : "card__footer--like");
   const { post } = useSelector((state) => state.likePost);
+  const { addedComment } = useSelector((state) => state);
   const handleLikePost = (e) => {
     if (!liked) {
       dispatch(likePost(props.post._id, userInfo.token));
@@ -62,7 +67,7 @@ function PuplishCard(props) {
   });
   const handleCommentContent = (e) => {
     setContent(e.target.value);
-    // console.log(e.target.value);
+    console.log(e.target.value);
   };
   const handleAddComment = (e) => {
     socket.emit("addComment", {
@@ -77,18 +82,6 @@ function PuplishCard(props) {
     });
     if (content) {
       dispatch(addComment(content, props.post._id, userInfo.token));
-      setComments([
-        ...comments,
-        {
-          author: {
-            _id: userInfo._id,
-            name: userInfo.name,
-            email: userInfo.email,
-          },
-          content,
-          post: props.post._id,
-        },
-      ]);
       socket.emit("comment", {
         author: {
           _id: userInfo._id,
@@ -110,17 +103,59 @@ function PuplishCard(props) {
     }
   };
   React.useEffect(() => {
+    setComments([...comments, addedComment]);
+  }, [addedComment]);
+  // console.log(likes.includes(userInfo._id), "asdadadwdawdaw");
+  // console.log(likes.includes(userInfo._id), "asdadadwdawdaw");
+  // console.log(likes.includes(userInfo._id), "asdadadwdawdaw");
+  // console.log(likes.includes(userInfo._id), "asdadadwdawdaw");
+  // console.log(likes.includes(userInfo._id), "asdadadwdawdaw");
+  // console.log(likes.includes(userInfo._id), "asdadadwdawdaw");
+  // console.log(likes.includes(userInfo._id), "asdadadwdawdaw");
+  // console.log(likes.includes(userInfo._id), "asdadadwdawdaw");
+  React.useEffect(() => {
     if (post) {
       if (post._id === props.post._id) {
         setLikes(post.likes);
       }
     }
   }, [post]);
+  const handleDeleteCommentFromCard = (id) => {
+    const filteredComments = comments.filter((comment) => comment._id !== id);
+    setComments(filteredComments);
+  };
+  console.log(props);
+  console.log(props);
+  console.log(props);
+  console.log(props);
+  console.log(props);
   React.useEffect(() => {
     if (likes.includes(userInfo._id)) {
       setLiked(true);
+      // console.log(liked, "asdadadwdawdaw");
+      // console.log(liked, "asdadadwdawdaw");
+      // console.log(liked, "asdadadwdawdaw");
+      // console.log(liked, "asdadadwdawdaw");
+      // console.log(liked, "asdadadwdawdaw");
+      // console.log(liked, "asdadadwdawdaw");
+      // console.log(liked, "asdadadwdawdaw");
+      // console.log(liked, "asdadadwdawdaw");
     }
+    // console.log(liked, "asdadadwdawdaw");
+    // console.log(liked, "asdadadwdawdaw");
+    // console.log(liked, "asdadadwdawdaw");
+    // console.log(liked, "asdadadwdawdaw");
+    // console.log(liked, "asdadadwdawdaw");
+    // console.log(liked, "asdadadwdawdaw");
+    // console.log(liked, "asdadadwdawdaw");
+    // console.log(liked, "asdadadwdawdaw");
+    console.log(props.post.author);
   }, []);
+  React.useEffect(() => {
+    setLikes(props.post.likes);
+    setComments(postComments);
+    !props.post.likes.includes(userInfo._id) && setLiked(false);
+  }, [props.post.likes]);
   return (
     <div className="card">
       <div className="card__container">
@@ -154,7 +189,10 @@ function PuplishCard(props) {
         </div>
         <div className="card__title">
           <div className="card__title--image">
-            <img src="./favicon.ico" alt="Card_Image" />
+            <img
+              src="https://www.pngarea.com/pngs/64/6435744_avatar-png-batman-icon-hd-png-download.png"
+              alt="Card_Image"
+            />
           </div>
           <div className="card__title--text">
             <span className="card--creator">
@@ -173,7 +211,10 @@ function PuplishCard(props) {
           <div className="card__body--text">{props.post.content}</div>
 
           <div className="card__body--image">
-            <img src="./wp4981553.png" alt="Post-icon" />
+            <img
+              src="https://i.pinimg.com/originals/5c/d2/5d/5cd25dd4a5e7e250804ed9560435227f.png"
+              alt="Post-icon"
+            />
           </div>
         </div>
 
@@ -194,12 +235,19 @@ function PuplishCard(props) {
         </div>
         <div className="card__container--border">
           {comments.map((comment, idx) => (
-            <Comment key={idx} comment={comment} />
+            <Comment
+              key={idx}
+              comment={comment}
+              delete={handleDeleteCommentFromCard}
+            />
           ))}
 
           <div className="card__comment">
             <div className="card__comment--image">
-              <img src="./favicon.ico" alt="" />
+              <img
+                src="https://www.pngarea.com/pngs/64/6435744_avatar-png-batman-icon-hd-png-download.png"
+                alt=""
+              />
             </div>
             <div className="card__comment--input">
               <input

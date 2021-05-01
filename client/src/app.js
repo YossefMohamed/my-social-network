@@ -11,6 +11,8 @@ import "./app.css";
 import Signup from "./pages/signup/signup";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
+import { getMe } from "./actions/userActions";
+import postPage from "./pages/post/post";
 export const socket = socketIOClient("/");
 
 function App() {
@@ -30,11 +32,17 @@ function App() {
         type: "ADD_NOTIFICATION",
         payload: notification,
       });
+      dispatch({
+        type: "HAS_NEW",
+      });
       alert(notification.content, "info");
     }
   }, [notification]);
   socket.on("connect", () => {
     socket.emit("goOnline", userInfo._id);
+  });
+  socket.on("newMessage", () => {
+    dispatch(getMe(userInfo._id, userInfo.token));
   });
   dispatch({
     type: "ADD_SOCKET",
@@ -66,6 +74,7 @@ function App() {
             socket={socket}
           />
           <Route path="/signin" component={Signin} exact />
+          <Route path="/post/:postId" component={postPage} exact />
           <Route path="/signup" component={Signup} exact />
           <Route path="/notifcations" component={NotificationsPage} exact />
         </Switch>

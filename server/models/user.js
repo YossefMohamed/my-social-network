@@ -93,6 +93,13 @@ usersSchema.pre("save", async function (next) {
   this.password = await bcrypt.hash(this.password, 8);
   next();
 });
+// usersSchema.pre(/^find/, function (next) {
+//   // this points to the current query
+//   this.populate({
+//     path: "posts",
+//   });
+//   next();
+// });
 
 const User = mongoose.model("User", usersSchema);
 

@@ -9,28 +9,37 @@ import {
   addUser,
   cancel,
   deleteUser,
+  getFriendsList,
   getMe,
   userData,
 } from "./../actions/userActions";
 import "./profile.css";
-import LoaderComponent from "../components/loader/Loader";
 import PuplishCard from "./../components/publishCard/publishCard";
 import { sendMessage } from "../actions/messageActions";
 import Loader from "react-loader-spinner";
 function Profile(props) {
   const dispatch = useDispatch();
+  const userDataInfoFromState = useSelector((state) => state.userData);
+  const [userDataInfo, setUserDataInfo] = React.useState(userDataInfoFromState);
   React.useEffect(() => {
     dispatch(userData(props.match.params.id, userInfo.token));
-  }, [,]);
+  }, [, props.match.params.id]);
   socket.on("getUser", () => {
     dispatch(userData(props.match.params.id, userInfo.token));
   });
   const [friends, setFriends] = React.useState(false);
   const [message, setMessage] = React.useState(false);
   const { userInfo } = useSelector((state) => state.userLogin);
+  const { FriendsList } = useSelector((state) => state);
   React.useEffect(() => {
+    // alert("Hey");
     dispatch(getMe(userInfo._id, userInfo.token));
-  }, [, props.location]);
+    setFriends(false);
+  }, [, props.match.params.id]);
+  React.useEffect(() => {
+    friends &&
+      dispatch(getFriendsList(userDataInfo.userData._id, userInfo.token));
+  }, [friends, props.match.params.id]);
 
   React.useEffect(() => {
     const myLocation = props.location.search.slice(1);
@@ -39,10 +48,7 @@ function Profile(props) {
     }
   }, [props.location]);
 
-  const userDataInfoFromState = useSelector((state) => state.userData);
-  const [userDataInfo, setUserDataInfo] = React.useState(userDataInfoFromState);
   React.useEffect(() => {
-    console.log("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhh");
     setUserDataInfo(userDataInfoFromState);
   }, [userDataInfoFromState]);
 
@@ -230,8 +236,27 @@ function Profile(props) {
                       </>
                     ))}
                 </>
+              ) : FriendsList.loading ? (
+                <div className="loader">
+                  <Loader type="Oval" color="black" height={100} width={100} />
+                </div>
               ) : (
-                <FriendList friends={userDataInfo.userData.friends} />
+                <div>
+                  <link
+                    href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+                    rel="stylesheet"
+                  />
+                  <div className="list--container container">
+                    <div className="create-post"></div>
+                    <div className="friend-list">
+                      <div className="row">
+                        {FriendsList.users.map((user, idx) => (
+                          <FriendList info={user} key={idx} />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
               )}
             </div>
           </main>
