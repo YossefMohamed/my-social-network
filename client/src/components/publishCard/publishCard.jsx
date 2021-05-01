@@ -31,10 +31,10 @@ function PuplishCard(props) {
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.userLogin.userInfo);
   const [liked, setLiked] = React.useState(false);
-  console.log(liked ? "card__footer--like liked" : "card__footer--like");
-  console.log(liked ? "card__footer--like liked" : "card__footer--like");
-  console.log(liked ? "card__footer--like liked" : "card__footer--like");
-  console.log(liked ? "card__footer--like liked" : "card__footer--like");
+  // console.log(liked ? "card__footer--like liked" : "card__footer--like");
+  // console.log(liked ? "card__footer--like liked" : "card__footer--like");
+  // console.log(liked ? "card__footer--like liked" : "card__footer--like");
+  // console.log(liked ? "card__footer--like liked" : "card__footer--like");
   const { post } = useSelector((state) => state.likePost);
   const { addedComment } = useSelector((state) => state);
   const handleLikePost = (e) => {
@@ -67,7 +67,7 @@ function PuplishCard(props) {
   });
   const handleCommentContent = (e) => {
     setContent(e.target.value);
-    console.log(e.target.value);
+    // console.log(e.target.value);
   };
   const handleAddComment = (e) => {
     socket.emit("addComment", {
@@ -124,11 +124,11 @@ function PuplishCard(props) {
     const filteredComments = comments.filter((comment) => comment._id !== id);
     setComments(filteredComments);
   };
-  console.log(props);
-  console.log(props);
-  console.log(props);
-  console.log(props);
-  console.log(props);
+  // console.log(props);
+  // console.log(props);
+  // console.log(props);
+  // console.log(props);
+  // console.log(props);
   React.useEffect(() => {
     if (likes.includes(userInfo._id)) {
       setLiked(true);

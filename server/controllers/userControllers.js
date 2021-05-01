@@ -143,41 +143,29 @@ exports.registerUser = handler(async (req, res) => {
 
 exports.updateMe = handler(async (req, res, next) => {
   //create an error if user trys to update the password
-  if (
-    !req.body.name ||
-    !req.body.email ||
-    !req.body.buildingNumber ||
-    !req.body.city ||
-    !req.body.street
-  ) {
-    throw new Error("Please Fill All Fields !");
-  }
+  try {
+    if (req.body.password && req.body.oldPassword) {
+      if (!(await req.user.correctPassword(req.body.oldPassword))) {
+        throw new Error("Incorrect Password");
+      }
+      req.user.password = req.body.password;
+    }
+    console.log(req.body);
+    req.user.email = req.body.email || req.user.email;
+    req.user.name = req.body.name || req.user.name;
 
-  if (req.body.password) {
-    if (req.body.password !== req.body.confirmPassword) {
-      res.status(400);
-      next(new Error("Password And Confirm Password Not Equal !"));
-    }
-    if (req.user && !(await req.user.matchPassword(req.body.oldPassword))) {
-      res.status(400);
-      next(new Error("Incorrect Password"));
-    }
-    req.user.password = req.body.password;
+    req.user.bio = req.body.bio || req.body.bio;
+    // console.log(
+    //   await req.user.matchPassword(req.body.oldPassword),
+    //   "asdasdasawwwwwwwwe"
+    // );
+    const user = await req.user.save();
+    console.log(user);
+    console.log(user);
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(400).json({ status: "Faild", message: error.message });
   }
-  req.user.email = req.body.email;
-  req.user.name = req.body.name;
-  req.user.shippingAddress = {
-    buildingNumber: req.body.buildingNumber,
-    city: req.body.city,
-    street: req.body.street,
-  };
-  // console.log(
-  //   await req.user.matchPassword(req.body.oldPassword),
-  //   "asdasdasawwwwwwwwe"
-  // );
-  // console.log(req.body);
-  const user = await req.user.save();
-  res.status(200).json(user);
 });
 
 exports.sendFriendRequest = handler(async (req, res) => {
@@ -289,4 +277,13 @@ exports.getFriendList = handler(async (req, res) => {
     "name email friends"
   );
   res.status(200).json({ status: "ok", user: friendList.friends });
+});
+exports.search = handler(async (req, res) => {
+  const regex = new RegExp(req.query.name, "i"); // i for case insensitive
+
+  const searchList = await User.find({
+    name: regex,
+  });
+  console.log(regex, searchList);
+  res.status(200).json({ status: "ok", data: searchList });
 });

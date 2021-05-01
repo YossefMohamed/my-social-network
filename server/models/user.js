@@ -59,7 +59,7 @@ const usersSchema = mongoose.Schema(
         type: mongoose.Schema.Types.ObjectId,
       },
     ],
-    bio: { type: String },
+    bio: { type: String, default: "You Have No Bio" },
     password: {
       type: String,
       minlength: [8, "Password Must Be More Than 8 Chars !"],

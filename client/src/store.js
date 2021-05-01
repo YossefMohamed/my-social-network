@@ -22,6 +22,7 @@ import {
 import { socketReducer } from "./reducers/socketReducers";
 import {
   getFriendsListReducer,
+  searchReducer,
   userDataReducer,
   userLoginReducer,
   userRegisterReducer,
@@ -53,6 +54,7 @@ const reducers = combineReducers({
   getSinglePost: getSinglePostReducer,
   FriendsList: getFriendsListReducer,
   addedComment,
+  search: searchReducer,
 });
 
 const initialState = {

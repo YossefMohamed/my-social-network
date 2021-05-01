@@ -65,3 +65,17 @@ export const getFriendsListReducer = (
       return state;
   }
 };
+
+export const searchReducer = (
+  state = { loading: false, users: [] },
+  action
+) => {
+  switch (action.type) {
+    case "SEARCH_USER_REQUEST":
+      return { ...state, loading: true };
+    case "SEARCH_USER_SUCCESS":
+      return { ...state, users: action.payload, loading: false };
+    default:
+      return state;
+  }
+};

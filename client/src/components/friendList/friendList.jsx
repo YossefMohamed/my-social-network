@@ -34,7 +34,7 @@ function FriendList(props) {
     //   </main>
     // </div>
     <>
-      <div className="col-md-4 col-sm-6">
+      <div className="col-md-4 col-sm-6 my-3">
         <div className="friend-card">
           <img
             src="https://images.unsplash.com/photo-1513721032312-6a18a42c8763?w=152&h=152&fit=crop&crop=faces"

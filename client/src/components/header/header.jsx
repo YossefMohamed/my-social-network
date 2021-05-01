@@ -85,9 +85,9 @@ const Navbar = (props) => {
             </Link>
           </div>
           <div className="nav__item">
-            <Link className="nav__link" to="#">
+            <Link className="nav__link" to="/search">
               <BiSearchAlt2 size="3.5rem" />
-              <span className="nav--text">Notification</span>
+              <span className="nav--text">Search</span>
             </Link>
           </div>
           <div

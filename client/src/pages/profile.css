@@ -136,6 +136,10 @@ Remove or comment-out the code block below to see how the browser will fall-back
           align-items: center;
 }
 
+.profil__wrapper .message--form input {
+  margin: 1rem 0;
+}
+
 .profil__wrapper .message--form .close--message {
   z-index: 99;
   position: absolute;
@@ -162,6 +166,7 @@ Remove or comment-out the code block below to see how the browser will fall-back
 .profil__wrapper .message--form .close--message button {
   width: 100%;
   height: 100%;
+  margin-top: 1rem;
   background-color: rgba(206, 206, 206, 0.164);
   border: none;
   outline: none;
@@ -183,6 +188,100 @@ Remove or comment-out the code block below to see how the browser will fall-back
   font-size: initial;
   padding: 20px 10px;
   width: 70%;
+}
+
+.profil__wrapper .edit--form {
+  width: 50%;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  height: 85%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  background-color: white;
+  z-index: 8;
+  -webkit-box-shadow: rgba(30, 30, 31, 0.2) 0px 7px 29px 0px;
+          box-shadow: rgba(30, 30, 31, 0.2) 0px 7px 29px 0px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 50px;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.profil__wrapper .edit--form input {
+  margin: 1rem 0;
+}
+
+.profil__wrapper .edit--form .close--message {
+  z-index: 99;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  font-size: initial;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.profil__wrapper .edit--form .close--message button {
+  width: 100%;
+  height: 100%;
+  margin-top: 1rem;
+  background-color: rgba(206, 206, 206, 0.164);
+  border: none;
+  outline: none;
+  border-radius: 10px;
+}
+
+.profil__wrapper .edit--form span {
+  color: red;
+}
+
+.profil__wrapper .edit--form h1 {
+  font-size: 1.75rem;
+}
+
+.profil__wrapper .edit--form button {
+  width: 100%;
+  height: 50px;
+  padding: 10px;
+  font-size: initial;
+  margin: 0;
+  border: none;
+  outline: none;
+  border: 2px solid rgba(128, 128, 128, 0.456);
+}
+
+.profil__wrapper .edit--form .message--form--input {
+  height: 35px;
+  font-size: initial;
+  padding: 20px 10px;
+  width: 100%;
+}
+
+.profil__wrapper .edit--form .flex--child {
+  width: 100%;
 }
 
 .profil__wrapper .header {

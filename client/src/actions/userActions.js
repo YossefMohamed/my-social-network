@@ -23,10 +23,13 @@ export const login = (email, password) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "USER_LOGIN_FAIL",
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
+      payload: {
+        type: "error",
+        message:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      },
     });
   }
 };
@@ -58,10 +61,13 @@ export const register = (name, email, password) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "USER_REGISTER_FAIL",
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
+      payload: {
+        type: "error",
+        message:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      },
     });
   }
 };
@@ -87,14 +93,17 @@ export const userData = (id, token) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "ADD_MESSAGE",
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
+      payload: {
+        type: "error",
+        message:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      },
     });
   }
 };
-export const getFriendsList = (id,token) => async (dispatch) => {
+export const getFriendsList = (id, token) => async (dispatch) => {
   try {
     dispatch({
       type: "USER_FRIENDS_REQUEST",
@@ -105,7 +114,7 @@ export const getFriendsList = (id,token) => async (dispatch) => {
       },
     };
     const { data } = await axios.get(
-      "http://localhost:8080/api/user/getfriend/"+id,
+      "http://localhost:8080/api/user/getfriend/" + id,
       config
     );
     dispatch({
@@ -115,10 +124,13 @@ export const getFriendsList = (id,token) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "ADD_MESSAGE",
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
+      payload: {
+        type: "error",
+        message:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      },
     });
   }
 };
@@ -143,10 +155,13 @@ export const getMe = (id, token) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "ADD_MESSAGE",
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
+      payload: {
+        type: "error",
+        message:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      },
     });
   }
 };
@@ -172,10 +187,13 @@ export const addUser = (id, token) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "ADD_MESSAGE",
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
+      payload: {
+        type: "error",
+        message:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      },
     });
   }
 };
@@ -201,10 +219,13 @@ export const deleteUser = (id, token) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "ADD_MESSAGE",
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
+      payload: {
+        type: "error",
+        message:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      },
     });
   }
 };
@@ -230,10 +251,13 @@ export const cancel = (id, token) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "ADD_MESSAGE",
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
+      payload: {
+        type: "error",
+        message:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      },
     });
   }
 };
@@ -258,10 +282,13 @@ export const acceptUser = (id, token) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "ADD_MESSAGE",
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
+      payload: {
+        type: "error",
+        message:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      },
     });
   }
 };
@@ -288,10 +315,98 @@ export const userChatAction = (id, token) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "ADD_MESSAGE",
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
+      payload: {
+        type: "error",
+        message:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      },
+    });
+  }
+};
+export const updateMe = (
+  name,
+  password,
+  oldPassword,
+  email,
+  bio,
+  token
+) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const { data } = await axios({
+      method: "patch",
+      url: "http://localhost:8080/api/user/update",
+      data: {
+        name,
+        password,
+        oldPassword,
+        email,
+        bio,
+      },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    dispatch({
+      type: "ADD_MESSAGE",
+      payload: {
+        type: "info",
+        message: "User Updated !!",
+      },
+    });
+  } catch (error) {
+    dispatch({
+      type: "ADD_MESSAGE",
+      payload: {
+        type: "error",
+        message:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      },
+    });
+  }
+};
+
+export const searchAction = (text, token) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "SEARCH_USER_REQUEST",
+    });
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const { data } = await axios({
+      method: "get",
+      url: "http://localhost:8080/api/user/search?name=" + text,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    dispatch({
+      type: "SEARCH_USER_SUCCESS",
+      payload: data.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: "ADD_MESSAGE",
+      payload: {
+        type: "error",
+        message:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      },
     });
   }
 };

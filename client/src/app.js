@@ -5,6 +5,7 @@ import NewsFeed from "./pages/newsFeed";
 import chat from "./pages/chat";
 import Profile from "./pages/profile";
 import Signin from "./pages/signin/signin";
+import SearchPage from "./pages/search/search";
 import NotificationsPage from "./pages/notifications/notifcationsPage";
 import socketIOClient from "socket.io-client";
 import "./app.css";
@@ -74,6 +75,7 @@ function App() {
             socket={socket}
           />
           <Route path="/signin" component={Signin} exact />
+          <Route path="/search" component={SearchPage} exact />
           <Route path="/post/:postId" component={postPage} exact />
           <Route path="/signup" component={Signup} exact />
           <Route path="/notifcations" component={NotificationsPage} exact />

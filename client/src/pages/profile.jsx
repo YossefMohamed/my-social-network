@@ -12,6 +12,7 @@ import {
   getFriendsList,
   getMe,
   userData,
+  updateMe,
 } from "./../actions/userActions";
 import "./profile.css";
 import PuplishCard from "./../components/publishCard/publishCard";
@@ -27,10 +28,18 @@ function Profile(props) {
   socket.on("getUser", () => {
     dispatch(userData(props.match.params.id, userInfo.token));
   });
-  const [friends, setFriends] = React.useState(false);
-  const [message, setMessage] = React.useState(false);
   const { userInfo } = useSelector((state) => state.userLogin);
+  const [friends, setFriends] = React.useState(false);
+  const [update, setUpdate] = React.useState(false);
+  const [message, setMessage] = React.useState(false);
+  const [editMe, setEditMe] = React.useState(false);
+  const [name, setName] = React.useState(userDataInfo.userData.name);
+  const [email, setEmail] = React.useState(userDataInfo.userData.email);
+  const [bio, setBio] = React.useState(userDataInfo.userData.name);
+  const [password, setPassword] = React.useState("");
+  const [oldPassword, setOldPassword] = React.useState("");
   const { FriendsList } = useSelector((state) => state);
+
   React.useEffect(() => {
     // alert("Hey");
     dispatch(getMe(userInfo._id, userInfo.token));
@@ -47,6 +56,20 @@ function Profile(props) {
       setFriends(true);
     }
   }, [props.location]);
+  React.useEffect(() => {
+    if (update) {
+      dispatch(
+        updateMe(
+          dispatch(
+            updateMe(name, password, oldPassword, email, bio, userInfo.token)
+          )
+        )
+      );
+      dispatch(userData(props.match.params.id, userInfo.token));
+      setEditMe(false);
+    }
+    setUpdate(false);
+  }, [update]);
 
   React.useEffect(() => {
     setUserDataInfo(userDataInfoFromState);
@@ -62,11 +85,109 @@ function Profile(props) {
   return (
     <div className="profil__wrapper">
       <div
+        className="edit--form "
+        style={{ display: `${editMe ? "flex" : "none"}` }}
+      >
+        <div className="close--message">
+          <button onClick={(e) => setEditMe(!editMe)}>X</button>
+        </div>
+        <div className="flex--child">
+          <h1>
+            Name : <span>*</span>
+          </h1>
+          <input
+            type="text"
+            value={name}
+            className="message--form--input"
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
+          />
+        </div>
+        <div className="flex--child">
+          <h1>
+            Email : <span>*</span>
+          </h1>
+          <input
+            type="text"
+            value={email}
+            className="message--form--input"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
+        </div>
+        <div className="flex--child">
+          <h1>
+            Bio : <span>*</span>
+          </h1>
+          <input
+            type="text"
+            value={bio}
+            className="message--form--input"
+            onChange={(e) => {
+              setBio(e.target.value);
+            }}
+          />
+        </div>
+        <div className="flex--child">
+          <h1>Old Password :</h1>
+          <input
+            type="password"
+            value={oldPassword}
+            className="message--form--input"
+            onChange={(e) => {
+              setOldPassword(e.target.value);
+            }}
+          />
+        </div>
+        <div className="flex--child">
+          <h1>Password :</h1>
+          <input
+            type="password"
+            value={password}
+            className="message--form--input"
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+          />
+        </div>
+        <br />
+        <button
+          className="btn profile-edit-btn"
+          onClick={(e) => {
+            if (!name || !email || !bio) {
+              dispatch({
+                type: "ADD_MESSAGE",
+                payload: {
+                  type: "error",
+                  message: "Please Fill All The Required Fields !",
+                },
+              });
+            } else {
+              if (!oldPassword && password) {
+                dispatch({
+                  type: "ADD_MESSAGE",
+                  payload: {
+                    type: "error",
+                    message: "Please Enter Your Old Password",
+                  },
+                });
+              } else {
+                setUpdate(true);
+              }
+            }
+          }}
+        >
+          Update
+        </button>
+      </div>
+      <div
         className="message--form"
         style={{ display: `${message ? "flex" : "none"}` }}
       >
         <div className="close--message">
-          <button onCLick={(e) => setMessage(!message)}>X</button>
+          <button onClick={(e) => setMessage(!message)}>X</button>
         </div>
         <h1>Enter Your Message </h1>
         <input
@@ -113,7 +234,10 @@ function Profile(props) {
                   </h1>
 
                   {userDataInfo.userData._id === userInfo._id ? (
-                    <button className="btn profile-edit-btn">
+                    <button
+                      className="btn profile-edit-btn"
+                      onClick={() => setEditMe(true)}
+                    >
                       Edit Profile
                     </button>
                   ) : userInfo.sentRequests.includes(
