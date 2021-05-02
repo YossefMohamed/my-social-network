@@ -15,6 +15,7 @@ import {
   unLikePost,
 } from "../../actions/postAction";
 import Comment from "../comment/comment";
+import { Link } from "react-router-dom";
 function PuplishCard(props) {
   React.useEffect(() => {
     socket.emit("joinPostRoom", props.post.id);
@@ -189,14 +190,15 @@ function PuplishCard(props) {
         </div>
         <div className="card__title">
           <div className="card__title--image">
-            <img
-              src="https://www.pngarea.com/pngs/64/6435744_avatar-png-batman-icon-hd-png-download.png"
-              alt="Card_Image"
-            />
+            <Link to={`/profile/${userInfo._id}`} className="profile-link">
+              <img src={`/static/images/${userInfo.image}`} alt="Card_Image" />
+            </Link>
           </div>
           <div className="card__title--text">
             <span className="card--creator">
-              {props.post.author.name}
+              <Link to={`/profile/${userInfo._id}`} className="profile-link">
+                {props.post.author.name}
+              </Link>
               <span className="card--date">
                 Published At{" "}
                 {1 * from > 10
@@ -210,12 +212,11 @@ function PuplishCard(props) {
         <div className="card__body">
           <div className="card__body--text">{props.post.content}</div>
 
-          <div className="card__body--image">
-            <img
-              src="https://i.pinimg.com/originals/5c/d2/5d/5cd25dd4a5e7e250804ed9560435227f.png"
-              alt="Post-icon"
-            />
-          </div>
+          {props.post.image && (
+            <div className="card__body--image">
+              <img src={`/static/images/${props.post.image}`} alt="Post-icon" />
+            </div>
+          )}
         </div>
 
         <div className="card__footer">
@@ -225,11 +226,11 @@ function PuplishCard(props) {
             } `}
             onClick={handleLikePost}
           >
-            <AiFillLike size="2rem" />
+            <AiFillLike size="2rem" style={{ cursor: "pointer" }} />
             <span className="like--counter">{likes.length} Likes</span>
           </div>
           <div className="card__footer--comment">
-            <FaComments size="2rem" />
+            <FaComments size="2rem" style={{ cursor: "pointer" }} />
             <span className="comment--counter">{comments.length} comment</span>
           </div>
         </div>
@@ -244,19 +245,27 @@ function PuplishCard(props) {
 
           <div className="card__comment">
             <div className="card__comment--image">
-              <img
-                src="https://www.pngarea.com/pngs/64/6435744_avatar-png-batman-icon-hd-png-download.png"
-                alt=""
-              />
+              <img src={`/static/images/${userInfo.image}`} alt="" />
             </div>
             <div className="card__comment--input">
-              <input
-                type="text"
-                placeholder="Add Your Comment !!"
-                onChange={handleCommentContent}
-                value={content}
-              />
-              <div className="input--send" onClick={handleAddComment}>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleAddComment();
+                }}
+              >
+                <input
+                  type="text"
+                  placeholder="Add Your Comment !!"
+                  onChange={handleCommentContent}
+                  value={content}
+                />
+              </form>
+              <div
+                className="input--send"
+                onClick={handleAddComment}
+                style={{ cursor: "pointer" }}
+              >
                 <BiSend size="3rem" />
               </div>
             </div>

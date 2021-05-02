@@ -15,6 +15,11 @@ function PostPage(props) {
   React.useEffect(() => {
     dispatch(getPost(postId, userInfo.token));
   }, [, postId]);
+  React.useEffect(() => {
+    dispatch({
+      type: "REMOVE_POST_ID",
+    });
+  }, []);
 
   //   console.log(getSinglePost);
   return (

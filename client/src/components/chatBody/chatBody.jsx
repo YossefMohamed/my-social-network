@@ -1,7 +1,8 @@
 import moment from "moment";
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { sendMessage } from "../../actions/messageActions";
+import { Link } from "react-router-dom";
+import { getChatList, sendMessage } from "../../actions/messageActions";
 import { getMe } from "../../actions/userActions";
 import { socket } from "./../../app";
 
@@ -14,9 +15,9 @@ function ChatBody(props) {
   const { userInfo } = useSelector((state) => state.userLogin);
   const { userId } = useSelector((state) => state.chatUserId);
   const myRef = React.useRef("");
-  React.useEffect(() => {
-    dispatch(getMe(userInfo._id, userInfo.token));
-  }, []);
+  // React.useEffect(() => {
+  //   dispatch(getMe(userInfo._id, userInfo.token));
+  // }, []);
   React.useEffect(() => {
     socket.emit("joinChat", props.currentUserChatId);
   }, []);
@@ -26,7 +27,7 @@ function ChatBody(props) {
       myRef.current.scrollTo(0, myRef.current.scrollHeight);
     }
   }, [, myRef]);
-
+  // alert(props.currentUserChatId);
   const onSubmitMessageHandler = (e) => {
     e.preventDefault();
     dispatch(
@@ -42,11 +43,21 @@ function ChatBody(props) {
     });
     setMessage("");
   };
+  let chatsFromUserInfo = [];
   socket.on("newMessage", (data) => {
     setMessageFromSocket(data);
-    console.log(data);
+    if (!userInfo.chat.includes(data.author)) {
+      console.log(data);
+      dispatch(getMe(userInfo._id, userInfo.token));
+      userInfo.chat.map((c) => {
+        if (!chatsFromUserInfo.includes(c)) {
+          chatsFromUserInfo.push(c.user);
+        }
+      });
+      dispatch(getChatList(chatsFromUserInfo, userInfo.token));
+    }
     myRef.current && myRef.current.scrollTo(0, myRef.current.scrollHeight);
-    console.log(data);
+    // console.log(data);
   });
   React.useEffect(() => {
     messageFromSocket &&
@@ -56,12 +67,18 @@ function ChatBody(props) {
     <div className="chat__body">
       <div className="chat__body--title">
         <div className="title--image">
-          <img src="./favicon.ico" alt="profilePicture" />
+          <img
+            src={`/static/images/${props.currentChatUser.user.image}`}
+            alt="profilePicture"
+          />
         </div>
         <div className="title--text">
           {" "}
           <div className="about">
-            <div className="name">{props.currentChatUser.user.name}</div>
+            <Link to={props.currentChatUser.user._id}>
+              {" "}
+              <div className="name">{props.currentChatUser.user.name}</div>
+            </Link>
             <div className="status">
               <i className="fa fa-circle online"></i> online
             </div>

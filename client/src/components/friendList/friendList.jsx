@@ -34,22 +34,24 @@ function FriendList(props) {
     //   </main>
     // </div>
     <>
-      <div className="col-md-4 col-sm-6 my-3">
-        <div className="friend-card">
-          <img
-            src="https://images.unsplash.com/photo-1513721032312-6a18a42c8763?w=152&h=152&fit=crop&crop=faces"
-            alt="profile-cover"
-            className="img-responsive cover w-100"
-          />
-          <div className="card-info border">
-            <div className="friend-info pt-3 ">
+      <div className="col-md-4 col-sm-6 my-3 ">
+        <div className="friend-card p-4">
+          <Link to={`/profile/${props.info._id}`} className="profile-link">
+            <img
+              src={`/static/images/${props.info.image}`}
+              alt="profile-cover"
+              className="img-responsive cover w-100"
+            />
+          </Link>
+          <div className="card-info border card-info border p-3">
+            <div className="friend-info">
               <Link
                 to={`/profile/${props.info._id}`}
                 className="pull-right text-green"
               >
                 {props.info.friends.length} Friends
               </Link>
-              <h5>
+              <div className="py-2">
                 <Link
                   to={`/profile/${props.info._id}`}
                   className="profile-link"
@@ -57,8 +59,8 @@ function FriendList(props) {
                   {/* <a href="timeline.html" className="profile-link"> */}
                   {props.info.name}
                 </Link>
-              </h5>
-              <p> {props.info.email}</p>
+              </div>
+              <span> {props.info.email}</span>
             </div>
           </div>
         </div>

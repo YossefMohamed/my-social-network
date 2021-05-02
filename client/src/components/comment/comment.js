@@ -1,15 +1,18 @@
 import React from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { deleteComment } from "../../actions/postAction";
 
 function Comment(props) {
   const { userInfo } = useSelector((state) => state.userLogin);
   const [deleted, setDeleted] = React.useState(false);
+  console.log(props);
+  console.log(props);
+  console.log(props);
   React.useEffect(() => {
     if (deleted) {
       dispatch(deleteComment(props.comment._id, userInfo.token));
-      alert("Ok");
       setDeleted(false);
     }
   }, [deleted]);
@@ -24,13 +27,16 @@ function Comment(props) {
   return (
     <div className="card__comment">
       <div className="card__comment--image">
-        <img
-          src="https://icons-for-free.com/iconfiles/png/512/avatar-1320568024619304547.png"
-          alt=""
-        />
+        <Link to={`/profile/${props.comment.author._id}`}>
+          {" "}
+          <img src={`/static/images/${props.comment.author.image}`} alt="" />
+        </Link>
       </div>
       <div className="comment--content">
-        <span>{props.comment.author.name}</span>
+        <Link to={`/profile/${props.comment.author._id}`}>
+          <span>{props.comment.author.name}</span>
+        </Link>
+
         <span>{props.comment.content} </span>
         <div
           className="input--send"

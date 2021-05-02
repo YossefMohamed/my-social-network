@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./notications.css";
 function Notifications(props) {
   return (
@@ -16,16 +17,18 @@ function Notifications(props) {
           </div>
         </div> */}
 
-        <div class="notification green">
-          <div class="info">
-            <h1>{props.item.content}</h1>
-            <br />
-            <p>Click Here To Go To See The Notification</p>
+        <Link to={props.item.to}>
+          <div class="notification green">
+            <div class="info">
+              <h1>{props.item.content}</h1>
+              <br />
+              <p>Click Here To Go To See The Notification</p>
+            </div>
+            <div class="icon">
+              <img src="https://ultimatemember.com/wp-content/uploads/bb-plugin/cache/notifications-circle.png" />
+            </div>
           </div>
-          <div class="icon">
-            <img src="https://ultimatemember.com/wp-content/uploads/bb-plugin/cache/notifications-circle.png" />
-          </div>
-        </div>
+        </Link>
 
         {/* 
 

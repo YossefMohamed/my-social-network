@@ -13,6 +13,7 @@ import {
   getMe,
   userData,
   updateMe,
+  addImage,
 } from "./../actions/userActions";
 import "./profile.css";
 import PuplishCard from "./../components/publishCard/publishCard";
@@ -25,17 +26,28 @@ function Profile(props) {
   React.useEffect(() => {
     dispatch(userData(props.match.params.id, userInfo.token));
   }, [, props.match.params.id]);
+  React.useEffect(() => {
+    setName(userDataInfoFromState.userData.name);
+    setEmail(userDataInfoFromState.userData.email);
+    setBio(userDataInfoFromState.userData.bio);
+  }, [userDataInfoFromState]);
   socket.on("getUser", () => {
     dispatch(userData(props.match.params.id, userInfo.token));
   });
+  const myRef = React.useRef();
   const { userInfo } = useSelector((state) => state.userLogin);
   const [friends, setFriends] = React.useState(false);
+  const [image, setImage] = React.useState(false);
+  const [userImage, setUserImage] = React.useState({
+    url: `/static/images/${userInfo.image}`,
+  });
   const [update, setUpdate] = React.useState(false);
   const [message, setMessage] = React.useState(false);
+  const [messageContent, setMessageContent] = React.useState("");
   const [editMe, setEditMe] = React.useState(false);
   const [name, setName] = React.useState(userDataInfo.userData.name);
   const [email, setEmail] = React.useState(userDataInfo.userData.email);
-  const [bio, setBio] = React.useState(userDataInfo.userData.name);
+  const [bio, setBio] = React.useState(userDataInfo.userData.Bio);
   const [password, setPassword] = React.useState("");
   const [oldPassword, setOldPassword] = React.useState("");
   const { FriendsList } = useSelector((state) => state);
@@ -70,6 +82,14 @@ function Profile(props) {
     }
     setUpdate(false);
   }, [update]);
+  React.useEffect(() => {
+    if (image) {
+      dispatch(userData(props.match.params.id, userInfo.token));
+
+      setImage(false);
+    }
+    setImage(false);
+  }, [image]);
 
   React.useEffect(() => {
     setUserDataInfo(userDataInfoFromState);
@@ -81,7 +101,7 @@ function Profile(props) {
   const handleUserPosts = () => {
     setFriends(false);
   };
-
+  //img
   return (
     <div className="profil__wrapper">
       <div
@@ -193,13 +213,20 @@ function Profile(props) {
         <input
           type="text"
           className="message--form--input"
-          onChange={(e) => {}}
+          onChange={(e) => {
+            setMessageContent(e.target.value);
+          }}
+          value={messageContent}
         />
         <button
           className="btn profile-edit-btn"
           onClick={(e) => {
             dispatch(
-              sendMessage("message", userDataInfo.userData._id, userInfo.token)
+              sendMessage(
+                messageContent,
+                userDataInfo.userData._id,
+                userInfo.token
+              )
             );
             dispatch({
               type: "ADD_MESSAGE",
@@ -221,10 +248,32 @@ function Profile(props) {
           <header>
             <div className="container">
               <div className="profile">
-                <div className="profile-image">
+                <div className="profile-image test-color">
+                  <span
+                    className="span--upload"
+                    onClick={(e) => {
+                      myRef.current.click();
+                    }}
+                  >
+                    Upload
+                  </span>
+                  <input
+                    type="file"
+                    ref={myRef}
+                    style={{ display: "none" }}
+                    onChange={(event) => {
+                      const formData = new FormData();
+                      formData.append("photo", event.target.files[0]);
+                      dispatch(addImage(formData, "user", userInfo._id));
+                      setImage(true);
+                      props.history.push(`/profile/${userInfo._id}`);
+                      window.location.reload();
+                    }}
+                  />
                   <img
-                    src="https://images.unsplash.com/photo-1513721032312-6a18a42c8763?w=152&h=152&fit=crop&crop=faces"
+                    src={userImage.url}
                     alt=""
+                    style={{ width: "30rem", height: "30rem" }}
                   />
                 </div>
 
@@ -249,6 +298,7 @@ function Profile(props) {
                         dispatch(
                           cancel(userDataInfo.userData._id, userInfo.token)
                         );
+                        window.location.reload();
                       }}
                     >
                       Canacle Request
@@ -257,14 +307,15 @@ function Profile(props) {
                     <>
                       <button
                         className="btn profile-edit-btn"
-                        onClick={(e) =>
+                        onClick={(e) => {
                           dispatch(
                             deleteUser(
                               userDataInfo.userData._id,
                               userInfo.token
                             )
-                          )
-                        }
+                          );
+                          window.location.reload();
+                        }}
                       >
                         Delete Friend
                       </button>
@@ -291,6 +342,7 @@ function Profile(props) {
                             id: userDataInfo.userData._id,
                           },
                         });
+                        window.location.reload();
                       }}
                     >
                       Accept Friend
@@ -309,6 +361,7 @@ function Profile(props) {
                             id: userDataInfo.userData._id,
                           },
                         });
+                        window.location.reload();
                       }}
                     >
                       Add Friend
@@ -339,7 +392,15 @@ function Profile(props) {
                       ? "You Have No Bio"
                       : userDataInfo.userData.bio}
 
-                    <i className="fas fa-edit pen--edit"></i>
+                    <i
+                      className="fas fa-edit pen--edit"
+                      onClick={() => setEditMe(true)}
+                      style={{
+                        display: `${
+                          userInfo._id !== userDataInfo.userData._id && "none"
+                        }`,
+                      }}
+                    ></i>
                   </p>
                 </div>
               </div>

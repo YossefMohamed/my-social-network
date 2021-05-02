@@ -1,3 +1,25 @@
+.test-color {
+  position: relative;
+}
+
+.test-color .span--upload {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  color: transparent;
+  font-size: initial;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+.test-color:hover .span--upload {
+  color: white;
+  padding: 1.5rem 3rem;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.687);
+  cursor: pointer;
+}
+
 .list--container {
   /*==================================================
     Friend List CSS = Newsfeed and Timeline

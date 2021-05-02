@@ -11,6 +11,7 @@ function ChatItem({ user }) {
   return (
     <div
       className="chat--item--container"
+      style={{ cursor: "pointer" }}
       onClick={(e) => {
         dispatch({
           type: "CURRENT_USER_CHAT",
@@ -24,8 +25,9 @@ function ChatItem({ user }) {
     >
       <li className="item--flex">
         <img
-          src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg"
+          src={`/static/images/${user.image}`}
           alt="avatar"
+          style={{ width: "85px" }}
         />
         <div className="about">
           <div className="name">{user.name}</div>

@@ -14,25 +14,27 @@ function NewsFeed(props) {
   const [page, setPage] = React.useState(0);
   const deletedPost = useSelector((state) => state.deletedPost.post);
   const addedPosts = useSelector((state) => state.addPost.post);
-
+  let result = [];
   const userInfo = useSelector((state) => state.userLogin.userInfo);
   const myRef = React.useRef();
   React.useEffect(() => {
     console.log(userInfo.token);
     if (!userInfo.token) props.history.push("/signin");
     else dispatch(newsFeed(page, userInfo.token));
+    setPosts(postsFromState.posts);
   }, []);
-  React.useEffect(() => {
-    if (addedPosts.length) {
-      setPosts([...addedPosts]);
-    }
-  }, [addedPosts]);
+  // React.useEffect(() => {
+  //   if (addedPosts.length) {
+  //     setPosts([...addedPosts]);
+  //   }
+  // }, [addedPosts]);
 
   React.useEffect(() => {
-    if (page <= docNum) dispatch(newsFeed(page, userInfo.token));
+    // alert(page);
+    if (page < docNum) dispatch(newsFeed(page, userInfo.token));
   }, [page]);
   React.useEffect(() => {
-    if (page <= docNum) setPosts((p) => [...p, ...postsFromState.posts]);
+    if (page <= docNum) setPosts((p) => [...postsFromState.posts]);
   }, [postsFromState.posts]);
 
   React.useEffect(() => {
@@ -43,6 +45,7 @@ function NewsFeed(props) {
         payload: { type: "success", message: "Post has been deleted !" },
       });
     }
+    //alert
   }, [deletedPost]);
   React.useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -62,6 +65,7 @@ function NewsFeed(props) {
       {posts.length === 0 && (
         <div className="nofriends">There's no posts Please Add Friends</div>
       )}
+
       {posts.map((i, idx) => (
         <>
           <PuplishCard post={i} />

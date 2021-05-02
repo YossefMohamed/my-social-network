@@ -8,6 +8,7 @@ import "./chat.css";
 
 import Loader from "react-loader-spinner";
 import ChatBody from "../components/chatBody/chatBody";
+import { socket } from "../app";
 
 function Chat(props) {
   const dispatch = useDispatch();
@@ -43,14 +44,33 @@ function Chat(props) {
   }, []);
   console.log(chatsFromUserInfo);
 
-  React.useEffect(() => {
-    // dispatch(getMessages(userInfo.token));
-    dispatch(userChatAction(userChat, userInfo.token));
-  }, [userChat]);
+  // React.useEffect(() => {
+  //   // dispatch(getMessages(userInfo.token));
+  //   dispatch(userChatAction(userChat, userInfo.token));
+  // }, [userChat]);
   React.useEffect(() => {
     dispatch(getMe(userInfo._id, userInfo.token));
     dispatch(getChatList(chatsFromUserInfo, userInfo.token));
   }, []);
+  let task = false;
+  socket.on("newChat", (data) => {
+    // alert("data.author");
+    chatsFromUserInfo.map((chat) => {
+      if (String(chat) === String(data.author)) {
+        task = true;
+      }
+    });
+    chatsFromUserInfo = [...chatsFromUserInfo, data.author];
+    if (!task) chatsFromUserInfo.push(data.author);
+  });
+  // React.useEffect(() => {
+  //   if (chatsFromUserInfo) {
+  //     if (chatsFromUserInfo.length) {
+  //       dispatch(getChatList(chatsFromUserInfo, userInfo.token));
+  //       console.log(chatsFromUserInfo, "ASDA");
+  //     }
+  //   }
+  // }, [chatsFromUserInfo]);
   React.useEffect(() => {
     dispatch(getMessages(userId, userInfo.token));
   }, [userId]);
@@ -62,7 +82,10 @@ function Chat(props) {
   return (
     <div className="chat__container">
       <div className="chat__container--flex">
-        <div className="chat__container__friendList">
+        <div
+          className="chat__container__friendList"
+          style={{ padding: "2rem 0", borderRadius: "50px" }}
+        >
           <div className="friend__item">
             {/* <div className="friend__item--picture">
               <img src="favicon.ico" />
@@ -70,13 +93,16 @@ function Chat(props) {
             <div className="friend__item--info">
                 .
             </div> */}
-            <div className="search--input">
-              <input type="text" placeholder="Search For A Friend !" />
-            </div>
+
             {userChatList.loading && (
               <div className="loader">
                 <Loader type="Oval" color="black" height={100} width={100} />
               </div>
+            )}
+            {!userChatList.chatList.length && (
+              <h1 style={{ textAlign: "center", marginTop: "2rem" }}>
+                No Recent Chats
+              </h1>
             )}
             {userChatList.chatList.map((i) => {
               return (

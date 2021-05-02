@@ -23,13 +23,10 @@ export const login = (email, password) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "USER_LOGIN_FAIL",
-      payload: {
-        type: "error",
-        message:
-          error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message,
-      },
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
     });
   }
 };
@@ -61,13 +58,10 @@ export const register = (name, email, password) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "USER_REGISTER_FAIL",
-      payload: {
-        type: "error",
-        message:
-          error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message,
-      },
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
     });
   }
 };
@@ -406,6 +400,59 @@ export const searchAction = (text, token) => async (dispatch) => {
           error.response && error.response.data.message
             ? error.response.data.message
             : error.message,
+      },
+    });
+  }
+};
+
+export const addImage = (image, type, id) => async (dispatch, getState) => {
+  try {
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data",
+        authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await axios.post(
+      `/api/user/uploadimage?type=${type}&id=${id}`,
+      image,
+      config
+    );
+
+    if (type === "post") {
+      dispatch({
+        type: "ADD_POST_ID",
+        payload: id,
+      });
+      dispatch({
+        type: "ADD_MESSAGE",
+        payload: {
+          type: "info",
+          message: "Post Created !!",
+        },
+      });
+    } else {
+      dispatch({
+        type: "ADD_MESSAGE",
+        payload: {
+          type: "info",
+          message: "User Updated !!",
+        },
+      });
+    }
+    dispatch({
+      type: "UPDATE_DONE",
+    });
+  } catch (error) {
+    dispatch({
+      type: "ADD_MESSAGE",
+      payload: {
+        type: "info",
+        message: "User Updated !!",
       },
     });
   }

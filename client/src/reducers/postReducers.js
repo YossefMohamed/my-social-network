@@ -34,6 +34,17 @@ export const deletedPostReducer = (state = { post: {} }, action) => {
       return state;
   }
 };
+
+export const lastPostId = (state = "", action) => {
+  switch (action.type) {
+    case "ADD_POST_ID":
+      return action.payload;
+    case "REMOVE_POST_ID":
+      return "";
+    default:
+      return state;
+  }
+};
 export const AddpostReducer = (state = { post: {} }, action) => {
   switch (action.type) {
     case "ADD_NEW_POST":

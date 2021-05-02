@@ -1,12 +1,17 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { addImage } from "../../actions/userActions";
+import { useHistory } from "react-router-dom";
 import { addPost as addPostAction, newsFeed } from "./../../actions/postAction";
 import "./makePost.css";
 function MakePost() {
+  let history = useHistory();
+  const { userInfo } = useSelector((state) => state.userLogin);
   const myRef = React.useRef(null);
   const [upload, setUpload] = React.useState("./upload.jpg");
   const [addPost, setAddPost] = React.useState(false);
   const [content, setContent] = React.useState("");
+  const [image, setImage] = React.useState();
   const handleUploadPicture = () => {
     myRef.current.click();
   };
@@ -14,6 +19,8 @@ function MakePost() {
     e.preventDefault();
     setUpload(URL.createObjectURL(e.target.files[0]));
     console.log(URL.createObjectURL(e.target.files[0]));
+    setImage(e.target.files[0]);
+    const formData = new FormData();
   };
   const handleAddPost = (e) => {
     setAddPost(true);
@@ -25,10 +32,21 @@ function MakePost() {
   ];
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.userLogin.userInfo);
+  const { lastPostId } = useSelector((state) => state);
+  const [postId, setPostID] = React.useState(lastPostId);
+  if (lastPostId) {
+    history.push(`/post/${lastPostId}`);
+  }
   const handleOnClick = (e) => {
     e.preventDefault();
-    if (content) {
-      dispatch(addPostAction(content, token));
+    if (content || image) {
+      if (image) {
+        const formData = new FormData();
+        formData.append("photo", image);
+        dispatch(addPostAction(formData, content, token));
+      } else {
+        dispatch(addPostAction("", content, token));
+      }
       dispatch(newsFeed(0, token));
     } else {
       dispatch({
@@ -41,6 +59,7 @@ function MakePost() {
     }
     setContent("");
   };
+
   return (
     <div className="makePost">
       <div className="card">

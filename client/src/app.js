@@ -12,7 +12,7 @@ import "./app.css";
 import Signup from "./pages/signup/signup";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
-import { getMe } from "./actions/userActions";
+import { getMe, userData } from "./actions/userActions";
 import postPage from "./pages/post/post";
 export const socket = socketIOClient("/");
 
@@ -23,6 +23,8 @@ function App() {
   const dispatch = useDispatch();
   socket.on("newNofitication", (notification) => {
     setNotification(notification);
+    // dispatch(getMe(userInfo._id, userInfo.token));
+    //     dispatch(userData(userInfo._id, userInfo.token));
   });
   React.useEffect(() => {
     socket.emit("joinNotificationsRoom", userInfo._id);
@@ -42,9 +44,7 @@ function App() {
   socket.on("connect", () => {
     socket.emit("goOnline", userInfo._id);
   });
-  socket.on("newMessage", () => {
-    dispatch(getMe(userInfo._id, userInfo.token));
-  });
+
   dispatch({
     type: "ADD_SOCKET",
     payload: socket,

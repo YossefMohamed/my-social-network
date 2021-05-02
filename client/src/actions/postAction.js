@@ -1,4 +1,5 @@
 import axios from "axios";
+import { addImage } from "./userActions";
 
 export const newsFeed = (page, token) => async (dispatch) => {
   try {
@@ -92,7 +93,7 @@ export const unLikePost = (postId, token) => async (dispatch) => {
     });
   }
 };
-export const addPost = (content, token) => async (dispatch) => {
+export const addPost = (formData = "", content, token) => async (dispatch) => {
   try {
     const config = {
       headers: {
@@ -105,7 +106,10 @@ export const addPost = (content, token) => async (dispatch) => {
       { content },
       config
     );
-
+    if (formData) {
+      dispatch(addImage(formData, "post", data.lastPost._id));
+    }
+    
     dispatch({
       type: "ADD_NEW_POST",
       payload: data.data,
