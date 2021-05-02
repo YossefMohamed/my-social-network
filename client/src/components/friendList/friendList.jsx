@@ -35,7 +35,7 @@ function FriendList(props) {
     // </div>
     <>
       <div className="col-md-4 col-sm-6 my-3 ">
-        <div className="friend-card p-4">
+        <div className="friend-card p-md-4">
           <Link to={`/profile/${props.info._id}`} className="profile-link">
             <img
               src={`/static/images/${props.info.image}`}
@@ -43,7 +43,7 @@ function FriendList(props) {
               className="img-responsive cover w-100"
             />
           </Link>
-          <div className="card-info border card-info border p-3">
+          <div className="card-info border card-info border p-md-3 p-1">
             <div className="friend-info">
               <Link
                 to={`/profile/${props.info._id}`}

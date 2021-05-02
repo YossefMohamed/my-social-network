@@ -55,13 +55,13 @@ function Chat(props) {
   let task = false;
   socket.on("newChat", (data) => {
     // alert("data.author");
-    chatsFromUserInfo.map((chat) => {
-      if (String(chat) === String(data.author)) {
-        task = true;
-      }
-    });
-    chatsFromUserInfo = [...chatsFromUserInfo, data.author];
-    if (!task) chatsFromUserInfo.push(data.author);
+    // chatsFromUserInfo.map((chat) => {
+    //   if (String(chat) === String(data.author)) {
+    //     task = true;
+    //   }
+    // });
+    // chatsFromUserInfo = [...chatsFromUserInfo, data.author];
+    // if (!task) chatsFromUserInfo.push(data.author);
   });
   // React.useEffect(() => {
   //   if (chatsFromUserInfo) {
