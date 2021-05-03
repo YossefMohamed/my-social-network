@@ -102,3 +102,25 @@
     background-color: white;
   }
 }
+
+.signin {
+  background: #e5e5e5;
+}
+
+@media only screen and (max-width: 950px) {
+  .card__container {
+    width: 100% !important;
+  }
+  .card__container .exit__sign {
+    position: absolute;
+    padding: 10px;
+    top: 10px;
+    z-index: 6;
+    right: 17px;
+  }
+}
+@media only screen and (max-width: 439px) {
+  .card__comment--input form input {
+    width: 92% !important;
+  }
+}

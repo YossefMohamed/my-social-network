@@ -1,7 +1,6 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { SECRET_KEY } = require("../config");
 const User = require("../models/User");
 const router = express.Router();
 
@@ -35,7 +34,7 @@ router.post("/sign-up", (req, res) => {
               data: newUser,
               exp: Math.floor(Date.now() / 1000) + 60 * 60,
             },
-            SECRET_KEY
+            process.env.JWT_SECRET
           );
 
           res.status(200).json({
@@ -77,7 +76,7 @@ router.post("/sign-in", (req, res) => {
               data: user,
               exp: Math.floor(Date.now() / 1000) + 60 * 60,
             },
-            SECRET_KEY
+            process.env.JWT_SECRET
           )
         )
         .then((token) => {

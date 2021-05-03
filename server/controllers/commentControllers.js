@@ -1,5 +1,5 @@
 const handler = require("express-async-handler");
-const Comment = require("../models/Comment");
+const Comment = require("./../models/comment");
 
 exports.addComment = handler(async (req, res) => {
   const { content } = req.body;

@@ -1,10 +1,9 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "node app.js"
   },
   "author": "",
   "license": "ISC",
@@ -22,5 +21,15 @@
     "socket.io": "^4.0.1",
     "uuid": "^8.3.2",
     "validator": "^13.5.2"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YossefMohamed/socialmediaapiheroku.git"
+  },
+  "bugs": {
+    "url": "https://github.com/YossefMohamed/socialmediaapiheroku/issues"
+  },
+  "homepage": "https://github.com/YossefMohamed/socialmediaapiheroku#readme",
+  "description": ""
 }

@@ -2,8 +2,8 @@
   padding: 0;
   margin: 0;
   font-family: "Oswald";
-  -webkit-transition: 100ms all ease-in;
-  transition: 100ms all ease-in;
+  -webkit-transition: 10ms all ease-in;
+  transition: 10ms all ease-in;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }

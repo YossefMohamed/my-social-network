@@ -18,12 +18,22 @@ function NotificationsPage() {
   return (
     <div>
       {loading ? (
-        <LoaderComponent />
+        <div style={{ margin: "auto", textAlign: "center" }} className="py-5">
+          <LoaderComponent />
+        </div>
       ) : (
         <div>
           {notifications.map((not) => (
             <Notifications item={not} key={not.id} />
           ))}
+          {!notifications.length && (
+            <h2
+              className="py-5"
+              style={{ textAlign: "center", paddingLeft: "6rem" }}
+            >
+              You Have No Notifications :(
+            </h2>
+          )}
         </div>
       )}
     </div>

@@ -64,6 +64,7 @@ function PuplishCard(props) {
   }, [onlineFriends]);
   React.useEffect(() => {
     onlineFriends[props.post.author._id] === true && setOnline(true);
+    String(userInfo._id) === String(props.post.author._id) && setOnline(true);
   }, []);
 
   socket.on("receiverLikePost", (user) => {

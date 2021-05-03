@@ -19,7 +19,7 @@ app.use(function (req, res, next) {
 
   next();
 });
-const port = 8080;
+const port = process.env.PORT;
 // const socket = require("socket.io");
 app.use(express.json());
 app.use(morgan("dev"));
@@ -129,6 +129,9 @@ app.use((err, req, res, next) => {
     status: "failed",
     message: err.message,
   });
+});
+app.get("/", (req, res) => {
+  res.send("<h1>Done</h1>");
 });
 
 server.listen(port, () =>

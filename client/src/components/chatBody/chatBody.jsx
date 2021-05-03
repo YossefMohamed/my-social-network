@@ -23,6 +23,8 @@ function ChatBody(props) {
   React.useEffect(() => {
     socket.emit("joinChat", props.currentUserChatId);
     onlineFriends[props.currentChatUser.user._id] === true && setOnline(true);
+    String(userInfo._id) === String(props.currentChatUser.user._id) &&
+      setOnline(true);
   }, []);
   React.useEffect(() => {
     onlineFriends[props.currentChatUser.user._id] === true && setOnline(true);

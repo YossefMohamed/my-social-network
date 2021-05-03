@@ -23,6 +23,8 @@ function Comment(props) {
   }, [onlineFriends]);
   React.useEffect(() => {
     onlineFriends[props.comment.author._id] === true && setOnline(true);
+    String(userInfo._id) === String(props.comment.author._id) &&
+      setOnline(true);
   }, []);
 
   React.useEffect(() => {

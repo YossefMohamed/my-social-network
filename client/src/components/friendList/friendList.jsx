@@ -6,11 +6,13 @@ import FriendEntry from "../friendEntry/friendEntry";
 function FriendList(props) {
   const [online, setOnline] = React.useState(false);
   const { onlineFriends } = useSelector((state) => state);
+  const { userInfo } = useSelector((state) => state);
   React.useEffect(() => {
     onlineFriends[props.info._id] === true && setOnline(true);
   }, [onlineFriends]);
   React.useEffect(() => {
     onlineFriends[props.info._id] === true && setOnline(true);
+    String(userInfo._id) === String(props.info._id) && setOnline(true);
   }, []);
 
   return (

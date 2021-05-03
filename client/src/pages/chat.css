@@ -376,4 +376,8 @@
 .write {
   overflow: hidden;
 }
+
+#root {
+  overflow-x: hidden !important;
+}
 /*# sourceMappingURL=chat.css.map */

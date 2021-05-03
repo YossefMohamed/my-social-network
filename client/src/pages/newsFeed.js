@@ -65,15 +65,20 @@ function NewsFeed(props) {
       <MakePost />
       {postsFromState.loading &&
         [...Array(10)].map((i, idx) => <MyLoader key={idx} />)}
-      {posts.length === 0 && (
-        <div className="nofriends">There's no posts Please Add Friends</div>
-      )}
 
-      {posts.map((i, idx) => (
+      {posts && (
         <>
-          <PuplishCard post={i} />
+          {" "}
+          {posts.length === 0 && (
+            <div className="nofriends">There's no posts Please Add Friends</div>
+          )}
+          {posts.map((i, idx) => (
+            <>
+              <PuplishCard post={i} />
+            </>
+          ))}{" "}
         </>
-      ))}
+      )}
 
       {page >= docNum ? (
         posts.length && (

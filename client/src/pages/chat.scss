@@ -287,3 +287,6 @@ $second: rgba(0, 0, 0, 0.79);
 .write {
   overflow: hidden;
 }
+#root {
+  overflow-x: hidden !important;
+}
