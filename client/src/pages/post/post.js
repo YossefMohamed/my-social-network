@@ -23,9 +23,9 @@ function PostPage(props) {
 
   //   console.log(getSinglePost);
   return (
-    <div>
+    <div className="py-5">
       {getSinglePost.loading ? (
-        <div className="loader">
+        <div className="loader" style={{ textAlign: "center" }}>
           <Loader type="Oval" color="black" height={100} width={100} />
         </div>
       ) : Object.keys(getSinglePost.post).length ? (
