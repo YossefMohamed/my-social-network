@@ -11,10 +11,7 @@ export const newsFeed = (page, token) => async (dispatch) => {
         Authorization: `Bearer ${token}`,
       },
     };
-    const { data } = await axios.get(
-      "http://localhost:8080/api/post/newfeed?page=" + page,
-      config
-    );
+    const { data } = await axios.get("/api/post/newfeed?page=" + page, config);
     dispatch({
       type: "GET_NEWS_FEED",
       payload: data.data,
@@ -44,11 +41,7 @@ export const likePost = (postId, token) => async (dispatch) => {
     dispatch({
       type: "ADD_LIKE_REQUSET",
     });
-    const { data } = await axios.post(
-      "http://localhost:8080/api/post/like/" + postId,
-      {},
-      config
-    );
+    const { data } = await axios.post("/api/post/like/" + postId, {}, config);
     dispatch({
       type: "ADD_LIKE_POST",
       payload: data.data,
@@ -74,11 +67,7 @@ export const unLikePost = (postId, token) => async (dispatch) => {
     dispatch({
       type: "ADD_LIKE_REQUSET",
     });
-    const { data } = await axios.post(
-      "http://localhost:8080/api/post/unlike/" + postId,
-      {},
-      config
-    );
+    const { data } = await axios.post("/api/post/unlike/" + postId, {}, config);
     dispatch({
       type: "ADD_LIKE_POST",
       payload: data.data,
@@ -101,7 +90,7 @@ export const addPost = (formData = "", content, token) => async (dispatch) => {
       },
     };
     const { data } = await axios.post(
-      "http://localhost:8080/api/post/add",
+      "/api/post/add",
 
       { content },
       config
@@ -109,7 +98,7 @@ export const addPost = (formData = "", content, token) => async (dispatch) => {
     if (formData) {
       dispatch(addImage(formData, "post", data.lastPost._id));
     }
-    
+
     dispatch({
       type: "ADD_NEW_POST",
       payload: data.data,
@@ -134,7 +123,7 @@ export const addComment = (content, post, token) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      "http://localhost:8080/api/comment/add/" + post,
+      "/api/comment/add/" + post,
 
       { content },
       config
@@ -171,7 +160,7 @@ export const getPost = (post, token) => async (dispatch) => {
     };
 
     const { data } = await axios.get(
-      "http://localhost:8080/api/post/get/" + post,
+      "/api/post/get/" + post,
 
       config
     );
@@ -197,10 +186,7 @@ export const deletePost = (post, token) => async (dispatch, getState) => {
         Authorization: `Bearer ${token}`,
       },
     };
-    const { data } = await axios.delete(
-      "http://localhost:8080/api/post/delete/" + post,
-      config
-    );
+    const { data } = await axios.delete("/api/post/delete/" + post, config);
     dispatch({
       type: "DELETE_POST",
       payload: data.data,
@@ -224,10 +210,7 @@ export const deleteComment = (commentId, token) => async (dispatch) => {
       },
     };
 
-    await axios.delete(
-      "http://localhost:8080/api/comment/delete/" + commentId,
-      config
-    );
+    await axios.delete("/api/comment/delete/" + commentId, config);
     dispatch({
       type: "ADD_MESSAGE",
       payload: {

@@ -1,3 +1,4 @@
+const sharp = require("sharp");
 const handler = require("express-async-handler");
 const User = require("./../models/user");
 const Post = require("./../models/post");
@@ -9,53 +10,54 @@ const { io } = require("./../app");
 //Image Controlles
 // const sharp = require("sharp");
 
-var storage = multer.diskStorage({
-  //multers disk storage settings
-  destination: function (req, file, cb) {
-    cb(null, path.join(__dirname + `./../public/img`));
-  },
-  filename: function (req, file, cb) {
-    cb(null, `user-${req.user.id}-${Date.now()}.jpg`);
-  },
-});
-const multerFilter = function (req, file, callback) {
-  var ext = path.extname(file.originalname);
-  if (
-    ext !== ".png" &&
-    ext !== ".jpg" &&
-    ext !== ".gif" &&
-    ext !== ".jpeg" &&
-    ext !== ".PNG" &&
-    ext !== ".JPG" &&
-    ext !== ".GIF" &&
-    ext !== ".JPEG"
-  ) {
-    return callback(new Error("Only images are allowed"));
-  }
-  callback(null, true);
-};
-
 const upload = multer({
-  storage: storage,
-  fileFilter: multerFilter,
+  fileFilter: (req, file, cd) => {
+    if (file.mimetype.startsWith("image")) {
+      cd(null, true);
+    } else {
+      cd("Upload A Image !!");
+    }
+  },
 });
 
 exports.uploadUserPhoto = upload.single("photo");
 
 exports.resizeUserPhoto = handler(async (req, res, next) => {
-  // console.log(req.body);
-  // console.log("req.body");
-  // console.log(process.env.PORT);
-  // console.log(req.body);
-  if (!req.file) return next();
-  // console.log("req.body");
-  // console.log("req.body");
-  // console.log(req.file.filename);
+  try {
+    // console.log(req.body);
+    // console.log("req.body");
+    // console.log(process.env.PORT);
+    console.log(req.file);
 
-  req.user.img = `static/img/${req.file.filename}`;
-  // console.log(req.user);
-  const user = await req.user.save();
-  res.status(200).json(user);
+    sharp(req.file.buffer)
+      .resize(400, 400)
+      .toFormat("jpeg")
+      .jpeg({ quality: 52 })
+      .toFile(`public/images/${req.query.type}-${req.query.id}.jpg`);
+
+    if (req.query.type === "post") {
+      const post = await Post.findById(req.query.id);
+      console.log("post");
+      console.log(post);
+      console.log("post");
+      post.image = `${req.query.type}-${req.query.id}.jpg`;
+      await post.save();
+    }
+    if (req.query.type === "user") {
+      req.user.image = `${req.query.type}-${req.query.id}.jpg`;
+      await req.user.save();
+    }
+    // if (!req.file) return next();
+    // console.log("req.body");
+    // console.log("req.body");
+//getUserProfile
+    // req.user.img = `static/img/${req.file.filename}`;
+    // console.log(req.user);
+    // const user = await req.user.save();
+    res.status(200).json({});
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
 });
 
 //end of image controlles
@@ -83,7 +85,7 @@ exports.login = handler(async (req, res) => {
 
 exports.getUserProfile = handler(async (req, res) => {
   const user = await User.findById(req.params.id).populate("posts", {
-    select: "id -author",
+    select: "id author",
   });
   const userPosts = user.posts.map((post) => post._id);
   userPostsList = await Post.find({
@@ -93,11 +95,10 @@ exports.getUserProfile = handler(async (req, res) => {
       path: "comments",
       populate: {
         path: "author",
-        select: "name",
+        select: "name image",
       },
     })
-    .populate({ path: "author", select: "name" });
-  console.log("userPostsList");
+    .populate({ path: "author", select: "name image" });
   user.posts = userPostsList;
   if (!user) {
     res.status(404);
@@ -140,7 +141,7 @@ exports.registerUser = handler(async (req, res) => {
     throw new Error(error.message);
   }
 });
-
+//getme
 exports.updateMe = handler(async (req, res, next) => {
   //create an error if user trys to update the password
   try {
@@ -274,7 +275,7 @@ exports.getFriendList = handler(async (req, res) => {
   console.log(req.params.id);
   const friendList = await User.findById(req.params.id).populate(
     "friends",
-    "name email friends"
+    "name email friends image"
   );
   res.status(200).json({ status: "ok", user: friendList.friends });
 });

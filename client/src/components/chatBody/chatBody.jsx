@@ -11,6 +11,8 @@ function ChatBody(props) {
   const [message, setMessage] = React.useState("");
   const [messageFromSocket, setMessageFromSocket] = React.useState("");
   const [messageList, setMessageList] = React.useState(props.chatMessages);
+  const [online, setOnline] = React.useState(false);
+  const { onlineFriends } = useSelector((state) => state);
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.userLogin);
   const { userId } = useSelector((state) => state.chatUserId);
@@ -20,7 +22,11 @@ function ChatBody(props) {
   // }, []);
   React.useEffect(() => {
     socket.emit("joinChat", props.currentUserChatId);
+    onlineFriends[props.currentChatUser.user._id] === true && setOnline(true);
   }, []);
+  React.useEffect(() => {
+    onlineFriends[props.currentChatUser.user._id] === true && setOnline(true);
+  }, [onlineFriends]);
 
   React.useEffect(() => {
     if (myRef.current) {
@@ -75,12 +81,20 @@ function ChatBody(props) {
         <div className="title--text">
           {" "}
           <div className="about">
-            <Link to={props.currentChatUser.user._id}>
+            <Link to={`/profile/${props.currentChatUser.user._id}}`}>
               {" "}
               <div className="name">{props.currentChatUser.user.name}</div>
             </Link>
             <div className="status">
-              <i className="fa fa-circle online"></i> online
+              {online ? (
+                <>
+                  <i className="fa fa-circle online"></i> online{" "}
+                </>
+              ) : (
+                <>
+                  <i className="fa fa-circle offline"></i> offline{" "}
+                </>
+              )}
             </div>
           </div>
         </div>

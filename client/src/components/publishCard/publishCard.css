@@ -293,4 +293,87 @@
       -ms-flex-pack: center;
           justify-content: center;
 }
+
+.card__title--image {
+  overflow: visible !important;
+  position: relative;
+}
+
+.card__title--image .status {
+  position: absolute;
+  font-size: 10px;
+}
+
+.card__title--image .status .online {
+  color: #0ed50e;
+}
+
+.card__title--image .status .offline {
+  color: #ff4d4d;
+}
+
+.card__title--image img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
+.card__comment--image {
+  position: relative;
+}
+
+.card__comment--image .status {
+  position: absolute;
+  font-size: 10px;
+}
+
+.card__comment--image .status .online {
+  color: #0ed50e;
+}
+
+.card__comment--image .status .offline {
+  color: #ff4d4d;
+}
+
+.friend-card {
+  position: relative;
+}
+
+.friend-card img {
+  border-radius: 10px 10px 0 0;
+}
+
+.friend-card .status {
+  position: absolute;
+  font-size: 10px;
+  top: 2rem;
+  left: 2rem;
+}
+
+.friend-card .status .online {
+  color: #0ed50e;
+}
+
+.friend-card .status .offline {
+  color: #ff4d4d;
+}
+
+.main {
+  width: 70% !important;
+}
+
+* {
+  -webkit-transition: 300ms all ease-out;
+  transition: 300ms all ease-out;
+}
+
+.content__container #content {
+  width: calc(100% - 16rem) !important;
+  margin: auto !important;
+}
+
+.content__container .notification {
+  width: 100% !important;
+  margin: auto !important;
+}
 /*# sourceMappingURL=publishCard.css.map */

@@ -112,13 +112,7 @@ function Chat(props) {
               );
             })}
           </div>
-          {console.log(userChat)}
-          {console.log(userChat)}
-          {console.log(userChat)}
-          {console.log(userChat)}
-          {console.log(userChat)}
-          {console.log(userChat)}
-          {console.log(userChat)}
+         
         </div>
 
         {!userChat || !Object.keys(currentChatUser.user).length ? (

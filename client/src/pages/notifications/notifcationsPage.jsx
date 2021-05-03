@@ -10,10 +10,10 @@ function NotificationsPage() {
   const { notifications } = useSelector((state) => state.notifications);
   const { loading } = useSelector((state) => state.notifications);
   React.useEffect(() => {
+    dispatch(notificationAction(userInfo.token));
     dispatch({
       type: "NOT_NEW",
     });
-    dispatch(notificationAction(userInfo.token));
   }, []);
   return (
     <div>

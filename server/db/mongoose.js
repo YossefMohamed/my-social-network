@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const connectDB = () => {
+  console.log(process.env.DB_URI);
   mongoose
     .connect(process.env.DB_URI, {
       useNewUrlParser: true,
@@ -8,7 +9,7 @@ const connectDB = () => {
       useCreateIndex: true,
     })
     .then((e) => {
-      console.log("DB Connected");
+      console.log("DB Connnnnected");
     })
     .catch((e) => {});
 };

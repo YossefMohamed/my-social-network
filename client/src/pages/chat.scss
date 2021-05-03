@@ -39,6 +39,7 @@ $second: rgba(0, 0, 0, 0.79);
       position: relative;
     }
   }
+  //item--flex
   .friend__item {
     overflow: auto;
   }
@@ -75,6 +76,7 @@ $second: rgba(0, 0, 0, 0.79);
       img {
         border-radius: 50%;
         margin-right: 2rem;
+        width: 65px !important;
       }
     }
     .about {
@@ -259,4 +261,29 @@ $second: rgba(0, 0, 0, 0.79);
       }
     }
   }
+}
+
+@media screen and (max-width: 70rem) {
+  .chat__container__friendList {
+    width: 100% !important;
+  }
+  .chat__container--flex {
+    flex-direction: column;
+  }
+  .chat__body {
+    flex-grow: 1;
+    width: 100% !important;
+  }
+  .signin {
+    padding: 1rem;
+  }
+  .newsfeed__container .nofriends {
+    font-size: 1.5rem;
+  }
+}
+.chat__container {
+  width: calc(100% - 6rem);
+}
+.write {
+  overflow: hidden;
 }

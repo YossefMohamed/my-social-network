@@ -11,22 +11,25 @@ exports.sendMessage = handler(async (req, res) => {
     reciever: req.params.id,
   });
   let uuid = uuidv4();
-  let currentUserChatList = [];
-  let receiverUserChatList = [];
+  let currentUserChatList = false;
+  let receiverUserChatList = false;
   req.user.chat.map((c) => {
-    currentUserChatList.push(c.user);
+    if (String(c.user) === String(req.params.id)) currentUserChatList = true;
+    // currentUserChatList.push(c.user);
   });
   receiver.chat.map((c) => {
-    receiverUserChatList.push(c.user);
+    if (String(c.user) === String(req.user.id)) receiverUserChatList = true;
+
+    // receiverUserChatList.push(c.user);
   });
   // console.log(!req.user.chat.includes(req.params.id));
-  if (!currentUserChatList.includes(req.params.id)) {
+  if (!currentUserChatList) {
     req.user.chat.push({ user: req.params.id, chatId: uuid });
-    // console.log(req.user);
+    console.log(currentUserChatList, receiverUserChatList);
 
     await req.user.save();
   }
-  if (!receiverUserChatList.includes(req.user._id)) {
+  if (!receiverUserChatList) {
     receiver.chat.unshift({ user: req.user._id, chatId: uuid });
     // console.log(receiver.chat);
     await receiver.save();

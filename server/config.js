@@ -1,5 +1,5 @@
 const config = {
-  MONGO_URI: "mongodb://localhost:27017/socialDB",
+  MONGO_URI: "mongodb+srv://yossefegypt:<password>@cluster0.p6p1o.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
   SECRET_KEY: "YOSSEF_SECRET",
 };
 

@@ -11,10 +11,7 @@ export const notificationAction = (token) => async (dispatch) => {
       },
     };
 
-    const { data } = await axios.get(
-      "http://localhost:8080/api/notification/get",
-      config
-    );
+    const { data } = await axios.get("/api/notification/get", config);
 
     dispatch({
       type: "NOTIFICATION_SUCCESS",

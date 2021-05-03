@@ -10,18 +10,17 @@ exports.newsFeed = handler(async (req, res) => {
   );
 
   const post = await Post.find({ author: { $in: selectedUser } })
-    .limit(10)
-    .skip(10 * req.query.page)
-    .populate("author", "name")
+    .limit(10 * (1 * req.query.page + 1))
+    .populate("author", "name image")
     .sort("-createdAt")
     .populate({
       path: "comments",
       populate: {
         path: "author",
-        select: "email name",
+        select: "image email name",
       },
     });
-  // console.log(post);
+  console.log(10 * (1 * req.query.page + 1));
 
   if (!post) throw new Error("Post Not Found !!");
   // console.log(post)
@@ -49,13 +48,14 @@ exports.addPost = handler(async (req, res) => {
       path: "comments",
       populate: {
         path: "author",
-        select: "email name",
+        select: "email name image",
       },
     });
 
   res.status(201).json({
     status: "ok",
     data: post,
+    lastPost: posty,
   });
 });
 exports.getPost = handler(async (req, res, next) => {

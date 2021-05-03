@@ -76,10 +76,7 @@ export const userData = (id, token) => async (dispatch) => {
         Authorization: `Bearer ${token}`,
       },
     };
-    const { data } = await axios.get(
-      "http://localhost:8080/api/user/profile/" + id,
-      config
-    );
+    const { data } = await axios.get("/api/user/profile/" + id, config);
     dispatch({
       type: "USER_DATA_SUCCESS",
       payload: data.user,
@@ -107,10 +104,7 @@ export const getFriendsList = (id, token) => async (dispatch) => {
         Authorization: `Bearer ${token}`,
       },
     };
-    const { data } = await axios.get(
-      "http://localhost:8080/api/user/getfriend/" + id,
-      config
-    );
+    const { data } = await axios.get("/api/user/getfriend/" + id, config);
     dispatch({
       type: "USER_FRIENDS_SUCCESS",
       payload: data.user,
@@ -136,10 +130,7 @@ export const getMe = (id, token) => async (dispatch) => {
         Authorization: `Bearer ${token}`,
       },
     };
-    const { data } = await axios.get(
-      "http://localhost:8080/api/user/profile/" + id,
-      config
-    );
+    const { data } = await axios.get("/api/user/profile/" + id, config);
     const user = { ...data.user, token };
     dispatch({
       type: "USER_LOGIN_SUCCESS",
@@ -168,7 +159,7 @@ export const addUser = (id, token) => async (dispatch) => {
       },
     };
     const { data } = await axios.post(
-      "http://localhost:8080/api/user/adduser",
+      "/api/user/adduser",
 
       { user: id },
       config
@@ -200,7 +191,7 @@ export const deleteUser = (id, token) => async (dispatch) => {
       },
     };
     const { data } = await axios.post(
-      "http://localhost:8080/api/user/deleteuser",
+      "/api/user/deleteuser",
 
       { user: id },
       config
@@ -232,7 +223,7 @@ export const cancel = (id, token) => async (dispatch) => {
       },
     };
     const { data } = await axios.post(
-      "http://localhost:8080/api/user/canceluser",
+      "/api/user/canceluser",
 
       { user: id },
       config
@@ -264,7 +255,7 @@ export const acceptUser = (id, token) => async (dispatch) => {
       },
     };
     const { data } = await axios.post(
-      "http://localhost:8080/api/user/acceptuser",
+      "/api/user/acceptuser",
 
       { user: id },
       config
@@ -297,10 +288,7 @@ export const userChatAction = (id, token) => async (dispatch) => {
         Authorization: `Bearer ${token}`,
       },
     };
-    const { data } = await axios.get(
-      "http://localhost:8080/api/user/profile/" + id,
-      config
-    );
+    const { data } = await axios.get("/api/user/profile/" + id, config);
     console.log(data);
     dispatch({
       type: "USER_CHAT_SUCCESS",
@@ -335,7 +323,7 @@ export const updateMe = (
     };
     const { data } = await axios({
       method: "patch",
-      url: "http://localhost:8080/api/user/update",
+      url: "/api/user/update",
       data: {
         name,
         password,
@@ -381,7 +369,7 @@ export const searchAction = (text, token) => async (dispatch) => {
     };
     const { data } = await axios({
       method: "get",
-      url: "http://localhost:8080/api/user/search?name=" + text,
+      url: "/api/user/search?name=" + text,
       headers: {
         Authorization: `Bearer ${token}`,
       },

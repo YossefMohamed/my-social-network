@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import { deleteComment } from "../../actions/postAction";
 
 function Comment(props) {
+  const [online, setOnline] = React.useState(false);
+  const { onlineFriends } = useSelector((state) => state);
   const { userInfo } = useSelector((state) => state.userLogin);
   const [deleted, setDeleted] = React.useState(false);
   console.log(props);
@@ -17,6 +19,13 @@ function Comment(props) {
     }
   }, [deleted]);
   React.useEffect(() => {
+    onlineFriends[props.comment.author._id] === true && setOnline(true);
+  }, [onlineFriends]);
+  React.useEffect(() => {
+    onlineFriends[props.comment.author._id] === true && setOnline(true);
+  }, []);
+
+  React.useEffect(() => {
     return setDeleted(false);
   }, []);
   const dispatch = useDispatch();
@@ -27,6 +36,15 @@ function Comment(props) {
   return (
     <div className="card__comment">
       <div className="card__comment--image">
+        {online ? (
+          <div className="status">
+            <i className="fa fa-circle online"></i>{" "}
+          </div>
+        ) : (
+          <div className="status">
+            <i className="fa fa-circle offline"></i>{" "}
+          </div>
+        )}{" "}
         <Link to={`/profile/${props.comment.author._id}`}>
           {" "}
           <img src={`/static/images/${props.comment.author.image}`} alt="" />

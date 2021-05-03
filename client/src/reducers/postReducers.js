@@ -30,6 +30,8 @@ export const deletedPostReducer = (state = { post: {} }, action) => {
   switch (action.type) {
     case "DELETE_POST":
       return { ...state, post: action.payload };
+    case "READY_DELETE":
+      return { post: {} };
     default:
       return state;
   }

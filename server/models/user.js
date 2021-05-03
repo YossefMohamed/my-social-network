@@ -35,6 +35,7 @@ const usersSchema = mongoose.Schema(
     },
     image: {
       type: String,
+      default: "avatar.png",
     },
     verified: {
       type: Boolean,

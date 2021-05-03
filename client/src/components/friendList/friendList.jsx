@@ -1,8 +1,18 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import FriendEntry from "../friendEntry/friendEntry";
 
 function FriendList(props) {
+  const [online, setOnline] = React.useState(false);
+  const { onlineFriends } = useSelector((state) => state);
+  React.useEffect(() => {
+    onlineFriends[props.info._id] === true && setOnline(true);
+  }, [onlineFriends]);
+  React.useEffect(() => {
+    onlineFriends[props.info._id] === true && setOnline(true);
+  }, []);
+
   return (
     // <div>
     //   <main className="friend__card--wrapper">
@@ -34,8 +44,17 @@ function FriendList(props) {
     //   </main>
     // </div>
     <>
-      <div className="col-md-4 col-sm-6 my-3 ">
+      <div className="col-xl-4 col-lg-6 my-3 ">
         <div className="friend-card p-md-4">
+          {online ? (
+            <div className="status">
+              <i className="fa fa-circle online"></i>{" "}
+            </div>
+          ) : (
+            <div className="status">
+              <i className="fa fa-circle offline"></i>{" "}
+            </div>
+          )}
           <Link to={`/profile/${props.info._id}`} className="profile-link">
             <img
               src={`/static/images/${props.info.image}`}

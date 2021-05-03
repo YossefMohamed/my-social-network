@@ -26,7 +26,7 @@ router.patch("/update", auth.protect, updateMe);
 router.get("/profile/:id", auth.protect, getUserProfile);
 router.get("/getfriend/:id", auth.protect, getFriendList);
 router.get("/search", auth.protect, search);
-router.post("/profileimage", auth.protect, uploadUserPhoto, resizeUserPhoto);
+router.post("/uploadimage", auth.protect, uploadUserPhoto, resizeUserPhoto);
 
 router.delete("/:id");
 module.exports = router;

@@ -225,3 +225,70 @@ $second: rgba(0, 0, 0, 0.62);
     }
   }
 }
+.card__title--image {
+  overflow: visible !important;
+  position: relative;
+  .status {
+    position: absolute;
+    font-size: 10px;
+    .online {
+      color: rgb(14, 213, 14);
+    }
+    .offline {
+      color: rgb(255, 77, 77);
+    }
+  }
+  img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+  }
+}
+.card__comment--image {
+  position: relative;
+  .status {
+    position: absolute;
+    font-size: 10px;
+    .online {
+      color: rgb(14, 213, 14);
+    }
+    .offline {
+      color: rgb(255, 77, 77);
+    }
+  }
+}
+.friend-card {
+  img {
+    border-radius: 10px 10px 0 0;
+  }
+  position: relative;
+  .status {
+    position: absolute;
+    font-size: 10px;
+    top: 2rem;
+    left: 2rem;
+    .online {
+      color: rgb(14, 213, 14);
+    }
+    .offline {
+      color: rgb(255, 77, 77);
+    }
+  }
+}
+.main {
+  width: 70% !important;
+}
+
+* {
+  transition: 300ms all ease-out;
+}
+.content__container {
+  #content {
+    width: calc(100% - 16rem) !important;
+    margin: auto !important;
+  }
+  .notification {
+    width: 100% !important;
+    margin: auto !important;
+  }
+}

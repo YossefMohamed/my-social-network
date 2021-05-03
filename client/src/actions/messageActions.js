@@ -15,10 +15,7 @@ export const getMessages = (id, token) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(
-      "http://localhost:8080/api/message/get/" + id,
-      config
-    );
+    const { data } = await axios.get("/api/message/get/" + id, config);
     dispatch({
       type: "CHAT_SUCCESS",
       payload: data.data,
@@ -45,7 +42,7 @@ export const sendMessage = (message, id, token) => async (
     };
 
     const { data } = await axios.post(
-      "http://localhost:8080/api/message/add/" + id,
+      "/api/message/add/" + id,
       {
         content: message,
       },
@@ -75,7 +72,7 @@ export const getChatList = (chatList, token) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.post(
-      "http://localhost:8080/api/message/chatlist",
+      "/api/message/chatlist",
       { chatList },
       config
     );

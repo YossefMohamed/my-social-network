@@ -103,7 +103,352 @@ function Profile(props) {
   };
   //img
   return (
-    <div className="profil__wrapper">
+    // <div className="profil__wrapper">
+    //   <div
+    //     className="edit--form "
+    //     style={{ display: `${editMe ? "flex" : "none"}` }}
+    //   >
+    //     <div className="close--message">
+    //       <button onClick={(e) => setEditMe(!editMe)}>X</button>
+    //     </div>
+    //     <div className="flex--child">
+    //       <h1>
+    //         Name : <span>*</span>
+    //       </h1>
+    //       <input
+    //         type="text"
+    //         value={name}
+    //         className="message--form--input"
+    //         onChange={(e) => {
+    //           setName(e.target.value);
+    //         }}
+    //       />
+    //     </div>
+    //     <div className="flex--child">
+    //       <h1>
+    //         Email : <span>*</span>
+    //       </h1>
+    //       <input
+    //         type="text"
+    //         value={email}
+    //         className="message--form--input"
+    //         onChange={(e) => {
+    //           setEmail(e.target.value);
+    //         }}
+    //       />
+    //     </div>
+    //     <div className="flex--child">
+    //       <h1>
+    //         Bio : <span>*</span>
+    //       </h1>
+    //       <input
+    //         type="text"
+    //         value={bio}
+    //         className="message--form--input"
+    //         onChange={(e) => {
+    //           setBio(e.target.value);
+    //         }}
+    //       />
+    //     </div>
+    //     <div className="flex--child">
+    //       <h1>Old Password :</h1>
+    //       <input
+    //         type="password"
+    //         value={oldPassword}
+    //         className="message--form--input"
+    //         onChange={(e) => {
+    //           setOldPassword(e.target.value);
+    //         }}
+    //       />
+    //     </div>
+    //     <div className="flex--child">
+    //       <h1>Password :</h1>
+    //       <input
+    //         type="password"
+    //         value={password}
+    //         className="message--form--input"
+    //         onChange={(e) => {
+    //           setPassword(e.target.value);
+    //         }}
+    //       />
+    //     </div>
+    //     <br />
+    //     <button
+    //       className="btn profile-edit-btn"
+    //       onClick={(e) => {
+    //         if (!name || !email || !bio) {
+    //           dispatch({
+    //             type: "ADD_MESSAGE",
+    //             payload: {
+    //               type: "error",
+    //               message: "Please Fill All The Required Fields !",
+    //             },
+    //           });
+    //         } else {
+    //           if (!oldPassword && password) {
+    //             dispatch({
+    //               type: "ADD_MESSAGE",
+    //               payload: {
+    //                 type: "error",
+    //                 message: "Please Enter Your Old Password",
+    //               },
+    //             });
+    //           } else {
+    //             setUpdate(true);
+    //           }
+    //         }
+    //       }}
+    //     >
+    //       Update
+    //     </button>
+    //   </div>
+    //   <div
+    //     className="message--form"
+    //     style={{ display: `${message ? "flex" : "none"}` }}
+    //   >
+    //     <div className="close--message">
+    //       <button onClick={(e) => setMessage(!message)}>X</button>
+    //     </div>
+    //     <h1>Enter Your Message </h1>
+    //     <input
+    //       type="text"
+    //       className="message--form--input"
+    //       onChange={(e) => {
+    //         setMessageContent(e.target.value);
+    //       }}
+    //       value={messageContent}
+    //     />
+    //     <button
+    //       className="btn profile-edit-btn"
+    //       onClick={(e) => {
+    //         dispatch(
+    //           sendMessage(
+    //             messageContent,
+    //             userDataInfo.userData._id,
+    //             userInfo.token
+    //           )
+    //         );
+    //         dispatch({
+    //           type: "ADD_MESSAGE",
+    //           payload: { type: "success", message: "Message Sent !" },
+    //         });
+
+    //         setMessage(false);
+    //       }}
+    //     >
+    //       Send
+    //     </button>
+    //   </div>
+    //   {userDataInfo.loading ? (
+    //     <div className="loader">
+    //       <Loader type="Oval" color="black" height={100} width={100} />
+    //     </div>
+    //   ) : (
+    //     <>
+    //       <header>
+    //         <div className="container">
+    //           <div className="profile">
+    //             <div className="profile-image test-color">
+    //               <span
+    //                 className="span--upload"
+    //                 onClick={(e) => {
+    //                   myRef.current.click();
+    //                 }}
+    //               >
+    //                 Upload
+    //               </span>
+    //               <input
+    //                 type="file"
+    //                 ref={myRef}
+    //                 style={{ display: "none" }}
+    //                 onChange={(event) => {
+    //                   const formData = new FormData();
+    //                   formData.append("photo", event.target.files[0]);
+    //                   dispatch(addImage(formData, "user", userInfo._id));
+    //                   setImage(true);
+    //                   props.history.push(`/profile/${userInfo._id}`);
+    //                   window.location.reload();
+    //                 }}
+    //               />
+    //               <img
+    //                 src={userImage.url}
+    //                 alt=""
+    //                 style={{ width: "30rem", height: "30rem" }}
+    //               />
+    //             </div>
+
+    //             <div className="profile-user-settings">
+    //               <h1 className="profile-user-name">
+    //                 {userDataInfo.userData.name}
+    //               </h1>
+    //
+    //               {userDataInfo.userData._id === userInfo._id ? (
+    //                 <button
+    //                   className="btn profile-edit-btn"
+    //                   onClick={() => setEditMe(true)}
+    //                 >
+    //                   Edit Profile
+    //                 </button>
+    //               ) : userInfo.sentRequests.includes(
+    //                   userDataInfo.userData._id
+    //                 ) ? (
+    //                 <button
+    //                   className="btn profile-edit-btn"
+    //                   onClick={(e) => {
+    //                     dispatch(
+    //                       cancel(userDataInfo.userData._id, userInfo.token)
+    //                     );
+    //                     window.location.reload();
+    //                   }}
+    //                 >
+    //                   Canacle Request
+    //                 </button>
+    //               ) : userInfo.friends.includes(userDataInfo.userData._id) ? (
+    //                 <>
+    //                   <button
+    //                     className="btn profile-edit-btn"
+    //                     onClick={(e) => {
+    //                       dispatch(
+    //                         deleteUser(
+    //                           userDataInfo.userData._id,
+    //                           userInfo.token
+    //                         )
+    //                       );
+    //                       window.location.reload();
+    //                     }}
+    //                   >
+    //                     Delete Friend
+    //                   </button>
+    //                   <button
+    //                     className="btn profile-edit-btn"
+    //                     onClick={(e) => setMessage(!message)}
+    //                   >
+    //                     Message
+    //                   </button>
+    //                 </>
+    //               ) : userInfo.friendRequests.includes(
+    //                   userDataInfo.userData._id
+    //                 ) ? (
+    //                 <button
+    //                   className="btn profile-edit-btn"
+    //                   onClick={(e) => {
+    //                     dispatch(
+    //                       acceptUser(userDataInfo.userData._id, userInfo.token)
+    //                     );
+    //                     socket.emit("acceptFriend", {
+    //                       from: { name: userInfo.name, id: userInfo._id },
+    //                       to: {
+    //                         name: userDataInfo.userData.name,
+    //                         id: userDataInfo.userData._id,
+    //                       },
+    //                     });
+    //                     window.location.reload();
+    //                   }}
+    //                 >
+    //                   Accept Friend
+    //                 </button>
+    //               ) : (
+    //                 <button
+    //                   className="btn profile-edit-btn"
+    //                   onClick={(e) => {
+    //                     dispatch(
+    //                       addUser(userDataInfo.userData._id, userInfo.token)
+    //                     );
+    //                     socket.emit("sendRequest", {
+    //                       from: { name: userInfo.name, id: userInfo._id },
+    //                       to: {
+    //                         name: userDataInfo.userData.name,
+    //                         id: userDataInfo.userData._id,
+    //                       },
+    //                     });
+    //                     window.location.reload();
+    //                   }}
+    //                 >
+    //                   Add Friend
+    //                 </button>
+    //               )}
+    //             </div>
+
+    //             <div className="profile-stats">
+    //               <ul>
+    //                 <li onClick={handleUserPosts}>
+    //                   <span className="profile-stat-count">
+    //                     {" "}
+    //                     {userDataInfo.userData.posts &&
+    //                       userDataInfo.userData.posts.length}
+    //                   </span>{" "}
+    //                   Posts
+    //                 </li>
+
+    //                 <li onClick={handleFriendList}>
+    //                   <span className="profile-stat-count">206</span> Following
+    //                 </li>
+    //               </ul>
+    //             </div>
+
+    //             <div className="profile-bio">
+    //               <p>
+    //                 {!userDataInfo.userData.bio
+    //                   ? "You Have No Bio"
+    //                   : userDataInfo.userData.bio}
+
+    //                 <i
+    //                   className="fas fa-edit pen--edit"
+    //                   onClick={() => setEditMe(true)}
+    //                   style={{
+    //                     display: `${
+    //                       userInfo._id !== userDataInfo.userData._id && "none"
+    //                     }`,
+    //                   }}
+    //                 ></i>
+    //               </p>
+    //             </div>
+    //           </div>
+    //         </div>
+    //       </header>
+    //       <main>
+    //         <div className="container">
+    //           {!friends ? (
+    //             <>
+    //               <div className="header">
+    //                 <div className="card-title">Posts</div>
+    //                 <div className="card-amount">26</div>
+    //               </div>
+    //               {userDataInfo.userData.posts &&
+    //                 userDataInfo.userData.posts.map((i, idx) => (
+    //                   <>
+    //                     <PuplishCard post={i} />
+    //                   </>
+    //                 ))}
+    //             </>
+    //           ) : FriendsList.loading ? (
+    //             <div className="loader">
+    //               <Loader type="Oval" color="black" height={100} width={100} />
+    //             </div>
+    //           ) : (
+    //             <div>
+    //               <link
+    //                 href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    //                 rel="stylesheet"
+    //               />
+    //               <div className="list--container container">
+    //                 <div className="create-post"></div>
+    //                 <div className="friend-list">
+    //                   <div className="row">
+    //                     {FriendsList.users.map((user, idx) => (
+    //                       <FriendList info={user} key={idx} />
+    //                     ))}
+    //                   </div>
+    //                 </div>
+    //               </div>
+    //             </div>
+    //           )}
+    //         </div>
+    //       </main>
+    //     </>
+    //   )}
+    // </div>
+    <div className="insta--container">
       <div
         className="edit--form "
         style={{ display: `${editMe ? "flex" : "none"}` }}
@@ -244,41 +589,46 @@ function Profile(props) {
           <Loader type="Oval" color="black" height={100} width={100} />
         </div>
       ) : (
-        <>
+        <div>
+          (
           <header>
             <div className="container">
               <div className="profile">
                 <div className="profile-image test-color">
-                  <span
-                    className="span--upload"
-                    onClick={(e) => {
-                      myRef.current.click();
-                    }}
-                  >
-                    Upload
-                  </span>
-                  <input
-                    type="file"
-                    ref={myRef}
-                    style={{ display: "none" }}
-                    onChange={(event) => {
-                      const formData = new FormData();
-                      formData.append("photo", event.target.files[0]);
-                      dispatch(addImage(formData, "user", userInfo._id));
-                      setImage(true);
-                      props.history.push(`/profile/${userInfo._id}`);
-                      window.location.reload();
-                    }}
-                  />
                   <img
-                    src={userImage.url}
+                    src={`/static/images/${userDataInfo.userData.image}`}
                     alt=""
-                    style={{ width: "30rem", height: "30rem" }}
                   />
+                  {userInfo._id === userDataInfo.userData._id && (
+                    <>
+                      {" "}
+                      <span
+                        className="span--upload"
+                        onClick={(e) => {
+                          myRef.current.click();
+                        }}
+                      >
+                        Upload
+                      </span>
+                      <input
+                        type="file"
+                        ref={myRef}
+                        style={{ display: "none" }}
+                        onChange={(event) => {
+                          const formData = new FormData();
+                          formData.append("photo", event.target.files[0]);
+                          dispatch(addImage(formData, "user", userInfo._id));
+                          setImage(true);
+                          props.history.push(`/profile/${userInfo._id}`);
+                          window.location.reload();
+                        }}
+                      />
+                    </>
+                  )}
                 </div>
-
                 <div className="profile-user-settings">
                   <h1 className="profile-user-name">
+                    {" "}
                     {userDataInfo.userData.name}
                   </h1>
 
@@ -368,57 +718,53 @@ function Profile(props) {
                     </button>
                   )}
                 </div>
-
                 <div className="profile-stats">
                   <ul>
-                    <li onClick={handleUserPosts}>
+                    <li onClick={(e) => setFriends(false)}>
+                      <span className="profile-stat-count">
+                        {userDataInfo.userData.posts &&
+                          userDataInfo.userData.posts.length}{" "}
+                      </span>{" "}
+                      posts
+                    </li>
+                    <li onClick={(e) => setFriends(true)}>
                       <span className="profile-stat-count">
                         {" "}
-                        {userDataInfo.userData.posts &&
-                          userDataInfo.userData.posts.length}
+                        {userDataInfo.userData.friends &&
+                          userDataInfo.userData.friends.length}{" "}
                       </span>{" "}
-                      Posts
-                    </li>
-
-                    <li onClick={handleFriendList}>
-                      <span className="profile-stat-count">206</span> Following
+                      Friends
                     </li>
                   </ul>
                 </div>
-
                 <div className="profile-bio">
                   <p>
-                    {!userDataInfo.userData.bio
-                      ? "You Have No Bio"
-                      : userDataInfo.userData.bio}
-
-                    <i
-                      className="fas fa-edit pen--edit"
-                      onClick={() => setEditMe(true)}
-                      style={{
-                        display: `${
-                          userInfo._id !== userDataInfo.userData._id && "none"
-                        }`,
-                      }}
-                    ></i>
+                    <span className="profile-real-name">
+                      {userDataInfo.userData.name}
+                    </span>{" "}
+                    {userDataInfo.userData.bio}
                   </p>
                 </div>
               </div>
+              {/* End of profilebtn profile-settings-btnsection jane */}
             </div>
+            {/* End of container */}
           </header>
           <main>
-            <div className="container">
+            <div className="my-5">
               {!friends ? (
                 <>
-                  <div className="header">
-                    <div className="card-title">Posts</div>
-                    <div className="card-amount">26</div>
-                  </div>
                   {userDataInfo.userData.posts &&
-                    userDataInfo.userData.posts.map((i, idx) => (
-                      <>
-                        <PuplishCard post={i} />
-                      </>
+                    (userDataInfo.userData.posts.length ? (
+                      userDataInfo.userData.posts.map((i, idx) => (
+                        <>
+                          <PuplishCard post={i} />
+                        </>
+                      ))
+                    ) : (
+                      <h1 style={{ textAlign: "center" }}>
+                        {userDataInfo.userData.name} Has No Posts
+                      </h1>
                     ))}
                 </>
               ) : FriendsList.loading ? (
@@ -445,8 +791,9 @@ function Profile(props) {
               )}
             </div>
           </main>
-        </>
+        </div>
       )}
+      ){" "}
     </div>
   );
 }

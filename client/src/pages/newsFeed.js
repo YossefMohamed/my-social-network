@@ -44,6 +44,9 @@ function NewsFeed(props) {
         type: "ADD_MESSAGE",
         payload: { type: "success", message: "Post has been deleted !" },
       });
+      dispatch({
+        type: "READY_DELETE",
+      });
     }
     //alert
   }, [deletedPost]);

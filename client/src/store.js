@@ -10,6 +10,7 @@ import {
   userChatReducer,
 } from "./reducers/messageReducers";
 import { hasNewReducer, notificationReducer } from "./reducers/notification";
+import { onlineFriendsReducer } from "./reducers/onlineFriends";
 import {
   newsFeedReducer,
   likePostReducer,
@@ -57,6 +58,7 @@ const reducers = combineReducers({
   addedComment,
   search: searchReducer,
   lastPostId,
+  onlineFriends: onlineFriendsReducer,
 });
 
 const initialState = {

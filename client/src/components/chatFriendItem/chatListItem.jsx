@@ -4,10 +4,17 @@ import { getMessages } from "../../actions/messageActions";
 
 function ChatItem({ user }) {
   const { userInfo } = useSelector((state) => state.userLogin);
-
+  const [online, setOnline] = React.useState(false);
+  const { onlineFriends } = useSelector((state) => state);
   const [chatUserId, setChatUserId] = React.useState("");
   const dispatch = useDispatch();
 
+  React.useEffect(() => {
+    onlineFriends[user._id] === true && setOnline(true);
+  }, [onlineFriends]);
+  React.useEffect(() => {
+    onlineFriends[user._id] === true && setOnline(true);
+  }, []);
   return (
     <div
       className="chat--item--container"
@@ -32,7 +39,15 @@ function ChatItem({ user }) {
         <div className="about">
           <div className="name">{user.name}</div>
           <div className="status">
-            <i className="fa fa-circle online"></i> online
+            {online ? (
+              <>
+                <i className="fa fa-circle online"></i> online{" "}
+              </>
+            ) : (
+              <>
+                <i className="fa fa-circle offline"></i> offline{" "}
+              </>
+            )}
           </div>
         </div>
       </li>

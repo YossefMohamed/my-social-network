@@ -13,7 +13,7 @@ exports.getNotification = handler(async (req, res) => {
   try {
     const notifications = await Notification.find({
       user: req.user._id,
-    }).sort("createdAt");
+    }).sort("-createdAt");
     console.log(notifications);
     res.status(200).json({ status: "ok", data: notifications });
   } catch (error) {

@@ -6,7 +6,6 @@ const postSchema = mongoose.Schema(
 
     content: {
       type: String,
-      required: [true, "Please Enter The Content Of The Post !"],
     },
     author: {
       type: mongoose.Schema.Types.ObjectId,

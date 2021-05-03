@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./header.css";
+import { socket } from "./../../app";
 import { FaUserFriends } from "react-icons/fa";
 import { AiFillMessage } from "react-icons/ai";
 import { BiSearchAlt2, BiBell, BiArrowFromLeft } from "react-icons/bi";
@@ -62,7 +63,7 @@ const Navbar = (props) => {
           </div>
           <div
             className="nav__item"
-            style={{ background: `${newNot && "red"}` }}
+            style={{ background: `${newNot ? "red" : ""} ` }}
           >
             <Link className="nav__link" to="/notifcations">
               <BiBell size="3.5rem" />
@@ -99,7 +100,12 @@ const Navbar = (props) => {
               props.history.push("/signin");
             }}
           >
-            <Link className="nav__link">
+            <Link
+              className="nav__link "
+              onClick={(e) => {
+                socket.emit("userDisconnected", userLogin.userInfo._id);
+              }}
+            >
               <FiLogOut size="3.5rem" />
               <span className="nav--text">LogOut</span>
             </Link>

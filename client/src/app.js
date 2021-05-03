@@ -28,7 +28,19 @@ function App() {
   });
   React.useEffect(() => {
     socket.emit("joinNotificationsRoom", userInfo._id);
+    socket.emit("goOnline", userInfo._id);
   }, []);
+  socket.on("disconnect",userInfo._id)
+  socket.emit("getOnlineFriends", userInfo);
+
+  socket.on("onlineFriends", (onlineFriends) => {
+
+    dispatch({
+      type: "GET_ONLINE_FRIENDS",
+      payload: onlineFriends,
+    });
+  });
+
   React.useEffect(() => {
     if (notification) {
       dispatch({

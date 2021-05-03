@@ -21,6 +21,8 @@ function PuplishCard(props) {
     socket.emit("joinPostRoom", props.post.id);
   }, []);
 
+  const [online, setOnline] = React.useState(false);
+  const { onlineFriends } = useSelector((state) => state);
   const postComments = props.post.comments ? props.post.comments : [];
   const [comments, setComments] = React.useState(postComments);
   const [likes, setLikes] = React.useState(props.post.likes);
@@ -57,6 +59,13 @@ function PuplishCard(props) {
       setLiked(false);
     }
   };
+  React.useEffect(() => {
+    onlineFriends[props.post.author._id] === true && setOnline(true);
+  }, [onlineFriends]);
+  React.useEffect(() => {
+    onlineFriends[props.post.author._id] === true && setOnline(true);
+  }, []);
+
   socket.on("receiverLikePost", (user) => {
     setLikes([...likes, user]);
   });
@@ -129,7 +138,7 @@ function PuplishCard(props) {
   // console.log(props);
   // console.log(props);
   // console.log(props);
-  // console.log(props);
+  console.log(props);
   React.useEffect(() => {
     if (likes.includes(userInfo._id)) {
       setLiked(true);
@@ -176,7 +185,6 @@ function PuplishCard(props) {
               className="options"
               style={{ display: `${options ? "flex" : "none"}` }}
             >
-              <span onClick={(e) => dispatch()}>Edit</span>
               <span
                 onClick={(e) => {
                   setOptions(!options);
@@ -190,8 +198,23 @@ function PuplishCard(props) {
         </div>
         <div className="card__title">
           <div className="card__title--image">
-            <Link to={`/profile/${userInfo._id}`} className="profile-link">
-              <img src={`/static/images/${userInfo.image}`} alt="Card_Image" />
+            <Link
+              to={`/profile/${props.post.author._id}`}
+              className="profile-link"
+            >
+              {online ? (
+                <div className="status">
+                  <i className="fa fa-circle online"></i>{" "}
+                </div>
+              ) : (
+                <div className="status">
+                  <i className="fa fa-circle offline"></i>{" "}
+                </div>
+              )}{" "}
+              <img
+                src={`/static/images/${props.post.author.image}`}
+                alt="Card_Image"
+              />
             </Link>
           </div>
           <div className="card__title--text">

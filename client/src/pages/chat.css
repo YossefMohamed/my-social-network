@@ -115,6 +115,7 @@
 .chat__container__friendList .item--flex img {
   border-radius: 50%;
   margin-right: 2rem;
+  width: 65px !important;
 }
 
 .chat__container__friendList .about {
@@ -342,5 +343,37 @@
   background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/382994/send.png");
   background-repeat: no-repeat;
   background-position: center;
+}
+
+@media screen and (max-width: 70rem) {
+  .chat__container__friendList {
+    width: 100% !important;
+  }
+  .chat__container--flex {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .chat__body {
+    -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1;
+    width: 100% !important;
+  }
+  .signin {
+    padding: 1rem;
+  }
+  .newsfeed__container .nofriends {
+    font-size: 1.5rem;
+  }
+}
+
+.chat__container {
+  width: calc(100% - 6rem);
+}
+
+.write {
+  overflow: hidden;
 }
 /*# sourceMappingURL=chat.css.map */
