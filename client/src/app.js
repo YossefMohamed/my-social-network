@@ -7,15 +7,14 @@ import Profile from "./pages/profile";
 import Signin from "./pages/signin/signin";
 import SearchPage from "./pages/search/search";
 import NotificationsPage from "./pages/notifications/notifcationsPage";
-import socketIOClient from "socket.io-client";
+import io from "socket.io-client";
 import "./app.css";
 import Signup from "./pages/signup/signup";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { getMe, userData } from "./actions/userActions";
 import postPage from "./pages/post/post";
-export const socket = socketIOClient("/");
-
+export const socket = io(window.location.protocol + "//" + window.location.host);
 function App() {
   const message = useSelector((s) => s.message);
   const { userInfo } = useSelector((s) => s.userLogin);
